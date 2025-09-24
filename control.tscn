@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bmnjppgbjckym"]
 
-[ext_resource type="Texture2D" uid="uid://b1yo4chj8v4u3" path="res://assets/mainMenu/mainmenubg.jpg" id="1_0fbet"]
+[ext_resource type="Texture2D" uid="uid://0mxipoh8nvi3" path="res://assets/mainMenu/Flux_Dev_a_lush_3d_render_of_A_cinematic_fantasy_forest_scene__3.jpg" id="1_0fbet"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_62e2m"]
 texture = ExtResource("1_0fbet")
