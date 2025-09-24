@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://bmnjppgbjckym"]
+[gd_scene load_steps=3 format=3 uid="uid://bmnjppgbjckym"]
+
+[ext_resource type="Texture2D" uid="uid://b1yo4chj8v4u3" path="res://assets/mainMenu/mainmenubg.jpg" id="1_0fbet"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_62e2m"]
+texture = ExtResource("1_0fbet")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -8,12 +13,45 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 126.0
-offset_top = 80.0
-offset_right = 1059.0
-offset_bottom = 575.0
-text = "ЕСЛИ ЛОХ - ЖМИ КНОПКУ
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_62e2m")
 
-да и если не лох - тоже жми (мне пох)"
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -228.5
+offset_top = -157.75
+offset_right = 228.5
+offset_bottom = 157.75
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Начать игру"
+
+[node name="LoadGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Загрузить игру"
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Настройки"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Выход"
