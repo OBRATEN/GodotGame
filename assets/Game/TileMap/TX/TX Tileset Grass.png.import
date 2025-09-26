@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmreqwgvfgxie"
-path="res://.godot/imported/TX Shadow Plant.png-d4953dd3f0b60f1fe4769fff340de08e.ctex"
+uid="uid://chx6a3plumwm0"
+path="res://.godot/imported/TX Tileset Grass.png-b90bc7c39a1552663282b8b38f65b03f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Game/TileMap/TX Shadow Plant.png"
-dest_files=["res://.godot/imported/TX Shadow Plant.png-d4953dd3f0b60f1fe4769fff340de08e.ctex"]
+source_file="res://assets/Game/TileMap/TX/TX Tileset Grass.png"
+dest_files=["res://.godot/imported/TX Tileset Grass.png-b90bc7c39a1552663282b8b38f65b03f.ctex"]
 
 [params]
 

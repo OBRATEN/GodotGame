@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxybqpevfb8ft"
-path="res://.godot/imported/TX Props.png-ff810342daefa741f3bc8ca1ce2ec087.ctex"
+uid="uid://cpxivhb0t672k"
+path="res://.godot/imported/Water+.png-b22eb6e82dba986f508160a8bf01cb12.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Game/TileMap/TX Props.png"
-dest_files=["res://.godot/imported/TX Props.png-ff810342daefa741f3bc8ca1ce2ec087.ctex"]
+source_file="res://assets/Game/TileMap/Water+.png"
+dest_files=["res://.godot/imported/Water+.png-b22eb6e82dba986f508160a8bf01cb12.ctex"]
 
 [params]
 

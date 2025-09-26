@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj6mt0f0a3ko3"
-path="res://.godot/imported/TX Player.png-6b8e355e062620c40b4b7aaf776ebbc8.ctex"
+uid="uid://b1qeucabpxnbm"
+path="res://.godot/imported/TX Struct.png-77af0dcfaa774c1e4813e7315a0545d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Game/TileMap/TX Player.png"
-dest_files=["res://.godot/imported/TX Player.png-6b8e355e062620c40b4b7aaf776ebbc8.ctex"]
+source_file="res://assets/Game/TileMap/TX/TX Struct.png"
+dest_files=["res://.godot/imported/TX Struct.png-77af0dcfaa774c1e4813e7315a0545d0.ctex"]
 
 [params]
 
