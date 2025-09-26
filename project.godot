@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="GodotGame"
+config/version="b001"
 run/main_scene="uid://bmnjppgbjckym"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0, 0.16727653, 0.16605112, 1)
+boot_splash/image="uid://betwkyxw1tsrv"
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=3000
+
+[autoload]
+
+UiManager="*res://UIManager.gd"
 
 [display]
 
