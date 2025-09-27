@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cggf60wy10vts"]
+[gd_scene load_steps=13 format=3 uid="uid://cggf60wy10vts"]
 
 [ext_resource type="Texture2D" uid="uid://pnn3pnxkaeim" path="res://assets/Game/TileMap/TX/TX Tileset Stone Ground.png" id="1_6mnxl"]
 [ext_resource type="Script" uid="uid://dtpmnn0q7d4og" path="res://World.gd" id="1_7hjm2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cpxivhb0t672k" path="res://assets/Game/TileMap/Water+.png" id="3_5gf4p"]
 [ext_resource type="Texture2D" uid="uid://chx6a3plumwm0" path="res://assets/Game/TileMap/TX/TX Tileset Grass.png" id="4_ypt0w"]
 [ext_resource type="PackedScene" uid="uid://b0xqrrtf1a585" path="res://Player.tscn" id="5_5gf4p"]
+[ext_resource type="PackedScene" uid="uid://d1aivoiig7wne" path="res://UI_HUD.tscn" id="6_5o5w8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hjm2"]
 texture = ExtResource("1_6mnxl")
@@ -1404,6 +1405,13 @@ layer_0/tile_data = PackedInt32Array(458758, 65536, 4, 393222, 65536, 4, 327686,
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(240, 135)
 zoom = Vector2(4, 4)
+
+[node name="UiHud" parent="Camera2D" instance=ExtResource("6_5o5w8")]
+offset_left = -240.0
+offset_top = -135.0
+offset_right = 1680.0
+offset_bottom = 945.0
+scale = Vector2(0.25, 0.25)
 
 [node name="Player" parent="." instance=ExtResource("5_5gf4p")]
 position = Vector2(264, 136)

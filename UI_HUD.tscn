@@ -16,101 +16,270 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ActionBar" type="PanelContainer" parent="HUD"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -100.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Portraits" type="VBoxContainer" parent="HUD"]
+[node name="PortraitsPanel" type="Panel" parent="HUD"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -256.0
-offset_right = 100.0
-offset_bottom = 256.0
+offset_right = 138.0
+offset_bottom = 40.0
 grow_vertical = 2
+
+[node name="Portraits" type="VBoxContainer" parent="HUD/PortraitsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="MainHero" type="Button" parent="HUD/PortraitsPanel/Portraits"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Background" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Portrait" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatusOverlay" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 0
+offset_right = 138.0
+offset_bottom = 138.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_right = 69.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SelectedOverlay" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 0
+offset_right = 138.0
+offset_bottom = 138.0
+
+[node name="InitiativeText" type="Label" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_top = -23.0
+offset_right = 69.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+
+[node name="NameText" type="Label" parent="HUD/PortraitsPanel/Portraits/MainHero"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.5
+offset_right = 69.5
+offset_bottom = 23.0
+grow_horizontal = 2
+horizontal_alignment = 1
+
+[node name="SubHero" type="Button" parent="HUD/PortraitsPanel/Portraits"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Background" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Portrait" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatusOverlay" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 0
+offset_right = 138.0
+offset_bottom = 138.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_right = 69.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SelectedOverlay" type="TextureRect" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 0
+offset_right = 138.0
+offset_bottom = 138.0
+
+[node name="InitiativeText" type="Label" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_top = -23.0
+offset_right = 69.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+
+[node name="NameText" type="Label" parent="HUD/PortraitsPanel/Portraits/SubHero"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.5
+offset_right = 69.5
+offset_bottom = 23.0
+grow_horizontal = 2
+horizontal_alignment = 1
+
+[node name="ActionPanel" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -720.0
+offset_top = -148.0
+offset_right = 720.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/ActionPanel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -69.0
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 42
 alignment = 1
 
-[node name="MainHero" type="Button" parent="HUD/Portraits"]
+[node name="HeroButton" type="Button" parent="HUD/ActionPanel/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Background" type="TextureRect" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_top = -4.0
-offset_right = 40.0
-offset_bottom = -4.0
+[node name="HeroPortrait" type="TextureRect" parent="HUD/ActionPanel/HBoxContainer/HeroButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Portrait" type="TextureRect" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="StatusOverlay" type="TextureRect" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="HealthBar" type="TextureProgressBar" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SelectedOverlay" type="TextureRect" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="InitiativeText" type="Label" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="NameText" type="Label" parent="HUD/Portraits/MainHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="SubHero" type="Button" parent="HUD/Portraits"]
+[node name="Actions" type="Panel" parent="HUD/ActionPanel/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
 
-[node name="Background" type="TextureRect" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_top = -4.0
-offset_right = 40.0
-offset_bottom = -4.0
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ActionPanel/HBoxContainer/Actions"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Row 1" type="HBoxContainer" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
 
-[node name="StatusOverlay" type="TextureRect" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Button 1" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="HealthBar" type="TextureProgressBar" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Button 2" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="SelectedOverlay" type="TextureRect" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Button 3" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="InitiativeText" type="Label" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="Button 4" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="NameText" type="Label" parent="HUD/Portraits/SubHero"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="Button 5" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button 6" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button 7" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button 8" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button 9" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Row 2" type="HBoxContainer" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
