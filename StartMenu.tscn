@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://bmnjppgbjckym"]
+[gd_scene load_steps=17 format=3 uid="uid://bmnjppgbjckym"]
 
-[ext_resource type="Texture2D" uid="uid://0mxipoh8nvi3" path="res://assets/mainMenu/Flux_Dev_a_lush_3d_render_of_A_cinematic_fantasy_forest_scene__3.jpg" id="1_0fbet"]
-[ext_resource type="FontFile" uid="uid://c44gr6av0nspj" path="res://assets/Fonts/Bergamasco Bold.otf" id="2_62e2m"]
+[ext_resource type="Texture2D" uid="uid://0mxipoh8nvi3" path="res://assets/mainMenu/Flux_Dev_a_lush_3d_render_of_A_cinematic_fantasy_forest_scene__3.jpg" id="1_ufv5y"]
+[ext_resource type="FontFile" uid="uid://c44gr6av0nspj" path="res://assets/Fonts/Bergamasco Bold.otf" id="2_0d5ky"]
+[ext_resource type="Script" uid="uid://dknj3kyq1jjl" path="res://StartGame.gd" id="3_0d5ky"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_62e2m"]
-texture = ExtResource("1_0fbet")
+texture = ExtResource("1_ufv5y")
 modulate_color = Color(0.79637015, 0.56537545, 0.3693158, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtu10"]
@@ -138,17 +139,18 @@ theme_override_constants/separation = 15
 [node name="NewGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("2_0d5ky")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_qtu10")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ee4bf")
 theme_override_styles/hover = SubResource("StyleBoxFlat_kbped")
 text = "Начать игру"
+script = ExtResource("3_0d5ky")
 
 [node name="LoadGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("2_0d5ky")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_62e2m")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fj5cn")
@@ -158,7 +160,7 @@ text = "Загрузить игру"
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("2_0d5ky")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_6a6wx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_sky72")
@@ -168,9 +170,11 @@ text = "Настройки"
 [node name="ExitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("2_0d5ky")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_pxugv")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_eh0v1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_am1vj")
 text = "Выход"
+
+[connection signal="button_down" from="VBoxContainer/NewGameButton" to="VBoxContainer/NewGameButton" method="_on_button_down"]
