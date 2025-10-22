@@ -1,119 +1,71 @@
+# Player.gd
 extends CharacterBody2D
 
-# Параметры
-const TILE_SIZE: Vector2i = Vector2i(16, 16)
-const SPEED: float = 100.0  # пикселей в секунду
-
-# Внутренние переменные
-var path: Array[Vector2i] = []
-var target_position: Vector2 = Vector2.ZERO
+var grid_position: Vector2i = Vector2i.ZERO
+var target_grid_position: Vector2i = Vector2i.ZERO
 var is_moving: bool = false
+var move_speed: float = 256.0  # пикселей в секунду (64px за 0.25 сек при 256)
 
-# Ссылки
-@onready var tilemap: TileMap = get_tree().current_scene.get_node("TileMap")
+var health: int = 20
+var max_health: int = 20
+var attack_power: int = 5
+
+var weapon: Weapon = null
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)  # чтобы видеть курсор
+	set_grid_position(Vector2i(2, 2))
+	weapon = Weapon.new("1d6")
 
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		var click_pos = get_global_mouse_position()
-		var tile_coord = world_to_tile(click_pos)
-		if is_tile_walkable(tile_coord):
-			var start_tile = world_to_tile(global_position)
-			path = find_path(start_tile, tile_coord)
-			if not path.is_empty():
-				path.pop_front()  # убираем стартовую клетку
-				is_moving = true
+func set_grid_position(pos: Vector2i):
+	grid_position = pos
+	target_grid_position = pos
+	position = Vector2(pos.x, pos.y) * 64.0
+	is_moving = false
+
+func get_grid_position() -> Vector2i:
+	return grid_position
+	
+func move_to_grid(target: Vector2i):
+	if is_moving:
+		return  # Игнорировать, если уже движется (для пошаговой игры)
+	
+	# Проверка: можно ли двигаться (например, на соседнюю клетку)
+	if (target - grid_position).length() > 1:
+		return  # или добавь логику пути, если нужно
+	
+	target_grid_position = target
+	is_moving = true
 
 func _process(delta):
-	if is_moving and not path.is_empty():
-		var next_tile = path[0]
-		target_position = tile_to_world(next_tile)
+	if is_moving:
+		var target_world = Vector2(target_grid_position.x, target_grid_position.y) * 64.0
+		var direction = (target_world - position).normalized()
+		var distance_to_target = position.distance_to(target_world)
 		
-		# Двигаемся к центру следующего тайла
-		var direction = (target_position - global_position).normalized()
-		velocity = direction * SPEED
-		move_and_slide()
-		
-		# Проверяем, достигли ли центра тайла
-		if global_position.distance_to(target_position) < 2.0:
-			global_position = target_position  # выравниваем точно
-			path.pop_front()
-			if path.is_empty():
-				is_moving = false
-				velocity = Vector2.ZERO
+		if distance_to_target <= move_speed * delta:
+			# Достигли цели
+			position = target_world
+			grid_position = target_grid_position
+			is_moving = false
+			_on_reached_target()
+		else:
+			# Двигаемся плавно
+			position += direction * move_speed * delta
 
-# Преобразует мировые координаты в координаты тайла (Vector2i)
-func world_to_tile(world_pos: Vector2) -> Vector2i:
-	return tilemap.local_to_map(tilemap.to_local(world_pos))
+func _on_reached_target():
+	# Можно вызвать сигнал или обработать конец хода
+	print("Player reached target grid:", grid_position)
+	# Например: emit_signal("move_finished") или вызвать следующий ход ИИ
 
-# Преобразует координаты тайла в мировые (центр тайла)
-func tile_to_world(tile: Vector2i) -> Vector2:
-	return tilemap.map_to_local(tile) + Vector2(TILE_SIZE) / 2.0
+func take_turn():
+	print("Player's turn started.")
 
-# Проверяет, можно ли ступить на тайл (в данном примере — всегда можно)
-# Замените логику, если у вас есть проходимость/непроходимость
-func is_tile_walkable(tile: Vector2i) -> bool:
-	# Пример: если тайл не пустой (или наоборот — зависит от вашей логики)
-	# Здесь просто разрешаем всё
-	return true
+func take_damage(dmg: int):
+	health = max(0, health - dmg)
+	print("Player takes %d damage! HP: %d" % [dmg, health])
+	if health <= 0:
+		_die()
 
-# Поиск пути с помощью A*
-func find_path(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
-	if start == goal:
-		return [start]
-
-	var open_set = []
-	var came_from = {}
-	var g_score = {}
-	var f_score = {}
-
-	g_score[start] = 0
-	f_score[start] = start.distance_to(goal)
-	open_set.append(start)
-
-	while not open_set.is_empty():
-		# Находим узел с наименьшим f_score
-		var current = open_set[0]
-		for node in open_set:
-			if f_score.get(node, INF) < f_score.get(current, INF):
-				current = node
-
-		if current == goal:
-			return reconstruct_path(came_from, current)
-
-		open_set.erase(current)
-
-		for neighbor in get_neighbors(current):
-			if not is_tile_walkable(neighbor):
-				continue
-
-			var tentative_g = g_score.get(current, INF) + current.distance_to(neighbor)
-
-			if tentative_g < g_score.get(neighbor, INF):
-				came_from[neighbor] = current
-				g_score[neighbor] = tentative_g
-				f_score[neighbor] = tentative_g + neighbor.distance_to(goal)
-				if not open_set.has(neighbor):
-					open_set.append(neighbor)
-
-	return []  # путь не найден
-
-# Восстанавливает путь из came_from
-func reconstruct_path(came_from: Dictionary, current: Vector2i) -> Array[Vector2i]:
-	var path: Array[Vector2i] = [current]
-	while came_from.has(current):
-		current = came_from[current]
-		path.insert(0, current)
-	return path
-
-# Возвращает 8 соседей (горизонталь, вертикаль, диагональ)
-func get_neighbors(tile: Vector2i) -> Array[Vector2i]:
-	var neighbors: Array[Vector2i] = []
-	for dx in [-1, 0, 1]:
-		for dy in [-1, 0, 1]:
-			if dx == 0 and dy == 0:
-				continue
-			neighbors.append(Vector2i(tile.x + dx, tile.y + dy))
-	return neighbors
+func _die():
+	print("Player has died!")
+	queue_free()

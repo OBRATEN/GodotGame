@@ -5,7 +5,6 @@ var units: Array[Unit] = []
 var current_turn_index: int = 0
 var round: int = 1
 
-# Запускается ВРУЧНУЮ извне
 func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
 	units.clear()
 	units.append_array(player_units)
@@ -45,12 +44,11 @@ func next_turn():
 		current_turn_index = 0
 		round += 1
 		print("\n=== Round %d ===" % round)
-	await start_next_turn()  # ← await здесь
+	await start_next_turn()
 
 func end_battle():
 	print("Battle ended!")
 	emit_signal("battle_finished")
 
-# Сигналы
 signal player_turn_started(unit)
 signal battle_finished

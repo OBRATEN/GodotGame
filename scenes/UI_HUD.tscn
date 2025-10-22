@@ -243,73 +243,75 @@ grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Row 1" type="HBoxContainer" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer"]
+[node name="Row_1" type="HBoxContainer" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Button 1" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="MoveButton" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Move"
+
+[node name="AttackButton" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Attack"
+
+[node name="Button 3" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 2" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 4" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 3" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 5" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 4" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 6" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 5" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 7" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 6" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 8" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 7" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 9" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 8" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 10" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 9" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 11" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 10" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 12" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 11" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 13" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 12" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 14" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 13" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 15" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button 14" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button 15" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Button 16" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row 1"]
+[node name="Button 16" type="Button" parent="HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -401,11 +403,28 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "I I"
 
+[node name="EndTurn" type="Panel" parent="HUD"]
+layout_mode = 0
+offset_left = 1792.0
+offset_top = 540.0
+offset_right = 1920.0
+offset_bottom = 668.0
+
+[node name="EndTurnButton" type="Button" parent="HUD/EndTurn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "End Turn"
+
 [node name="ModePanel" type="Panel" parent="HUD"]
 layout_mode = 0
-offset_top = 956.0
-offset_right = 128.0
-offset_bottom = 1084.0
+offset_left = 1792.0
+offset_top = 402.0
+offset_right = 1920.0
+offset_bottom = 530.0
 
 [node name="SwitchModeButton" type="Button" parent="HUD/ModePanel"]
 layout_mode = 1

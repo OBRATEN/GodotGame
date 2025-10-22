@@ -1,4 +1,3 @@
-# Enemy.gd
 extends Node2D
 
 class_name Enemy
@@ -6,77 +5,108 @@ class_name Enemy
 # --- Параметры ---
 var move_range: int = 6
 var attack_range: int = 1
+var health: int = 10
+var max_health: int = 10
 
-# --- Состояния ---
-enum State { IDLE, MOVING, ATTACKING }
-var state: State = State.IDLE
+var weapon: Weapon = null
 
-# --- Сетка ---
+# --- Состояние ---
 var grid_position: Vector2i = Vector2i.ZERO
-
-# --- Цель ---
 var target: Node2D = null
 
-# --- Ссылки ---
+# --- Плавное перемещение ---
+var target_world_position: Vector2 = Vector2.ZERO
+var is_moving: bool = false
+var move_speed: float = 200.0  # пикселей в секунду
+
 @onready var animated_sprite = $AnimatedSprite2D
 
 # --- Инициализация ---
 func _ready():
-	set_grid_position(Vector2i(5, 5))  # пример начальной позиции
-	_set_animation("idle_down")       # начальное направление
+	set_grid_position(Vector2i(5, 5))
+	_set_animation("idle_down")
+	weapon = Weapon.new("1d4")
 
-# Устанавливает позицию на сетке и обновляет мировую позицию
+# --- Сетка ---
 func set_grid_position(pos: Vector2i):
 	grid_position = pos
-	position = Vector2(pos.x, pos.y) * 64  # 64 = размер клетки
+	# Не меняем position напрямую — оставляем для логики
+	# Но можно обновить текущую позицию сразу, если не двигаемся
+	if not is_moving:
+		position = Vector2(pos.x, pos.y) * 64
 
 func get_grid_position() -> Vector2i:
 	return grid_position
 
-func set_target(t: Node2D):
-	target = t
+# --- Урон и смерть ---
+func take_damage(dmg: int):
+	health = max(0, health - dmg)
+	print("Enemy takes %d damage! HP: %d" % [dmg, health])
+	if health <= 0:
+		_die()
 
-# --- Основной ход ---
+func _perform_attack():
+	if target == null:
+		return
+	print("Enemy attacks %s!" % target.name)
+	if weapon != null and target.has_method("take_damage"):
+		var damage = weapon.roll_damage()
+		print("Enemy deals %d damage!" % damage)
+		target.take_damage(damage)
+	else:
+		target.take_damage(1)
+
+func _die():
+	print("Enemy defeated!")
+	queue_free()
+
+# --- ОСНОВНОЙ ХОД (вызывается из боевой системы) ---
 func take_turn():
+	if is_moving:
+		print("Enemy is already moving!")
+		return
+
 	if target == null:
 		print("Enemy has no target!")
 		return
 
-	var target_pos = target.get_grid_position() if target.has_method("get_grid_position") else grid_position
+	var target_pos = _get_target_grid()
+	if target_pos == Vector2i.ZERO and target != null:
+		print("Target has no grid position!")
+		return
+
 	var dist = grid_position.distance_to(target_pos)
 
 	if dist <= attack_range:
-		perform_attack()
+		_perform_attack()
 	else:
-		move_toward_target()
+		_move_toward_target(target_pos)
 
-# --- Атака ---
-func perform_attack():
-	state = State.ATTACKING
-	print("Enemy attacks %s!" % target.name)
-	# Здесь можно добавить урон, эффекты и т.д.
-	state = State.IDLE
+# --- Вспомогательные методы ИИ ---
+func _get_target_grid() -> Vector2i:
+	if target == null:
+		return Vector2i.ZERO
+	if target.has_method("get_grid_position"):
+		return target.get_grid_position()
+	return Vector2i.ZERO
 
-# --- Движение к цели (8 направлений) ---
-func move_toward_target():
-	var target_pos = target.get_grid_position() if target.has_method("get_grid_position") else grid_position
-	var direction = (target_pos - grid_position).sign()  # Vector2i(-1..1, -1..1)
+func _move_toward_target(target_pos: Vector2i):
+	var direction = (target_pos - grid_position).sign()
+	var new_grid_pos = grid_position + direction
 
-	# Ограничиваем шаг одним тайлом за ход (можно сделать больше)
-	var new_pos = grid_position + direction
+	# Опционально: проверка на препятствия или границы
 
-	# (Опционально: проверка на препятствия или границы)
-
-	if new_pos != grid_position:
-		set_grid_position(new_pos)
+	if new_grid_pos != grid_position:
+		# Начинаем плавное движение
+		target_world_position = Vector2(new_grid_pos.x, new_grid_pos.y) * 64
+		is_moving = true
+		grid_position = new_grid_pos  # обновляем логическую позицию сразу
 		_update_direction(direction)
+		print("Enemy starts moving to %s" % new_grid_pos)
 
-	print("Enemy moves to %s" % new_pos)
-
-# --- Обновление анимации по направлению ---
+# --- Анимация ---
 func _update_direction(dir: Vector2i):
-	var anim_name = "idle_"
-	
+	var anim_name = "walk_"
 	match dir:
 		Vector2i(0, 1):     anim_name += "down"
 		Vector2i(0, -1):    anim_name += "up"
@@ -86,14 +116,30 @@ func _update_direction(dir: Vector2i):
 		Vector2i(-1, 1):    anim_name += "down_left"
 		Vector2i(1, -1):    anim_name += "up_right"
 		Vector2i(-1, -1):   anim_name += "up_left"
-		_:                  anim_name = "idle_down"  # fallback
-
+		_:                  anim_name = "walk_down"
 	_set_animation(anim_name)
 
-# --- Установка анимации с проверкой ---
 func _set_animation(name: String):
 	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation(name):
 		animated_sprite.play(name)
 	else:
-		printerr("Animation '%s' not found in AnimatedSprite2D!" % name)
+		printerr("Animation '%s' not found!" % name)
 		animated_sprite.stop()
+
+# --- Плавное перемещение ---
+func _process(delta):
+	if is_moving:
+		var diff = target_world_position - position
+		if diff.length() < 1.0:
+			# Достигли цели
+			position = target_world_position
+			is_moving = false
+			# Переключаемся на idle-анимацию
+			var idle_name = animated_sprite.animation.replace("walk_", "idle_")
+			_set_animation(idle_name)
+		else:
+			position += diff.normalized() * move_speed * delta
+
+# --- Внешний интерфейс ---
+func set_target(t: Node2D):
+	target = t
