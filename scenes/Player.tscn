@@ -1,7 +1,9 @@
-[gd_scene load_steps=40 format=3 uid="uid://b0xqrrtf1a585"]
+[gd_scene load_steps=41 format=3 uid="uid://b0xqrrtf1a585"]
 
-[ext_resource type="Script" uid="uid://d1wmuvo10v7vh" path="res://player.gd" id="1_kpjcp"]
+[ext_resource type="Script" uid="uid://d1wmuvo10v7vh" path="res://scripts/Player/player.gd" id="1_kpjcp"]
 [ext_resource type="Texture2D" uid="uid://dokvypql3qwls" path="res://assets/Game/mystic_woods_free_2/sprites/characters/player.png" id="2_kne1u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v6fml"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e80uo"]
 atlas = ExtResource("2_kne1u")
@@ -292,6 +294,7 @@ animations = [{
 script = ExtResource("1_kpjcp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_v6fml")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -10)
