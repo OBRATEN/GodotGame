@@ -4,15 +4,27 @@ class_name Unit
 var name: String
 var initiative: int = 0
 var is_player: bool = false
+var actor: Node2D = null
 
-func _init(p_name: String, p_is_player: bool = false):
-	name = p_name
-	is_player = p_is_player
+func _init():
+	pass
+	
+static func create(p_name: String, p_actor: Node2D, p_is_player: bool = false) -> Unit:
+	var instance = Unit.new()
+	instance.name = p_name
+	instance.actor = p_actor
+	instance.is_player = p_is_player
+	return instance
 
 func roll_initiative():
-	initiative = randi() % 20 + 1  # 1d20
+	initiative = randi() % 20 + 1
 	print("%s rolled initiative: %d" % [name, initiative])
 
 func take_turn():
-	print("%s takes their turn!" % name)
-	# Здесь можно вызвать UI для выбора действия (атака, магия и т.д.)
+	if actor == null:
+		printerr("Unit '%s' has no actor!" % name)
+		return
+	if actor.has_method("take_turn"):
+		actor.take_turn()
+	else:
+		print("Actor for '%s' missing take_turn()" % name)

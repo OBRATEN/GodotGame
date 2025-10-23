@@ -4,6 +4,14 @@ extends Node
 var units: Array[Unit] = []
 var current_turn_index: int = 0
 var round: int = 1
+var battle_ended: bool = false
+
+# СИГНАЛЫ — ОБЯЗАТЕЛЬНО НА УРОВНЕ КЛАССА
+signal player_turn_started(unit)
+signal battle_finished
+
+func _ready():
+	add_to_group("battle_manager")
 
 func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
 	units.clear()
@@ -39,16 +47,60 @@ func start_next_turn():
 		await next_turn()
 
 func next_turn():
+	if battle_ended:
+		return
+
 	current_turn_index += 1
 	if current_turn_index >= units.size():
 		current_turn_index = 0
 		round += 1
 		print("\n=== Round %d ===" % round)
-	await start_next_turn()
+
+	# Проверяем, не закончился ли бой
+	check_battle_end()
+
+	if not battle_ended:
+		await start_next_turn()
 
 func end_battle():
-	print("Battle ended!")
+	if battle_ended:
+		return
+	battle_ended = true
+	print("⚔️ Battle ended!")
 	emit_signal("battle_finished")
 
-signal player_turn_started(unit)
-signal battle_finished
+func check_battle_end():
+	print("🔍 Checking battle end...")
+	var alive_units = []
+	for u in units:
+		var alive = _is_unit_alive(u)
+		# Просто читаем health — он есть у всех боевых актёров
+		var hp = "N/A"
+		if u.actor and !u.actor.is_queued_for_deletion():
+			hp = str(u.actor.health)
+		print("  %s (player: %s) — alive: %s, health: %s" % [
+			u.name,
+			u.is_player,
+			alive,
+			hp
+		])
+		if alive:
+			alive_units.append(u)
+
+	var players_alive = alive_units.filter(func(u): return u.is_player)
+	var enemies_alive = alive_units.filter(func(u): return not u.is_player)
+
+	print("  Players alive: %d, Enemies alive: %d" % [players_alive.size(), enemies_alive.size()])
+
+	if players_alive.is_empty():
+		print("💀 All players defeated!")
+		end_battle()
+	elif enemies_alive.is_empty():
+		print("🎉 All enemies defeated!")
+		end_battle()
+
+func _is_unit_alive(unit: Unit) -> bool:
+	if unit.actor == null:
+		return false
+	# Не проверяем is_queued_for_deletion — мы не удаляем сразу
+	return unit.actor.health > 0

@@ -2,17 +2,17 @@
 extends Node2D
 
 @onready var player = $Player
-@onready var enemy = $Enemy
 @onready var battle_manager = $BattleManager
 @onready var end_turn_button = $Player/Camera2D/UiHud/HUD/EndTurn/EndTurnButton
 @onready var start_button = $Player/Camera2D/UiHud/HUD/ModePanel/SwitchModeButton
 @onready var attack_button = $Player/Camera2D/UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/AttackButton
 @onready var move_button = $Player/Camera2D/UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/MoveButton
 
-
+var enemies: Array[Node2D] = []
 var move_mode: bool = false
-var max_move_range: int = 6
+var attack_mode: bool = false
 var is_player_turn: bool = false
+
 
 func _ready():
 	start_button.pressed.connect(_on_start_battle_pressed)
@@ -24,20 +24,58 @@ func _ready():
 	_set_battle_ui_visible(false)
 
 func _on_start_battle_pressed():
-	enemy.set_target(player)
-	var player_unit = Unit.new("Hero", player, true)
-	var enemy_unit = Unit.new("Goblin", enemy, false)
-	var players: Array[Unit] = [player_unit]
-	var enemies: Array[Unit] = [enemy_unit]
-	battle_manager.start_battle(players, enemies)
+	# Очистка старых врагов
+	for e in enemies:
+		e.queue_free()
+	enemies.clear()
+
+	# 1. Создаём и добавляем врагов НА СЦЕНУ (чтобы _ready() вызвался и health = 10)
+	var EnemyScene = preload("res://scenes/Enemy.tscn")
+	var enemy1 = EnemyScene.instantiate()
+	enemy1.name = "Goblin1"
+	add_child(enemy1)
+	enemy1.set_grid_position(Vector2i(5, 5))
+	enemy1.set_target(player)
+	enemy1.add_to_group("enemies")
+
+	var enemy2 = EnemyScene.instantiate()
+	enemy2.name = "Goblin2"
+	add_child(enemy2)
+	enemy2.set_grid_position(Vector2i(6, 4))
+	enemy2.set_target(player)
+	enemy2.add_to_group("enemies")
+	print("enemy1 = %s" % str(enemy1))
+	print("enemy2 = %s" % str(enemy2))
+	print("Same object? %s" % str(enemy1 == enemy2))
+
+	enemies = [enemy1, enemy2]
+
+	# 2. ЯВНО объявляем массивы как Array[Unit] — это ключ к решению ошибки!
+	var player_units: Array[Unit] = []
+	player_units.append(Unit.create("Hero", player, true))
+
+	var enemy_units: Array[Unit] = []
+	for e in enemies:
+		enemy_units.append(Unit.create(e.name, e, false))
+
+	# 3. Передаём ТИПИЗИРОВАННЫЕ массивы
+	battle_manager.start_battle(player_units, enemy_units)
 
 func _on_player_turn(unit: Unit):
 	is_player_turn = true
 	_set_battle_ui_visible(true)
+	
+	if unit.actor == player:
+		player.reset_turn()
+		_update_action_buttons_text()  # ← обновляем UI
+	
 	print("Your turn!")
 
 func _on_MoveButton_pressed():
 	if !is_player_turn: return
+	if player.remaining_move <= 0:
+		print("No movement left!")
+		return
 	move_mode = true
 	move_button.disabled = true
 	print("Move mode: click on map.")
@@ -45,21 +83,18 @@ func _on_MoveButton_pressed():
 func _on_AttackButton_pressed():
 	if !is_player_turn:
 		return
-
-	var player_pos = player.get_grid_position()
-	var enemy_pos = enemy.get_grid_position()
-	var dist = player_pos.distance_to(enemy_pos)
-
-	if dist <= 1:
-		player.attack_target(enemy)  # ← используем метод с оружием
-
-		if enemy.health <= 0:
-			_on_battle_finished()
-	else:
-		print("Enemy is too far to attack!")
+	if !player.can_attack():
+		print("No attacks remaining!")
+		return
+	attack_mode = true
+	attack_button.disabled = true
+	print("Attack mode: click on an enemy.")
 
 func _on_EndTurnButton_pressed():
 	if !is_player_turn: return
+	if player.is_moving:
+		print("Wait until movement finishes!")
+		return
 	print("Player ends turn.")
 	_end_player_turn()
 
@@ -67,31 +102,84 @@ func _end_player_turn():
 	is_player_turn = false
 	_set_battle_ui_visible(false)
 	move_mode = false
+	attack_mode = false  # ← важно!
 	move_button.disabled = false
+	attack_button.disabled = false
 	battle_manager.next_turn()
 
 func _input(event):
-	if move_mode and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var world_pos = get_global_mouse_position()
-		var target_grid = _world_to_grid(world_pos)
-		var player_grid = player.get_grid_position()
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if move_mode:
+			_handle_move_input(event)
+		elif attack_mode:
+			_handle_attack_input(event)
 
-		if target_grid == player_grid:
-			print("Already there!")
-		elif player_grid.distance_to(target_grid) > max_move_range:
-			print("Too far! Max: %d tiles." % max_move_range)
+func _handle_move_input(event):
+	var world_pos = get_global_mouse_position()
+	var target_grid = _world_to_grid(world_pos)
+	var player_grid = player.get_grid_position()
+
+	if target_grid == player_grid:
+		print("Already there!")
+	else:
+		var distance = player_grid.distance_to(target_grid)
+
+		if distance > player.remaining_move:
+			print("Not enough movement! Remaining: %d" % player.remaining_move)
+		elif _is_grid_occupied(target_grid):
+			print("Cell %s is occupied!" % target_grid)
 		else:
-			player.set_grid_position(target_grid)
-			print("Moved to %s" % target_grid)
+			player.remaining_move -= distance
+			player.start_move_to(target_grid)
+			print("Moving to %s. Remaining move: %d" % [target_grid, player.remaining_move])
 
-		move_mode = false
-		move_button.disabled = false
+	_update_action_buttons_text()
+	move_mode = false
+	move_button.disabled = false
+
+func _handle_attack_input(event):
+	if !player.can_attack():
+		print("No attacks left!")
+		attack_mode = false
+		attack_button.disabled = false
+		return
+
+	var world_pos = get_global_mouse_position()
+	var clicked_enemy = _get_enemy_at_position(world_pos)
+
+	if clicked_enemy:
+		var player_pos = player.get_grid_position()
+		var enemy_pos = clicked_enemy.get_grid_position()
+		var dist = player_pos.distance_to(enemy_pos)
+
+		if dist <= 1:
+			player.attack_target(clicked_enemy)
+			_update_action_buttons_text()
+		else:
+			print("Target is too far to attack! (Range: 1)")
+	else:
+		print("No enemy selected.")
+
+	attack_mode = false
+	attack_button.disabled = false
+
+func _get_enemy_at_position(world_pos: Vector2) -> Node2D:
+	var enemies_in_group = get_tree().get_nodes_in_group("enemies")
+	for e in enemies_in_group:
+		if e.is_queued_for_deletion():
+			continue
+		# Хитбокс = весь тайл (16x16), центрирован на e.position
+		var half = Constants.CELL_SIZE / 2.0
+		var rect = Rect2(e.position - Vector2(half, half), Vector2(Constants.CELL_SIZE, Constants.CELL_SIZE))
+		if rect.has_point(world_pos):
+			return e
+	return null
 
 func _world_to_grid(world_pos: Vector2) -> Vector2i:
-	var cell_size = 64
+	# Определяем клетку по мировой позиции — без смещения!
 	return Vector2i(
-		int(round(world_pos.x / cell_size)),
-		int(round(world_pos.y / cell_size))
+		int(floor(world_pos.x / Constants.CELL_SIZE)),
+		int(floor(world_pos.y / Constants.CELL_SIZE))
 	)
 
 func _set_battle_ui_visible(visible: bool):
@@ -104,4 +192,35 @@ func _on_battle_finished():
 	_set_battle_ui_visible(false)
 	is_player_turn = false
 	move_mode = false
-	# Здесь можно показать кнопку "Start Battle" снова, если нужно
+	attack_mode = false
+
+	# Удаляем всех врагов и, возможно, игрока (если мёртв)
+	for e in enemies:
+		if e.is_inside_tree():
+			e.queue_free()
+	enemies.clear()
+	
+func _is_grid_occupied(grid_pos: Vector2i) -> bool:
+	# Получаем BattleManager, чтобы получить всех юнитов
+	var bm = get_tree().get_first_node_in_group("battle_manager")
+	if bm == null:
+		return false
+
+	for unit in bm.units:
+		if unit.actor == null or unit.actor.is_queued_for_deletion():
+			continue
+		if !bm._is_unit_alive(unit):
+			continue
+		if unit.actor.get_grid_position() == grid_pos:
+			return true
+	return false
+	
+func _update_action_buttons_text():
+	if player == null:
+		return
+
+	# Обновляем текст кнопки перемещения
+	move_button.text = "Move (%d)" % player.remaining_move
+
+	# Обновляем текст кнопки атаки
+	attack_button.text = "Attack (%d/%d)" % [player.max_attacks_per_turn-player.attacks_used, player.max_attacks_per_turn]

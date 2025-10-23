@@ -1,3 +1,4 @@
+# Enemy.gd
 extends Node2D
 
 class_name Enemy
@@ -5,9 +6,8 @@ class_name Enemy
 # --- Параметры ---
 var move_range: int = 6
 var attack_range: int = 1
-var health: int = 10
+var health: int
 var max_health: int = 10
-
 var weapon: Weapon = null
 
 # --- Состояние ---
@@ -23,25 +23,29 @@ var move_speed: float = 200.0  # пикселей в секунду
 
 # --- Инициализация ---
 func _ready():
-	set_grid_position(Vector2i(5, 5))
+	health = max_health
+	# Позиция будет задана извне (например, из World.gd)
 	_set_animation("idle_down")
 	weapon = Weapon.new("1d4")
 
 # --- Сетка ---
 func set_grid_position(pos: Vector2i):
 	grid_position = pos
-	# Не меняем position напрямую — оставляем для логики
-	# Но можно обновить текущую позицию сразу, если не двигаемся
 	if not is_moving:
-		position = Vector2(pos.x, pos.y) * 64
+		# Центрируем на тайле!
+		position = Vector2(
+			pos.x * Constants.CELL_SIZE + Constants.CELL_SIZE / 2,
+			pos.y * Constants.CELL_SIZE + Constants.CELL_SIZE / 2
+		)
 
 func get_grid_position() -> Vector2i:
 	return grid_position
 
 # --- Урон и смерть ---
 func take_damage(dmg: int):
+	print("Enemy %s takes %d damage! Current HP: %d" % [name, dmg, health])
 	health = max(0, health - dmg)
-	print("Enemy takes %d damage! HP: %d" % [dmg, health])
+	print(" → New HP: %d" % health)
 	if health <= 0:
 		_die()
 
@@ -53,12 +57,24 @@ func _perform_attack():
 		var damage = weapon.roll_damage()
 		print("Enemy deals %d damage!" % damage)
 		target.take_damage(damage)
+
+		# Проверка окончания боя
+		var bm = get_tree().get_first_node_in_group("battle_manager")
+		if bm:
+			bm.check_battle_end()
 	else:
 		target.take_damage(1)
+		var bm = get_tree().get_first_node_in_group("battle_manager")
+		if bm:
+			bm.check_battle_end()
 
 func _die():
-	print("Enemy defeated!")
-	queue_free()
+	if health <= 0:
+		print("Enemy defeated!")
+		if animated_sprite:
+			animated_sprite.hide()
+		# Не queue_free сразу — BattleManager читает health
+		# queue_free() вызовется позже, если нужно
 
 # --- ОСНОВНОЙ ХОД (вызывается из боевой системы) ---
 func take_turn():
@@ -94,15 +110,21 @@ func _move_toward_target(target_pos: Vector2i):
 	var direction = (target_pos - grid_position).sign()
 	var new_grid_pos = grid_position + direction
 
-	# Опционально: проверка на препятствия или границы
+	# Проверка: не занята ли клетка другим юнитом
+	if _is_grid_occupied_by_others(new_grid_pos):
+		print("Enemy %s: cell %s is occupied — cannot move!" % [name, new_grid_pos])
+		return
 
 	if new_grid_pos != grid_position:
-		# Начинаем плавное движение
-		target_world_position = Vector2(new_grid_pos.x, new_grid_pos.y) * 64
+		# Целевая позиция — центр тайла
+		target_world_position = Vector2(
+			new_grid_pos.x * Constants.CELL_SIZE + Constants.CELL_SIZE / 2,
+			new_grid_pos.y * Constants.CELL_SIZE + Constants.CELL_SIZE / 2
+		)
 		is_moving = true
 		grid_position = new_grid_pos  # обновляем логическую позицию сразу
 		_update_direction(direction)
-		print("Enemy starts moving to %s" % new_grid_pos)
+		print("Enemy %s starts moving to %s" % [name, new_grid_pos])
 
 # --- Анимация ---
 func _update_direction(dir: Vector2i):
@@ -143,3 +165,25 @@ func _process(delta):
 # --- Внешний интерфейс ---
 func set_target(t: Node2D):
 	target = t
+
+# --- Проверка занятости клетки ---
+func _is_grid_occupied_by_others(grid_pos: Vector2i) -> bool:
+	var bm = get_tree().get_first_node_in_group("battle_manager")
+	if bm == null:
+		return false
+
+	for unit in bm.units:
+		if unit.actor == null or unit.actor.is_queued_for_deletion():
+			continue
+		if !_is_unit_alive(unit):
+			continue
+		if unit.actor == self:
+			continue  # пропускаем себя
+		if unit.actor.get_grid_position() == grid_pos:
+			return true
+	return false
+
+func _is_unit_alive(unit) -> bool:
+	if unit.actor == null:
+		return false
+	return unit.actor.health > 0
