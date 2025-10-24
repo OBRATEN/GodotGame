@@ -4,10 +4,10 @@ extends Node2D
 @onready var tilemap = $TileMap
 @onready var player = $Player
 @onready var battle_manager = $BattleManager
-@onready var end_turn_button = $Player/Camera2D/UiHud/HUD/EndTurn/EndTurnButton
-@onready var start_button = $Player/Camera2D/UiHud/HUD/ModePanel/SwitchModeButton
-@onready var attack_button = $Player/Camera2D/UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/AttackButton
-@onready var move_button = $Player/Camera2D/UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/MoveButton
+@onready var end_turn_button = $UiHud/HUD/EndTurn/EndTurnButton
+@onready var start_button = $UiHud/HUD/ModePanel/SwitchModeButton
+@onready var attack_button = $UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/AttackButton
+@onready var move_button = $UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/MoveButton
 
 @onready var move_range_indicator = $MoveRangeIndicator
 
