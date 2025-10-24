@@ -14,11 +14,21 @@ var attacks_used: int = 0
 var move_range: int = 6
 var remaining_move: int = 6 
 
-var weapon: Weapon = null
+var sheet: CharacterSheet = CharacterSheet.new()
 
 func _ready():
 	set_grid_position(Vector2i(2, 2))
-	weapon = Weapon.new("1d10")
+	
+	# Настройка листа персонажа
+	sheet.strength = 16      # +3
+	sheet.dexterity = 14     # +2
+	sheet.constitution = 12  # +1
+	sheet.update_derived_stats()
+	
+	sheet.weapon = Weapon.new("1d10")  # меч
+	sheet.max_hit_points = 12
+	sheet.current_hit_points = 12
+	
 	reset_turn()
 
 func reset_turn():
@@ -98,9 +108,9 @@ func take_turn():
 	print("Player's turn started.")
 
 func take_damage(dmg: int):
-	health = max(0, health - dmg)
-	print("Player takes %d damage! HP: %d" % [dmg, health])
-	if health <= 0:
+	sheet.take_damage(dmg)
+	print("Player takes %d damage! HP: %d" % [dmg, sheet.current_hit_points])
+	if sheet.current_hit_points <= 0:
 		_die()
 
 func _die():
@@ -111,14 +121,14 @@ func attack_target(target: Node2D):
 		print("Cannot attack: no attacks left this turn!")
 		return
 
-	if weapon == null:
+	if sheet.weapon == null:
 		print("No weapon!")
 		return
 	if not target.has_method("take_damage"):
 		print("Target cannot take damage!")
 		return
 
-	var damage = weapon.roll_damage()
+	var damage = sheet.weapon.roll_damage()
 	print("Player attacks %s for %d damage!" % [target.name, damage])
 	target.take_damage(damage)
 

@@ -1,12 +1,16 @@
 # World.gd
 extends Node2D
 
+@onready var tilemap = $TileMap
 @onready var player = $Player
 @onready var battle_manager = $BattleManager
 @onready var end_turn_button = $Player/Camera2D/UiHud/HUD/EndTurn/EndTurnButton
 @onready var start_button = $Player/Camera2D/UiHud/HUD/ModePanel/SwitchModeButton
 @onready var attack_button = $Player/Camera2D/UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/AttackButton
 @onready var move_button = $Player/Camera2D/UiHud/HUD/ActionPanel/HBoxContainer/Actions/VBoxContainer/Row_1/MoveButton
+
+@onready var move_range_indicator = $MoveRangeIndicator
+
 
 var enemies: Array[Node2D] = []
 var move_mode: bool = false
@@ -22,6 +26,33 @@ func _ready():
 	battle_manager.player_turn_started.connect(_on_player_turn)
 	battle_manager.battle_finished.connect(_on_battle_finished)
 	_set_battle_ui_visible(false)
+
+func _show_move_range():
+	_clear_children(move_range_indicator)
+	var start = player.get_grid_position()
+	var max_dist = player.move_range  # = 6
+
+	for dx in range(-max_dist, max_dist + 1):
+		for dy in range(-max_dist, max_dist + 1):
+			var pos = Vector2i(start.x + dx, start.y + dy)
+			# Круг: евклидово расстояние
+			if start.distance_to(pos) <= max_dist and _is_walkable(pos):
+				_create_move_indicator_tile(pos)
+
+func _hide_move_range():
+	_clear_children(move_range_indicator)
+
+func _create_move_indicator_tile(grid_pos: Vector2i):
+	var indicator = ColorRect.new()
+	indicator.name = "MoveTile_%d_%d" % [grid_pos.x, grid_pos.y]
+	indicator.color = Color(0.841, 0.948, 1.0, 0.4)  # голубоватая прозрачная заливка
+	indicator.custom_minimum_size = Vector2(Constants.CELL_SIZE, Constants.CELL_SIZE)
+	indicator.position = Vector2(
+		grid_pos.x * Constants.CELL_SIZE,
+		grid_pos.y * Constants.CELL_SIZE
+	)
+	indicator.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	move_range_indicator.add_child(indicator)
 
 func _on_start_battle_pressed():
 	# Очистка старых врагов
@@ -78,6 +109,7 @@ func _on_MoveButton_pressed():
 		return
 	move_mode = true
 	move_button.disabled = true
+	_show_move_range()  # ← показываем зону
 	print("Move mode: click on map.")
 
 func _on_AttackButton_pressed():
@@ -102,10 +134,15 @@ func _end_player_turn():
 	is_player_turn = false
 	_set_battle_ui_visible(false)
 	move_mode = false
-	attack_mode = false  # ← важно!
+	attack_mode = false
 	move_button.disabled = false
 	attack_button.disabled = false
+	_hide_move_range()  # ← добавь это
 	battle_manager.next_turn()
+
+func _clear_children(node: Node):
+	for child in node.get_children():
+		child.queue_free()
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -126,8 +163,8 @@ func _handle_move_input(event):
 
 		if distance > player.remaining_move:
 			print("Not enough movement! Remaining: %d" % player.remaining_move)
-		elif _is_grid_occupied(target_grid):
-			print("Cell %s is occupied!" % target_grid)
+		elif !_is_walkable(target_grid):  # ← заменил _is_grid_occupied на _is_walkable
+			print("Cell %s is blocked by wall or occupied!" % target_grid)
 		else:
 			player.remaining_move -= distance
 			player.start_move_to(target_grid)
@@ -136,7 +173,8 @@ func _handle_move_input(event):
 	_update_action_buttons_text()
 	move_mode = false
 	move_button.disabled = false
-
+	_hide_move_range()
+	
 func _handle_attack_input(event):
 	if !player.can_attack():
 		print("No attacks left!")
@@ -201,7 +239,6 @@ func _on_battle_finished():
 	enemies.clear()
 	
 func _is_grid_occupied(grid_pos: Vector2i) -> bool:
-	# Получаем BattleManager, чтобы получить всех юнитов
 	var bm = get_tree().get_first_node_in_group("battle_manager")
 	if bm == null:
 		return false
@@ -224,3 +261,13 @@ func _update_action_buttons_text():
 
 	# Обновляем текст кнопки атаки
 	attack_button.text = "Attack (%d/%d)" % [player.max_attacks_per_turn-player.attacks_used, player.max_attacks_per_turn]
+
+func _is_walkable(grid_pos: Vector2i) -> bool:
+	if tilemap.get_cell_source_id(Constants.WALLS_LAYER, grid_pos) != -1:
+		return false
+
+	# Проверка юнитов
+	if _is_grid_occupied(grid_pos):
+		return false
+
+	return true
