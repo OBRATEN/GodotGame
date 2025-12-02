@@ -259,6 +259,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText1" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder1"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder2" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -273,6 +277,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText2" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder2"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder3" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
@@ -289,6 +297,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText3" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder3"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder4" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -303,6 +315,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText4" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder4"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder5" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
@@ -319,6 +335,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText5" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder5"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder6" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -333,6 +353,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText6" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder6"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder7" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
@@ -349,6 +373,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText7" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder7"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder8" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -363,6 +391,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText8" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder8"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder9" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
@@ -379,6 +411,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText9" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder9"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder10" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -393,6 +429,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText10" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder10"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilitiesOrder2" type="HBoxContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder"]
 layout_mode = 2
@@ -412,6 +452,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText11" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder11"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder12" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -426,6 +470,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText12" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder12"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder13" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
@@ -442,6 +490,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText13" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder13"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder14" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -456,6 +508,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText14" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder14"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder15" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
@@ -472,6 +528,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText15" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder15"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder16" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -486,6 +546,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText16" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder16"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder17" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
@@ -502,6 +566,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText17" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder17"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder18" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -516,6 +584,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
+
+[node name="AbilityText18" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder18"]
+layout_mode = 2
+size_flags_vertical = 1
 
 [node name="AbilityBorder19" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
@@ -532,6 +604,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText19" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder19"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="AbilityBorder20" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
@@ -547,6 +623,10 @@ layout_mode = 2
 theme_override_constants/icon_max_width = 64
 icon = ExtResource("5_hb8s7")
 
+[node name="AbilityText20" type="Label" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder20"]
+layout_mode = 2
+size_flags_vertical = 1
+
 [node name="EndTurnButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder"]
 custom_minimum_size = Vector2(156, 156)
 layout_mode = 2
@@ -555,7 +635,7 @@ text = "Окончить ход"
 [node name="SwitchModeButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder"]
 custom_minimum_size = Vector2(156, 156)
 layout_mode = 2
-text = "Окончить ход"
+text = "Сменить режим боя"
 
 [node name="HistoryFolder" type="FoldableContainer" parent="HUD"]
 layout_mode = 1

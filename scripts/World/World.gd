@@ -7,7 +7,10 @@ extends Node2D
 @onready var end_turn_button = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/EndTurnButton
 @onready var start_button = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/SwitchModeButton
 @onready var attack_button = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder1/AbilityButton1
+@onready var attack_button_text = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder1/AbilityBorder1/AbilityText1
 @onready var move_button = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder11/AbilityButton11
+@onready var move_button_text = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder11/AbilityText11
+
 
 @onready var move_range_indicator = $MoveRangeIndicator
 
@@ -257,10 +260,10 @@ func _update_action_buttons_text():
 		return
 
 	# Обновляем текст кнопки перемещения
-	move_button.text = "Move (%d)" % player.remaining_move
+	move_button_text.set_text("(%d)" % player.remaining_move)
 
 	# Обновляем текст кнопки атаки
-	attack_button.text = "Attack (%d/%d)" % [player.max_attacks_per_turn-player.attacks_used, player.max_attacks_per_turn]
+	attack_button_text.set_text("(%d)" % (player.max_attacks_per_turn-player.attacks_used))
 
 func _is_walkable(grid_pos: Vector2i) -> bool:
 	if tilemap.get_cell_source_id(Constants.WALLS_LAYER, grid_pos) != -1:
