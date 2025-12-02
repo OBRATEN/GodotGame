@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://cggf60wy10vts"]
 
 [ext_resource type="Script" uid="uid://dtpmnn0q7d4og" path="res://scripts/World/World.gd" id="1_7hjm2"]
-[ext_resource type="PackedScene" uid="uid://ds8ddhfn4pl3i" path="res://scenes/UiHud.tscn" id="2_3keet"]
 [ext_resource type="PackedScene" uid="uid://fb5swpq3yyi6" path="res://scenes/BattleManager.tscn" id="2_q4mil"]
+[ext_resource type="PackedScene" uid="uid://ebmbf13wet8x" path="res://scenes/UiHud.tscn" id="2_sfxgc"]
 [ext_resource type="Texture2D" uid="uid://djp67vywqmf7p" path="res://assets/Game/free-2d-top-down-pixel-dungeon-asset-pack/PNG/walls_floor.png" id="3_3keet"]
 [ext_resource type="Script" uid="uid://c3utyqkvs27ad" path="res://scripts/Camera/camera_controller.gd" id="3_sfxgc"]
 [ext_resource type="PackedScene" uid="uid://b0xqrrtf1a585" path="res://scenes/Player.tscn" id="5_5gf4p"]
@@ -466,7 +466,7 @@ sources/9 = SubResource("TileSetAtlasSource_sfxgc")
 [node name="TestingScene" type="Node2D"]
 script = ExtResource("1_7hjm2")
 
-[node name="UiHud" parent="." instance=ExtResource("2_3keet")]
+[node name="UiHud" parent="." instance=ExtResource("2_sfxgc")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(240, 135)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duxgl1wnxgqpt"
-path="res://.godot/imported/SkeletonTemplate.png-4306dbaa13ef680e3b5cf2da6ebb4102.ctex"
+uid="uid://ck5dsgmkm8vl6"
+path="res://.godot/imported/WarriorTemplate.png-4f2ee0ec50588e3a91a9f52581234197.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://SkeletonTemplate.png"
-dest_files=["res://.godot/imported/SkeletonTemplate.png-4306dbaa13ef680e3b5cf2da6ebb4102.ctex"]
+source_file="res://assets/WarriorTemplate.png"
+dest_files=["res://.godot/imported/WarriorTemplate.png-4f2ee0ec50588e3a91a9f52581234197.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkd08fwfy3sa0"
-path="res://.godot/imported/MageTemplate.png-c60ea0e124d7cf14ad7b421c2c921047.ctex"
+uid="uid://duxgl1wnxgqpt"
+path="res://.godot/imported/SkeletonTemplate.png-59888db038967797ed51dae6af4470e3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MageTemplate.png"
-dest_files=["res://.godot/imported/MageTemplate.png-c60ea0e124d7cf14ad7b421c2c921047.ctex"]
+source_file="res://assets/SkeletonTemplate.png"
+dest_files=["res://.godot/imported/SkeletonTemplate.png-59888db038967797ed51dae6af4470e3.ctex"]
 
 [params]
 

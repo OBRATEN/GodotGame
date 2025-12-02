@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck5dsgmkm8vl6"
-path="res://.godot/imported/WarriorTemplate.png-db126884cd9b8865626a89fe696b3f9a.ctex"
+uid="uid://bkd08fwfy3sa0"
+path="res://.godot/imported/MageTemplate.png-04eb3f035defbcd2d506cda18b926573.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://WarriorTemplate.png"
-dest_files=["res://.godot/imported/WarriorTemplate.png-db126884cd9b8865626a89fe696b3f9a.ctex"]
+source_file="res://assets/MageTemplate.png"
+dest_files=["res://.godot/imported/MageTemplate.png-04eb3f035defbcd2d506cda18b926573.ctex"]
 
 [params]
 
