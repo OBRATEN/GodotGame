@@ -254,11 +254,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder2" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -270,11 +269,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder2"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder2"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder2"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder3" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -286,11 +284,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder3"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder3"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder3"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder4" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -302,11 +299,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder4"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder4"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder4"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder5" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -318,11 +314,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder5"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder5"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder5"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder6" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -334,11 +329,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder6"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder6"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder6"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder7" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -350,11 +344,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder7"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder7"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder7"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder8" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -366,11 +359,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder8"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder8"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder8"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder9" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -382,11 +374,10 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder9"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder9"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder9"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="AbilityBorder10" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder"]
 layout_mode = 2
@@ -398,174 +389,163 @@ theme_override_constants/margin_bottom = 4
 [node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder10"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder10"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder/AbilityBorder10"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder"]
+[node name="AbilitiesOrder2" type="HBoxContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder"]
 layout_mode = 2
 
-[node name="AbilityBorder11" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder11"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder11"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder12" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder2" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder12"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder2"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder12"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder2"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder13" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder3" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder13"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder3"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder13"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder3"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder14" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder4" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder14"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder4"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder14"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder4"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder15" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder5" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder15"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder5"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder15"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder5"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder16" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder6" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder16"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder6"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder16"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder6"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder17" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder7" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder17"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder7"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder17"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder7"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder18" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder8" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder18"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder8"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder18"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder8"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder19" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder9" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder19"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder9"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder19"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder9"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
-[node name="AbilityBorder20" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2"]
+[node name="AbilityBorder10" type="MarginContainer" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder20"]
+[node name="AbilityBackground" type="Panel" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder10"]
 layout_mode = 2
 
-[node name="AbilityIcon" type="TextureRect" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/HBoxContainer2/AbilityBorder20"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AbilityButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder10"]
 layout_mode = 2
-texture = ExtResource("5_hb8s7")
-expand_mode = 1
+theme_override_constants/icon_max_width = 64
+icon = ExtResource("5_hb8s7")
 
 [node name="EndTurnButton" type="Button" parent="HUD/CharacterFolder/CharacterBorder/CharacterOrder"]
 custom_minimum_size = Vector2(156, 156)
