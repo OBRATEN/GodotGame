@@ -1,0 +1,501 @@
+[gd_scene load_steps=2 format=3 uid="uid://cg7ghxh3nk23m"]
+
+[ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="1_lvsxy"]
+
+[node name="UI_Inventory" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+theme = ExtResource("1_lvsxy")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Характеристики и навыки"
+
+[node name="VScrollBar" type="ScrollContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(512, 756)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Сила" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Сила"]
+layout_mode = 2
+text = " Сила"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Сила"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Атлетика" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Атлетика"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Атлетика"]
+layout_mode = 2
+text = "Атлетика"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Атлетика"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Ловкость" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость"]
+layout_mode = 2
+text = " Ловкость"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Ловкость рук" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость рук"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость рук"]
+layout_mode = 2
+text = "Ловкость рук"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость рук"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Акробатика" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Акробатика"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Акробатика"]
+layout_mode = 2
+text = "Акробатика"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Акробатика"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Скрытность" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Скрытность"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Скрытность"]
+layout_mode = 2
+text = "Скрытность"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Скрытность"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Телосложение" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer4"]
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer4/Телосложение"]
+layout_mode = 2
+text = " Телосложение"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer4/Телосложение"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Интелект" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Интелект"]
+layout_mode = 2
+text = " Интелект"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Интелект"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="История" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/История"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/История"]
+layout_mode = 2
+text = "История"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/История"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Магия" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Магия"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Магия"]
+layout_mode = 2
+text = "Магия"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Магия"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Природа" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Природа"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Природа"]
+layout_mode = 2
+text = "Природа"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Природа"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Расследование" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Расследование"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Расследование"]
+layout_mode = 2
+text = "Расследование"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Расследование"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Религия" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Религия"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Религия"]
+layout_mode = 2
+text = "Религия"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Религия"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Мудрость" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Мудрость"]
+layout_mode = 2
+text = " Мудрость"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Мудрость"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Восприятие" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Восприятие"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Восприятие"]
+layout_mode = 2
+text = "Восприятие"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Восприятие"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Выживание" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Выживание"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Выживание"]
+layout_mode = 2
+text = "Выживание"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Выживание"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Медицина" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Медицина"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Медицина"]
+layout_mode = 2
+text = "Медицина"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Медицина"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Проницательность" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Проницательность"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Проницательность"]
+layout_mode = 2
+text = "Проницательность"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Проницательность"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Уход за животными" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Уход за животными"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Уход за животными"]
+layout_mode = 2
+text = "Уход за животными"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Уход за животными"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Харизма" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Харизма"]
+layout_mode = 2
+text = " Харизма"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Харизма"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Выступление" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Выступление"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Выступление"]
+layout_mode = 2
+text = "Выступление"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Выступление"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Запугивание" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Запугивание"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Запугивание"]
+layout_mode = 2
+text = "Запугивание"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Запугивание"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Обман" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Обман"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Обман"]
+layout_mode = 2
+text = "Обман"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Обман"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="Убеждение" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Убеждение"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Название" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Убеждение"]
+layout_mode = 2
+text = "Убеждение"
+
+[node name="Значение" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Убеждение"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "10"
+horizontal_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_lvsxy")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Инвентарь"
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(720, 768)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ItemList" type="ItemList" parent="Control/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/ScrollContainer"]
+custom_minimum_size = Vector2(768, 768)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+auto_width = true
+auto_height = true
+max_columns = 10
+same_column_width = true
+fixed_column_width = 72
+icon_mode = 0
+icon_scale = 2.0
