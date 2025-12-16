@@ -1,6 +1,8 @@
 extends PanelContainer
 
 @export var pause_menu: PanelContainer
+@export var inventory: PanelContainer
+
 
 func resume():
 	toggle_visibility(pause_menu)
@@ -17,7 +19,7 @@ func toggle_visibility(object):
 		object.visible = true
 
 func esc():
-	if Input.is_action_just_pressed("Esc") and get_tree().paused == false:
+	if Input.is_action_just_pressed("Esc") and get_tree().paused == false and not inventory.visible == true:
 		pause()
 	elif Input.is_action_just_pressed("Esc") and get_tree().paused == true:
 		resume()
