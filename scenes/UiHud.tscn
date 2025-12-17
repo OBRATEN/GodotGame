@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ebmbf13wet8x"]
+[gd_scene load_steps=7 format=3 uid="uid://ebmbf13wet8x"]
 
 [ext_resource type="Texture2D" uid="uid://ck5dsgmkm8vl6" path="res://assets/WarriorTemplate.png" id="1_r7ym7"]
 [ext_resource type="Texture2D" uid="uid://duxgl1wnxgqpt" path="res://assets/SkeletonTemplate.png" id="2_mvrqn"]
 [ext_resource type="Script" uid="uid://41xo02tf43eg" path="res://scripts/UI/pause_menu.gd" id="3_mvrqn"]
-[ext_resource type="Texture2D" uid="uid://bkd08fwfy3sa0" path="res://assets/MageTemplate.png" id="4_b28hh"]
 [ext_resource type="Texture2D" uid="uid://cosbw631xa6ts" path="res://assets/Counterspell.webp" id="5_hb8s7"]
 [ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/inventory.gd" id="5_u2uko"]
 [ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="7_kb0kk"]
@@ -147,9 +146,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -128.0
-offset_right = 111.0
-offset_bottom = 128.0
+offset_left = 1.0
+offset_top = -541.0
+offset_right = 129.0
+offset_bottom = -353.0
 grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 20
@@ -183,23 +183,6 @@ texture = ExtResource("1_r7ym7")
 expand_mode = 4
 
 [node name="MainCharacterHealth" type="TextureProgressBar" parent="HUD/PartyFolder/PartyBorder/PartyOrder/PartyHoarder"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="PartyHoardrer2" type="VBoxContainer" parent="HUD/PartyFolder/PartyBorder/PartyOrder"]
-layout_mode = 2
-
-[node name="AllyName" type="Label" parent="HUD/PartyFolder/PartyBorder/PartyOrder/PartyHoardrer2"]
-layout_mode = 2
-text = "Волшебнюк"
-horizontal_alignment = 1
-
-[node name="AllyIcon" type="TextureRect" parent="HUD/PartyFolder/PartyBorder/PartyOrder/PartyHoardrer2"]
-layout_mode = 2
-texture = ExtResource("4_b28hh")
-expand_mode = 4
-
-[node name="AllyHealth" type="TextureProgressBar" parent="HUD/PartyFolder/PartyBorder/PartyOrder/PartyHoardrer2"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 

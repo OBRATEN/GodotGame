@@ -43,6 +43,7 @@ animations = [{
 }]
 
 [node name="Enemy" type="Node2D"]
+z_index = 2
 position = Vector2(3, 3)
 script = ExtResource("1_3gvst")
 
