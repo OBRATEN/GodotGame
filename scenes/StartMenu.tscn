@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://0mxipoh8nvi3" path="res://assets/mainMenu/Flux_Dev_a_lush_3d_render_of_A_cinematic_fantasy_forest_scene__3.jpg" id="1_ufv5y"]
 [ext_resource type="FontFile" uid="uid://c44gr6av0nspj" path="res://assets/Fonts/Bergamasco Bold.otf" id="2_0d5ky"]
-[ext_resource type="Script" uid="uid://dknj3kyq1jjl" path="res://StartGame.gd" id="3_0d5ky"]
+[ext_resource type="Script" uid="uid://dknj3kyq1jjl" path="res://scripts/InitMenu/StartGame.gd" id="3_0d5ky"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_62e2m"]
 texture = ExtResource("1_ufv5y")
