@@ -135,7 +135,6 @@ func _on_EndTurnButton_pressed():
 
 func _end_player_turn():
 	is_player_turn = false
-	_set_battle_ui_visible(false)
 	move_mode = false
 	attack_mode = false
 	move_button.disabled = false
@@ -223,9 +222,7 @@ func _world_to_grid(world_pos: Vector2) -> Vector2i:
 		int(floor(world_pos.y / Constants.CELL_SIZE))
 	)
 
-func _set_battle_ui_visible(visible: bool):
-	move_button.visible = visible
-	attack_button.visible = visible      # ← показываем/скрываем
+func _set_battle_ui_visible(visible: bool):     # ← показываем/скрываем
 	end_turn_button.visible = visible
 	
 func _on_battle_finished():
