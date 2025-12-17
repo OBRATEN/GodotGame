@@ -5,10 +5,10 @@
 [ext_resource type="Script" uid="uid://41xo02tf43eg" path="res://scripts/UI/pause_menu.gd" id="3_mvrqn"]
 [ext_resource type="Texture2D" uid="uid://bkd08fwfy3sa0" path="res://assets/MageTemplate.png" id="4_b28hh"]
 [ext_resource type="Texture2D" uid="uid://cosbw631xa6ts" path="res://assets/Counterspell.webp" id="5_hb8s7"]
-[ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/OpenInventory.gd" id="5_u2uko"]
+[ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/inventory.gd" id="5_u2uko"]
 [ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="7_kb0kk"]
 
-[node name="UiHud1" type="CanvasLayer"]
+[node name="UiHud" type="CanvasLayer"]
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -690,441 +690,441 @@ grow_vertical = 2
 script = ExtResource("5_u2uko")
 inventory = NodePath(".")
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/Inventory"]
+[node name="Border" type="MarginContainer" parent="HUD/Inventory"]
 layout_mode = 2
 theme = ExtResource("7_kb0kk")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Inventory/MarginContainer"]
+[node name="Separator" type="HBoxContainer" parent="HUD/Inventory/Border"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer"]
+[node name="Stats" type="MarginContainer" parent="HUD/Inventory/Border/Separator"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2"]
+[node name="SeparatorStatsLabel" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="Label" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 32
 text = "Характеристики и навыки"
 
-[node name="VScrollBar" type="ScrollContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+[node name="ScrollStats" type="ScrollContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel"]
 custom_minimum_size = Vector2(512, 756)
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar"]
+[node name="PanelStats" type="PanelContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats"]
 custom_minimum_size = Vector2(512, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer"]
+[node name="SeparatorStats" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats"]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+[node name="Str" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats"]
 layout_mode = 2
 
-[node name="Сила" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2"]
+[node name="Сила" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str"]
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Сила"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Сила"]
 layout_mode = 2
 text = " Сила"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Сила"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Сила"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Атлетика" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2"]
+[node name="Атлетика" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Атлетика"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Атлетика"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Атлетика"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Атлетика"]
 layout_mode = 2
 text = "Атлетика"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer2/Атлетика"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Атлетика"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+[node name="Dex" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats"]
 layout_mode = 2
 
-[node name="Ловкость" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+[node name="Ловкость" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex"]
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость"]
 layout_mode = 2
 text = " Ловкость"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Ловкость рук" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+[node name="Ловкость рук" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость рук"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость рук"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость рук"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость рук"]
 layout_mode = 2
 text = "Ловкость рук"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Ловкость рук"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость рук"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Акробатика" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+[node name="Акробатика" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Акробатика"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Акробатика"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Акробатика"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Акробатика"]
 layout_mode = 2
 text = "Акробатика"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Акробатика"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Акробатика"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Скрытность" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3"]
+[node name="Скрытность" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Скрытность"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Скрытность"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Скрытность"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Скрытность"]
 layout_mode = 2
 text = "Скрытность"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer3/Скрытность"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Скрытность"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+[node name="Cst" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats"]
 layout_mode = 2
 
-[node name="Телосложение" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer4"]
+[node name="Телосложение" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cst"]
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer4/Телосложение"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cst/Телосложение"]
 layout_mode = 2
 text = " Телосложение"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer4/Телосложение"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cst/Телосложение"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="VBoxContainer5" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+[node name="Int" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats"]
 layout_mode = 2
 
-[node name="Интелект" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+[node name="Интелект" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Интелект"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Интелект"]
 layout_mode = 2
 text = " Интелект"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Интелект"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Интелект"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="История" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+[node name="История" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/История"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/История"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/История"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/История"]
 layout_mode = 2
 text = "История"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/История"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/История"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Магия" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+[node name="Магия" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Магия"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Магия"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Магия"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Магия"]
 layout_mode = 2
 text = "Магия"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Магия"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Магия"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Природа" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+[node name="Природа" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Природа"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Природа"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Природа"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Природа"]
 layout_mode = 2
 text = "Природа"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Природа"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Природа"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Расследование" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+[node name="Расследование" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Расследование"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Расследование"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Расследование"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Расследование"]
 layout_mode = 2
 text = "Расследование"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Расследование"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Расследование"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Религия" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5"]
+[node name="Религия" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Религия"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Религия"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Религия"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Религия"]
 layout_mode = 2
 text = "Религия"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer5/Религия"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Религия"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="VBoxContainer6" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+[node name="Wis" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats"]
 layout_mode = 2
 
-[node name="Мудрость" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+[node name="Мудрость" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis"]
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Мудрость"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Мудрость"]
 layout_mode = 2
 text = " Мудрость"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Мудрость"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Мудрость"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Восприятие" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+[node name="Восприятие" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Восприятие"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Восприятие"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Восприятие"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Восприятие"]
 layout_mode = 2
 text = "Восприятие"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Восприятие"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Восприятие"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Выживание" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+[node name="Выживание" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Выживание"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Выживание"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Выживание"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Выживание"]
 layout_mode = 2
 text = "Выживание"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Выживание"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Выживание"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Медицина" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+[node name="Медицина" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Медицина"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Медицина"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Медицина"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Медицина"]
 layout_mode = 2
 text = "Медицина"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Медицина"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Медицина"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Проницательность" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+[node name="Проницательность" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Проницательность"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Проницательность"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Проницательность"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Проницательность"]
 layout_mode = 2
 text = "Проницательность"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Проницательность"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Проницательность"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Уход за животными" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6"]
+[node name="Уход за животными" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Уход за животными"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Уход за животными"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Уход за животными"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Уход за животными"]
 layout_mode = 2
 text = "Уход за животными"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer6/Уход за животными"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Уход за животными"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer"]
+[node name="Cha" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats"]
 layout_mode = 2
 
-[node name="Харизма" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="Харизма" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha"]
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Харизма"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Харизма"]
 layout_mode = 2
 text = " Харизма"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Харизма"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Харизма"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Выступление" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="Выступление" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Выступление"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Выступление"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Выступление"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Выступление"]
 layout_mode = 2
 text = "Выступление"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Выступление"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Выступление"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Запугивание" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="Запугивание" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Запугивание"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Запугивание"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Запугивание"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Запугивание"]
 layout_mode = 2
 text = "Запугивание"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Запугивание"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Запугивание"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Обман" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="Обман" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Обман"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Обман"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Обман"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Обман"]
 layout_mode = 2
 text = "Обман"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Обман"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Обман"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="Убеждение" type="HBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="Убеждение" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Убеждение"]
+[node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Убеждение"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="Название" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Убеждение"]
+[node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Убеждение"]
 layout_mode = 2
 text = "Убеждение"
 
-[node name="Значение" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/VScrollBar/PanelContainer/VBoxContainer/VBoxContainer/Убеждение"]
+[node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Убеждение"]
 layout_mode = 2
 size_flags_horizontal = 10
 text = "10"
 horizontal_alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer"]
+[node name="Inventory" type="MarginContainer" parent="HUD/Inventory/Border/Separator"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1134,25 +1134,25 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Inventory/Border/Separator/Inventory"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="HUD/Inventory/Border/Separator/Inventory/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 32
 text = "Инвентарь"
 
-[node name="PanelContainer" type="PanelContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HUD/Inventory/Border/Separator/Inventory/VBoxContainer"]
 custom_minimum_size = Vector2(720, 768)
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HUD/Inventory/Border/Separator/Inventory/VBoxContainer/PanelContainer"]
 layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="ItemList" type="ItemList" parent="HUD/Inventory/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/ScrollContainer"]
+[node name="ItemList" type="ItemList" parent="HUD/Inventory/Border/Separator/Inventory/VBoxContainer/PanelContainer/ScrollContainer"]
 custom_minimum_size = Vector2(768, 768)
 layout_mode = 2
 size_flags_horizontal = 3

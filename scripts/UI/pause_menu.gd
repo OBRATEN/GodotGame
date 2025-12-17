@@ -19,7 +19,7 @@ func toggle_visibility(object):
 		object.visible = true
 
 func esc():
-	if Input.is_action_just_pressed("Esc") and get_tree().paused == false and not inventory.visible == true:
+	if Input.is_action_just_pressed("Esc") and get_tree().paused == false and inventory.visible != true:
 		pause()
 	elif Input.is_action_just_pressed("Esc") and get_tree().paused == true:
 		resume()
