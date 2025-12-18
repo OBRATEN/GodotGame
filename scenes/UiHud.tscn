@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ebmbf13wet8x"]
+[gd_scene load_steps=8 format=3 uid="uid://ebmbf13wet8x"]
 
 [ext_resource type="Texture2D" uid="uid://ck5dsgmkm8vl6" path="res://assets/WarriorTemplate.png" id="1_r7ym7"]
 [ext_resource type="Texture2D" uid="uid://duxgl1wnxgqpt" path="res://assets/SkeletonTemplate.png" id="2_mvrqn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cosbw631xa6ts" path="res://assets/Counterspell.webp" id="5_hb8s7"]
 [ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/inventory.gd" id="5_u2uko"]
 [ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="7_kb0kk"]
+[ext_resource type="PackedScene" uid="uid://d32ebi403sl04" path="res://scenes/DiceRoller.tscn" id="7_u2uko"]
 
 [node name="UiHud" type="CanvasLayer"]
 
@@ -1190,6 +1191,9 @@ same_column_width = true
 fixed_column_width = 72
 icon_mode = 0
 icon_scale = 2.0
+
+[node name="DiceRoller" parent="HUD" instance=ExtResource("7_u2uko")]
+layout_mode = 1
 
 [connection signal="pressed" from="HUD/MenuButton/CallMenu" to="HUD/PauseMenu" method="_on_call_menu_pressed"]
 [connection signal="pressed" from="HUD/PauseMenu/MenuBorder/PauseOrder/Resume" to="HUD/PauseMenu" method="_on_resume_pressed"]

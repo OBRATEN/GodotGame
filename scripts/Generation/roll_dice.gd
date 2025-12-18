@@ -1,36 +1,27 @@
-# main.gd
+# DiceRoller.gd
 extends Control
 
-# Настройки физического мира
-const MIN_IMPULSE = 1000
-const MAX_IMPULSE = 1500
+signal dice_rolled(result) # <-- Новый сигнал
+
+const MIN_IMPULSE = 100
+const MAX_IMPULSE = 300
 const MIN_SPIN = -100
 const MAX_SPIN = 100
-const SIMULATION_TIME = 2.0 # Сколько времени симулировать "бросок"
+const SIMULATION_TIME = 2.0
 
-@onready var dice_sides_spinbox = $Panel/SpinBox
-@onready var roll_button = $Panel/Button
-@onready var result_label = $Panel/DiceArea/Label
 @onready var dice_area = $Panel/DiceArea
 @onready var dice_rigid_body = $Panel/DiceArea/DiceRigidBody
 @onready var visual_dice = $Panel/DiceArea/DiceRigidBody/VisualDice
 
 var is_simulating = false
+var pending_callback: Callable # Для хранения обратного вызова
 
 func _ready():
-	if !roll_button or !dice_sides_spinbox or !result_label or !dice_area or !dice_rigid_body or !visual_dice:
+	if !dice_area or !dice_rigid_body or !visual_dice:
 		push_error("One or more nodes not found! Check paths.")
 		return
 
-	roll_button.pressed.connect(_on_roll_pressed)
-	# --- НОВОЕ: Подключаем сигнал изменения значения SpinBox ---
-	dice_sides_spinbox.value_changed.connect(_on_dice_sides_changed)
-	# ---
-
 	init_dice()
-	# --- НОВОЕ: Устанавливаем начальный тип кости ---
-	_on_dice_sides_changed(dice_sides_spinbox.value)
-	# ---
 
 func init_dice():
 	dice_rigid_body.freeze = true
@@ -40,27 +31,24 @@ func init_dice():
 	dice_rigid_body.global_position = dice_area.global_position + dice_area.size / 2
 	dice_rigid_body.hide()
 
-func _on_dice_sides_changed(new_value: float):
-	var sides_int = int(new_value)
-	# Обновляем тип кости у визуального элемента до броска
-	visual_dice.dice_type_sides = sides_int
-	# Если кость видна (например, после броска), обновим её отображение
-	if dice_rigid_body.visible: # Проверяем свойство visible вместо is_hidden()
-		# Не меняем _displayed_value, просто перерисуем форму
-		visual_dice.queue_redraw()
+# DiceRoller.gd
+# ... (остальной код как есть) ...
 
-# ---
-
-func _on_roll_pressed():
+func roll_dice_visual_async(dice_sides: int, callback: Callable):
+	print("DiceRoller: Received request to roll D%d" % dice_sides) # <-- Добавлено для отладки
 	if is_simulating:
+		print("DiceRoller is already simulating. Skipping roll.")
+		callback.call(randi() % dice_sides + 1)
 		return
 
-	var sides = int(dice_sides_spinbox.value)
-	_start_roll_simulation(sides)
+	pending_callback = callback
 
-func _start_roll_simulation(sides):
+	# Устанавливаем тип кости ДО показа
+	print("DiceRoller: Setting visual dice type to D%d" % dice_sides) # <-- Добавлено для отладки
+	visual_dice.dice_type_sides = dice_sides
+	visual_dice.queue_redraw()
+
 	is_simulating = true
-	result_label.text = "Бросаем..."
 	dice_rigid_body.show()
 
 	dice_rigid_body.global_position = dice_area.global_position + dice_area.size / 2
@@ -78,15 +66,17 @@ func _start_roll_simulation(sides):
 
 	await get_tree().create_timer(SIMULATION_TIME).timeout
 
-	_finish_roll_simulation(sides)
+	var result = randi() % dice_sides + 1
+	print("DiceRoller: Simulation finished. Result: %d" % result) # <-- Добавлено для отладки
+	visual_dice.update_visual(result, dice_sides)
 
-func _finish_roll_simulation(sides):
 	is_simulating = false
 	dice_rigid_body.freeze = true
 	dice_rigid_body.linear_velocity = Vector2.ZERO
 	dice_rigid_body.angular_velocity = 0
 
-	var result = randi() % sides + 1
-	result_label.text = "Результат: %d (D%d)" % [result, sides]
+	if pending_callback.is_valid():
+		pending_callback.call(result)
+		pending_callback = Callable()
 
-	visual_dice.update_visual(result, sides)
+# ...

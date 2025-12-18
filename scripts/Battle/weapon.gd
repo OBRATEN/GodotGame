@@ -39,7 +39,7 @@ func roll_damage() -> int:
 
 	# Бросаем кости
 	var total = 0
-	for i in num_dice:
+	for i in range(num_dice): # Исправлено: range(num_dice), а не num_dice
 		total += randi() % sides + 1  # 1..sides
 
 	total += modifier

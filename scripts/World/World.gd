@@ -151,6 +151,13 @@ func _input(event):
 		if move_mode:
 			_handle_move_input(event)
 		elif attack_mode:
+			# --- ИЗМЕНЕНО: Теперь просто вызываем синхронно ---
+			_handle_attack_input(event)
+			# ---
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if move_mode:
+			_handle_move_input(event)
+		elif attack_mode:
 			_handle_attack_input(event)
 
 func _handle_move_input(event):
@@ -193,8 +200,10 @@ func _handle_attack_input(event):
 		var dist = player_pos.distance_to(enemy_pos)
 
 		if dist <= 1:
+			# --- ИЗМЕНЕНО: Теперь просто вызываем attack_target ---
 			player.attack_target(clicked_enemy)
-			_update_action_buttons_text()
+			# _update_action_buttons_text() вызывается внутри _apply_damage_to_target
+			# или после use_attack, если нужно обновлять сразу
 		else:
 			print("Target is too far to attack! (Range: 1)")
 	else:
@@ -202,6 +211,8 @@ func _handle_attack_input(event):
 
 	attack_mode = false
 	attack_button.disabled = false
+	# _update_action_buttons_text() может быть вызван в _apply_damage_to_target
+# ---
 
 func _get_enemy_at_position(world_pos: Vector2) -> Node2D:
 	var enemies_in_group = get_tree().get_nodes_in_group("enemies")

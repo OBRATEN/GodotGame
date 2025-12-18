@@ -25,7 +25,7 @@ func _ready():
 	sheet.constitution = 12  # +1
 	sheet.update_derived_stats()
 	
-	sheet.weapon = Weapon.new("1d10")  # меч
+	sheet.weapon = Weapon.new("1d8")  # меч
 	sheet.max_hit_points = 12
 	sheet.current_hit_points = 12
 	
@@ -116,6 +116,7 @@ func take_damage(dmg: int):
 func _die():
 	print("Player has died!")
 
+# --- ИЗМЕНЕНО: Функция больше не асинхронная ---
 func attack_target(target: Node2D):
 	if attacks_used >= max_attacks_per_turn:
 		print("Cannot attack: no attacks left this turn!")
@@ -128,13 +129,71 @@ func attack_target(target: Node2D):
 		print("Target cannot take damage!")
 		return
 
-	var damage = sheet.weapon.roll_damage()
+	var ui_hud = get_tree().root.find_child("UiHud", true, false) # Ищем по имени рекурсивно
+	# damage теперь не возвращается напрямую, а обрабатывается в callback
+
+	if ui_hud:
+		var dice_roller = ui_hud.find_child("DiceRoller", true, false)
+		if dice_roller and dice_roller.has_method("roll_dice_visual_async"):
+			var weapon_notation = sheet.weapon.dice_notation
+			var sides = extract_dice_sides(weapon_notation)
+			if sides > 0:
+				# --- ИЗМЕНЕНО: Вызываем асинхронный бросок с callback ---
+				dice_roller.roll_dice_visual_async(sides, Callable(self, "_on_dice_roll_finished").bind(target))
+				# ---
+			else:
+				print("Could not extract dice sides from notation: %s, using standard roll." % weapon_notation)
+				var damage = sheet.weapon.roll_damage()
+				_apply_damage_to_target(target, damage)
+		else:
+			print("DiceRoller not found inside UiHud or invalid, using standard roll.")
+			var damage = sheet.weapon.roll_damage()
+			_apply_damage_to_target(target, damage)
+	else:
+		print("UiHud not found, using standard roll.")
+		var damage = sheet.weapon.roll_damage()
+		_apply_damage_to_target(target, damage)
+
+# --- НОВАЯ ФУНКЦИЯ: Обработка результата броска ---
+func _on_dice_roll_finished(damage: int, target: Node2D):
+	print("Visual dice roll result: %d" % damage)
+	_apply_damage_to_target(target, damage)
+# ---
+
+# --- НОВАЯ ФУНКЦИЯ: Применение урона ---
+func _apply_damage_to_target(target: Node2D, damage: int):
 	print("Player attacks %s for %d damage!" % [target.name, damage])
 	target.take_damage(damage)
-
 	use_attack()  # ← увеличиваем счётчик
 
 	# Проверка окончания боя
 	var bm = get_tree().get_first_node_in_group("battle_manager")
 	if bm:
 		bm.check_battle_end()
+# ---
+
+# --- НОВАЯ ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ---
+func extract_dice_sides(dice_notation: String) -> int:
+	var notation = dice_notation.strip_edges().to_lower()
+	if notation.is_empty():
+		return 0
+
+	# Разделяем на части: кости и модификатор
+	var plus_split = notation.split("+")
+	var dice_part = plus_split[0]
+
+	# Разделяем "NdS"
+	var d_split = dice_part.split("d")
+	if d_split.size() != 2:
+		push_error("Invalid dice notation: %s" % dice_notation)
+		return 0
+
+	# var num_dice = int(d_split[0]) # Не используется для визуального броска
+	var sides = int(d_split[1])
+
+	if sides <= 0:
+		push_error("Invalid dice sides in: %s" % dice_notation)
+		return 0
+
+	return sides
+# ---
