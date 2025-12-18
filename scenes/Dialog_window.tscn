@@ -1,0 +1,115 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcjtfqy4254wk"]
+
+[ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="1_1pynt"]
+[ext_resource type="Texture2D" uid="uid://ck5dsgmkm8vl6" path="res://assets/WarriorTemplate.png" id="2_uc1cf"]
+[ext_resource type="Texture2D" uid="uid://duxgl1wnxgqpt" path="res://assets/SkeletonTemplate.png" id="3_jcob1"]
+
+[node name="DialogWindow" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DialogTextWindow" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -448.0
+offset_top = -268.0
+offset_right = 448.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_1pynt")
+theme_override_constants/margin_bottom = 48
+
+[node name="DialogBackground" type="PanelContainer" parent="DialogTextWindow"]
+layout_mode = 2
+
+[node name="DialogBorder" type="MarginContainer" parent="DialogTextWindow/DialogBackground"]
+layout_mode = 2
+
+[node name="DialogSeparator" type="HBoxContainer" parent="DialogTextWindow/DialogBackground/DialogBorder"]
+layout_mode = 2
+
+[node name="CharLeft" type="TextureRect" parent="DialogTextWindow/DialogBackground/DialogBorder/DialogSeparator"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("2_uc1cf")
+
+[node name="Text" type="RichTextLabel" parent="DialogTextWindow/DialogBackground/DialogBorder/DialogSeparator"]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+scroll_active = false
+
+[node name="CharRight" type="TextureRect" parent="DialogTextWindow/DialogBackground/DialogBorder/DialogSeparator"]
+custom_minimum_size = Vector2(172, 172)
+layout_mode = 2
+texture = ExtResource("3_jcob1")
+flip_h = true
+
+[node name="DialogOptions" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.77000004
+anchor_right = 0.27600002
+anchor_bottom = 1.0
+offset_top = 248.39996
+offset_right = -529.92004
+grow_vertical = 0
+theme = ExtResource("1_1pynt")
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_bottom = 48
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogOptions"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="DialogOptions/VBoxContainer"]
+layout_mode = 2
+
+[node name="Option1" type="Button" parent="DialogOptions/VBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Option 1"
+
+[node name="PanelContainer2" type="PanelContainer" parent="DialogOptions/VBoxContainer"]
+layout_mode = 2
+
+[node name="Option2" type="Button" parent="DialogOptions/VBoxContainer/PanelContainer2"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Option 2"
+
+[node name="PanelContainer3" type="PanelContainer" parent="DialogOptions/VBoxContainer"]
+layout_mode = 2
+
+[node name="Option3" type="Button" parent="DialogOptions/VBoxContainer/PanelContainer3"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Option 3"

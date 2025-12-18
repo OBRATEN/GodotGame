@@ -30,10 +30,6 @@ title_alignment = 1
 
 [node name="InitiativeBorder" type="MarginContainer" parent="HUD/InitiativeFolder"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
 
 [node name="InitiativeOrder" type="HBoxContainer" parent="HUD/InitiativeFolder/InitiativeBorder"]
 layout_mode = 2
@@ -146,10 +142,9 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 1.0
-offset_top = -541.0
-offset_right = 129.0
-offset_bottom = -353.0
+offset_top = -94.0
+offset_right = 128.0
+offset_bottom = 94.0
 grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 20
@@ -174,6 +169,7 @@ layout_mode = 2
 
 [node name="MainCharacterName" type="Label" parent="HUD/PartyFolder/PartyBorder/PartyOrder/PartyHoarder"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Главнюк"
 horizontal_alignment = 1
 
@@ -645,11 +641,10 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HUD/HistoryFolder/HistoryBorder"]
+[node name="History" type="RichTextLabel" parent="HUD/HistoryFolder/HistoryBorder"]
 custom_minimum_size = Vector2(400, 256)
 layout_mode = 2
-text = "
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
 
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
 
@@ -675,7 +670,6 @@ inventory = NodePath(".")
 
 [node name="Border" type="MarginContainer" parent="HUD/Inventory"]
 layout_mode = 2
-theme = ExtResource("7_kb0kk")
 
 [node name="Separator" type="HBoxContainer" parent="HUD/Inventory/Border"]
 layout_mode = 2
@@ -713,11 +707,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Сила"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = " Сила"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Сила"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -730,11 +726,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Атлетика"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Атлетика"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Str/Атлетика"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -746,11 +744,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = " Ловкость"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -763,11 +763,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость рук"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Ловкость рук"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Ловкость рук"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -780,11 +782,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Акробатика"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Акробатика"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Акробатика"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -797,11 +801,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Скрытность"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Скрытность"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Dex/Скрытность"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -813,11 +819,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cst/Телосложение"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = " Телосложение"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cst/Телосложение"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -829,16 +837,19 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Интелект"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = " Интелект"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Интелект"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
 [node name="История" type="HBoxContainer" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int"]
 layout_mode = 2
+theme = ExtResource("7_kb0kk")
 
 [node name="Control" type="Control" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/История"]
 custom_minimum_size = Vector2(32, 32)
@@ -846,11 +857,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/История"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "История"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/История"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -863,11 +876,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Магия"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Магия"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Магия"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -880,11 +895,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Природа"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Природа"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Природа"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -897,11 +914,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Расследование"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Расследование"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Расследование"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -914,11 +933,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Религия"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Религия"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Int/Религия"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -930,11 +951,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Мудрость"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = " Мудрость"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Мудрость"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -947,11 +970,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Восприятие"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Восприятие"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Восприятие"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -964,11 +989,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Выживание"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Выживание"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Выживание"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -981,11 +1008,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Медицина"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Медицина"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Медицина"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -998,11 +1027,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Проницательность"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Проницательность"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Проницательность"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -1015,11 +1046,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Уход за животными"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Уход за животными"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Wis/Уход за животными"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -1031,11 +1064,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Харизма"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = " Харизма"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Харизма"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -1048,11 +1083,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Выступление"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Выступление"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Выступление"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -1065,11 +1102,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Запугивание"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Запугивание"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Запугивание"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -1082,11 +1121,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Обман"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Обман"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Обман"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
@@ -1099,11 +1140,13 @@ layout_mode = 2
 
 [node name="Название" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Убеждение"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Убеждение"
 
 [node name="Значение" type="Label" parent="HUD/Inventory/Border/Separator/Stats/SeparatorStatsLabel/ScrollStats/PanelStats/SeparatorStats/Cha/Убеждение"]
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 24
 text = "10"
 horizontal_alignment = 2
 
