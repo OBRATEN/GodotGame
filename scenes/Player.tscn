@@ -7,13 +7,16 @@
 radius = 18.0
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 100
 script = ExtResource("1_kpjcp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_v6fml")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visibility_layer = 1023
+position = Vector2(1, -9)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_v6fml")
 region_enabled = true

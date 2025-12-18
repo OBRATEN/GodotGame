@@ -9,6 +9,9 @@ var battle_ended: bool = false
 # СИГНАЛЫ — ОБЯЗАТЕЛЬНО НА УРОВНЕ КЛАССА
 signal player_turn_started(unit)
 signal battle_finished
+signal initiative_roll_completed
+signal battle_started
+signal battle_ended_signal
 
 func _ready():
 	add_to_group("battle_manager")
@@ -28,53 +31,68 @@ func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
 
 	print("\n=== Battle Start! Round %d ===" % round)
 	print_turn_order()
-	# --- ИЗМЕНЕНО: Теперь начинаем ход только после всех бросков ---
+
+	# --- ДОБАВЛЕНО: Обновляем UI инициативы ---
+	update_initiative_ui()
+	# ---
+
+	emit_signal("battle_started") # <-- Добавить эту строку ПОСЛЕ update_initiative_ui()
+
 	start_next_turn()
+# BattleManager.gd
+# ... (все предыдущие переменные и функции) ...
+
+func update_initiative_ui():
+	var ui_hud = get_tree().root.find_child("UiHud", true, false)
+	if !ui_hud:
+		print("UiHud not found, skipping initiative UI update.")
+		return
+
+	var initiative_border = ui_hud.get_node("HUD/InitiativeFolder/InitiativeBorder")
+	if !initiative_border:
+		print("InitiativeBorder not found, skipping initiative UI update.")
+		return
+
+	var initiative_order = initiative_border.get_node("InitiativeOrder")
+	if !initiative_order:
+		print("InitiativeOrder not found, skipping initiative UI update.")
+		return
+
+	# --- ИЗМЕНЕНО: Очищаем дочерние элементы через цикл ---
+	# Перебираем копию списка дочерних узлов (get_children() возвращает копию)
+	for child in initiative_order.get_children():
+		initiative_order.remove_child(child) # Удаляем узел из родителя
+		child.queue_free() # Помещаем узел в очередь на удаление
 	# ---
 
-# --- НОВАЯ ФУНКЦИЯ: Асинхронный бросок инициативы для всех юнитов ---
-# --- НОВАЯ ФУНКЦИЯ: Асинхронный бросок инициативы для всех юнитов ---
-func _roll_initiative_for_all_units():
-	# Создаём счётчик завершённых бросков
-	var completed_rolls = 0 # <-- Объявлена здесь
-	var total_rolls = 0
+	# --- ИЗМЕНЕНО: Загружаем сцены заранее ---
+	var hero_initiative_scene = load("res://scenes/Hero_Initiative.tscn") as PackedScene
+	var enemy_initiative_scene = load("res://scenes/Enemy_Initiative.tscn") as PackedScene
+	# ---
 
+	# Добавляем элементы в порядке инициативы
 	for unit in units:
-		if unit.actor and unit.actor.has_method("roll_initiative_async"):
-			total_rolls += 1
-			# Передаём текущее значение completed_rolls по ссылке или используем замыкание
-			# Лучше использовать замыкание через bind для конкретного юнита
-			unit.actor.roll_initiative_async(Callable(self, "_on_unit_initiative_rolled").bind(unit))
+		var scene_to_instance: PackedScene
+		if unit.is_player:
+			scene_to_instance = hero_initiative_scene
 		else:
-			var initiative_value = randi() % 20 + 1 + 10 # Пример: d20 + 10
-			unit.initiative = initiative_value
-			print("BattleManager: Fallback initiative %d for unit %s (no async method)" % [initiative_value, unit.name])
-			# completed_rolls не увеличиваем для fallback, так как он не асинхронный в этом контексте
-			# Лучше сразу учитывать fallback в total_rolls и сразу же сигналить для них.
-			# Нет, fallback не должен вызывать сигнал, он уже завершён.
-			# Пересчитаем total_rolls только для async
+			scene_to_instance = enemy_initiative_scene
 
-	print("BattleManager: Waiting for %d initiative rolls to complete." % total_rolls)
+		var instance = scene_to_instance.instantiate()
+		instance.name = "InitiativeEntry_%s" % unit.name
+		# Передаём данные в инстанс
+		if instance.has_method("set_unit_data"):
+			instance.set_unit_data(unit.name, unit.initiative)
+		else:
+			# Если метода нет, пытаемся установить через свойства
+			if instance.has_property("unit_name"):
+				instance.unit_name = unit.name
+			if instance.has_property("initiative_value"):
+				instance.initiative_value = unit.initiative
 
-	# Ждём сигнал initiative_roll_completed total_rolls раз
-	for i in range(total_rolls):
-		await self.initiative_roll_completed
+		initiative_order.add_child(instance)
 
-	print("BattleManager: All initiative rolls completed.")
-
-
-# --- НОВЫЙ СИГНАЛ ---
-signal initiative_roll_completed
-
-# --- ИЗМЕНЕНАЯ ФУНКЦИЯ: Обработка результата инициативы юнита ---
-func _on_unit_initiative_rolled(initiative_value: int, unit: Unit):
-	unit.initiative = initiative_value
-	print("BattleManager: Stored initiative %d for unit %s" % [initiative_value, unit.name])
-	# --- ОТПРАВЛЯЕМ СИГНАЛ О ЗАВЕРШЕНИИ БРОСКА ---
-	emit_signal("initiative_roll_completed")
-	# ---
-
-# ---
+# ...
 
 func print_turn_order():
 	for i in units.size():
@@ -105,8 +123,13 @@ func next_turn():
 		round += 1
 		print("\n=== Round %d ===" % round)
 
-	# Проверяем, не закончился ли бой
-	check_battle_end()
+		# Проверяем, не закончился ли бой
+		check_battle_end()
+
+		if not battle_ended:
+			# --- ДОБАВЛЕНО: Обновляем UI инициативы каждый раунд ---
+			update_initiative_ui()
+			# ---
 
 	if not battle_ended:
 		await start_next_turn()
@@ -116,8 +139,9 @@ func end_battle():
 		return
 	battle_ended = true
 	print("⚔️ Battle ended!")
-	emit_signal("battle_finished")
-
+	emit_signal("battle_ended_signal") # <-- Заменить или добавить эту строку
+	emit_signal("battle_finished") # <-- Оставить эту строку
+	
 func check_battle_end():
 	print("🔍 Checking battle end...")
 	var alive_units = []
@@ -153,5 +177,34 @@ func _is_unit_alive(unit: Unit) -> bool:
 		return false
 	# Не проверяем is_queued_for_deletion — мы не удаляем сразу
 	return unit.actor.health > 0
+
+# --- ИЗМЕНЕНАЯ ФУНКЦИЯ: Асинхронный бросок инициативы для всех юнитов ---
+func _roll_initiative_for_all_units():
+	var completed_rolls = 0
+	var total_rolls = 0
+
+	for unit in units:
+		if unit.actor and unit.actor.has_method("roll_initiative_async"):
+			total_rolls += 1
+			unit.actor.roll_initiative_async(Callable(self, "_on_unit_initiative_rolled").bind(unit))
+		else:
+			var initiative_value = randi() % 20 + 1 + 10 # Пример: d20 + 10
+			unit.initiative = initiative_value
+			print("BattleManager: Fallback initiative %d for unit %s (no async method)" % [initiative_value, unit.name])
+			# Для fallback не увеличиваем completed_rolls, так как он не асинхронный в этом контексте
+
+	print("BattleManager: Waiting for %d initiative rolls to complete." % total_rolls)
+
+	# Ждём сигнал initiative_roll_completed total_rolls раз
+	for i in range(total_rolls):
+		await self.initiative_roll_completed
+
+	print("BattleManager: All initiative rolls completed.")
+
+# --- ИЗМЕНЕНАЯ ФУНКЦИЯ: Обработка результата инициативы юнита ---
+func _on_unit_initiative_rolled(initiative_value: int, unit: Unit):
+	unit.initiative = initiative_value
+	print("BattleManager: Stored initiative %d for unit %s" % [initiative_value, unit.name])
+	emit_signal("initiative_roll_completed")
 
 # --- УДАЛЕНО: старые функции _on_player_initiative_rolled и _on_enemy_initiative_rolled ---

@@ -19,6 +19,7 @@ var enemies: Array[Node2D] = []
 var move_mode: bool = false
 var attack_mode: bool = false
 var is_player_turn: bool = false
+var is_in_battle: bool = false
 
 
 func _ready():
@@ -84,6 +85,8 @@ func _on_start_battle_pressed():
 
 	enemies = [enemy1, enemy2]
 
+	is_in_battle = true # <--- Добавьте эту строку
+
 	# 2. ЯВНО объявляем массивы как Array[Unit] — это ключ к решению ошибки!
 	var player_units: Array[Unit] = []
 	player_units.append(Unit.create("Hero", player, true))
@@ -94,6 +97,7 @@ func _on_start_battle_pressed():
 
 	# 3. Передаём ТИПИЗИРОВАННЫЕ массивы
 	battle_manager.start_battle(player_units, enemy_units)
+	
 
 func _on_player_turn(unit: Unit):
 	is_player_turn = true
@@ -147,18 +151,39 @@ func _clear_children(node: Node):
 		child.queue_free()
 
 func _input(event):
+	# --- НОВОЕ: Обработка WASD вне боя ---
+	if not is_in_battle and event is InputEventKey and event.pressed:
+		var direction := Vector2.ZERO
+		match event.keycode:
+			KEY_W:
+				direction.y -= 1
+			KEY_S:
+				direction.y += 1
+			KEY_A:
+				direction.x -= 1
+			KEY_D:
+				direction.x += 1
+		
+		if direction != Vector2.ZERO:
+			direction = direction.normalized() # Нормализуем диагональные движения
+			var current_pos = player.get_grid_position()
+			var new_pos = current_pos + Vector2i(direction.x, direction.y)
+			
+			# Проверяем, можно ли пройти в новую клетку
+			if _is_walkable(new_pos):
+				# Предположим, у вашего Player.gd есть метод start_move_to
+				player.start_move_to(new_pos) 
+			else:
+				print("Cannot move to ", new_pos, " - not walkable.")
+	# --- КОНЕЦ НОВОГО БЛОКА ---
+
+	# --- СУЩЕСТВУЮЩИЙ КОД ---
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if move_mode:
 			_handle_move_input(event)
 		elif attack_mode:
-			# --- ИЗМЕНЕНО: Теперь просто вызываем синхронно ---
 			_handle_attack_input(event)
-			# ---
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if move_mode:
-			_handle_move_input(event)
-		elif attack_mode:
-			_handle_attack_input(event)
+	# --- КОНЕЦ СУЩЕСТВУЮЩЕГО КОДА ---
 
 func _handle_move_input(event):
 	var world_pos = get_global_mouse_position()
@@ -200,10 +225,8 @@ func _handle_attack_input(event):
 		var dist = player_pos.distance_to(enemy_pos)
 
 		if dist <= 1:
-			# --- ИЗМЕНЕНО: Теперь просто вызываем attack_target ---
 			player.attack_target(clicked_enemy)
-			# _update_action_buttons_text() вызывается внутри _apply_damage_to_target
-			# или после use_attack, если нужно обновлять сразу
+			_update_action_buttons_text()
 		else:
 			print("Target is too far to attack! (Range: 1)")
 	else:
@@ -211,8 +234,6 @@ func _handle_attack_input(event):
 
 	attack_mode = false
 	attack_button.disabled = false
-	# _update_action_buttons_text() может быть вызван в _apply_damage_to_target
-# ---
 
 func _get_enemy_at_position(world_pos: Vector2) -> Node2D:
 	var enemies_in_group = get_tree().get_nodes_in_group("enemies")
@@ -238,6 +259,9 @@ func _set_battle_ui_visible(visible: bool):     # ← показываем/ск�
 	
 func _on_battle_finished():
 	print("Battle finished! Returning to overworld.")
+	
+	is_in_battle = false # <--- Добавьте эту строку
+
 	_set_battle_ui_visible(false)
 	is_player_turn = false
 	move_mode = false
@@ -248,7 +272,7 @@ func _on_battle_finished():
 		if e.is_inside_tree():
 			e.queue_free()
 	enemies.clear()
-	
+
 func _is_grid_occupied(grid_pos: Vector2i) -> bool:
 	var bm = get_tree().get_first_node_in_group("battle_manager")
 	if bm == null:
