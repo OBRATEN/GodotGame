@@ -197,3 +197,37 @@ func extract_dice_sides(dice_notation: String) -> int:
 
 	return sides
 # ---
+
+# Player.gd
+# ... (все предыдущие переменные и функции) ...
+
+# --- НОВАЯ ФУНКЦИЯ: Асинхронный бросок инициативы ---
+func roll_initiative_async(callback: Callable):
+	# Получаем модификатор ловкости из CharacterSheet
+	var dex_mod = sheet.dexterity_modifier # Предполагаем, что CharacterSheet вычисляет это
+	print("Player dexterity modifier: %d" % dex_mod)
+
+	var ui_hud = get_tree().root.find_child("UiHud", true, false)
+	if ui_hud:
+		var dice_roller = ui_hud.find_child("DiceRoller", true, false)
+		if dice_roller and dice_roller.has_method("roll_dice_visual_async"):
+			var dice_sides = 20 # Инициатива на d20
+			dice_roller.roll_dice_visual_async(dice_sides, Callable(self, "_on_initiative_roll_finished").bind(callback, dex_mod))
+		else:
+			print("DiceRoller not found inside UiHud or invalid, using standard roll for initiative.")
+			var roll_result = randi() % 20 + 1
+			var total_initiative = roll_result + dex_mod
+			print("Standard initiative roll result: %d + %d = %d" % [roll_result, dex_mod, total_initiative])
+			callback.call(total_initiative)
+	else:
+		print("UiHud not found, using standard roll for initiative.")
+		var roll_result = randi() % 20 + 1
+		var total_initiative = roll_result + dex_mod
+		print("Standard initiative roll result: %d + %d = %d" % [roll_result, dex_mod, total_initiative])
+		callback.call(total_initiative)
+
+func _on_initiative_roll_finished(roll_result: int, callback: Callable, dex_mod: int):
+	var total_initiative = roll_result + dex_mod
+	print("Player visual initiative roll result: %d + %d = %d" % [roll_result, dex_mod, total_initiative])
+	callback.call(total_initiative) # Вызываем переданный callback с итоговой инициативой
+# ---

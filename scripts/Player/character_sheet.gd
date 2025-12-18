@@ -9,6 +9,20 @@ var intelligence: int = 10
 var wisdom: int = 10
 var charisma: int = 10
 
+# --- ИСПРАВЛЕНО: Свойства с геттерами ---
+var strength_modifier: int:
+	get:
+		return (strength - 10) / 2
+
+var dexterity_modifier: int:
+	get:
+		return (dexterity - 10) / 2
+
+var constitution_modifier: int:
+	get:
+		return (constitution - 10) / 2
+# ---
+
 # --- Производные параметры ---
 var armor_class: int = 10  # AC = 10 + модификатор Ловкости
 var proficiency_bonus: int = 2  # +2 на 1-4 уровне

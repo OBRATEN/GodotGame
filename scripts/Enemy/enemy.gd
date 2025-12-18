@@ -187,3 +187,46 @@ func _is_unit_alive(unit) -> bool:
 	if unit.actor == null:
 		return false
 	return unit.actor.health > 0
+
+# Enemy.gd
+# ... (предполагаем, что у Enemy есть CharacterSheet, health, и т.д.) ...
+
+func roll_initiative_async(callback: Callable):
+	# Получаем модификатор ловкости из CharacterSheet
+	var dex_mod = 2
+	print("%s dexterity modifier: %d" % [name, dex_mod])
+
+	var ui_hud = get_tree().get_first_node_in_group("ui_hud")
+	if ui_hud:
+		var dice_roller = ui_hud.find_child("DiceRoller", true, false)
+		if dice_roller and dice_roller.has_method("roll_dice_visual_async"):
+			var dice_sides = 20
+			dice_roller.roll_dice_visual_async(dice_sides, Callable(self, "_on_initiative_roll_finished").bind(callback, dex_mod))
+		else:
+			print("DiceRoller not found inside UiHud or invalid, using standard roll for initiative.")
+			# --- ИЗМЕНЕНО: Вызываем стандартный бросок асинхронно ---
+			_call_standard_initiative_roll_async(callback, dex_mod)
+			# ---
+	else:
+		print("UiHud not found, using standard roll for initiative.")
+		# --- ИЗМЕНЕНО: Вызываем стандартный бросок асинхронно ---
+		_call_standard_initiative_roll_async(callback, dex_mod)
+		# ---
+
+func _on_initiative_roll_finished(roll_result: int, callback: Callable, dex_mod: int):
+	var total_initiative = roll_result + dex_mod
+	print("%s visual initiative roll result: %d + %d = %d" % [name, roll_result, dex_mod, total_initiative])
+	callback.call(total_initiative)
+
+# --- НОВАЯ ФУНКЦИЯ: Асинхронный стандартный бросок ---
+func _call_standard_initiative_roll_async(callback: Callable, dex_mod: int):
+	var roll_result = randi() % 20 + 1
+	var total_initiative = roll_result + dex_mod
+	print("%s standard initiative roll result: %d + %d = %d" % [name, roll_result, dex_mod, total_initiative])
+	# Используем call_deferred, чтобы вызов произошёл в следующем цикле обновления,
+	# тем самым симулируя асинхронное поведение и позволяя await в BattleManager дождаться этого.
+	call_deferred("_deferred_callback_call", callback, total_initiative)
+
+func _deferred_callback_call(callback: Callable, value: int):
+	callback.call(value)
+# ---

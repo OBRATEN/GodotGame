@@ -3,8 +3,8 @@ extends Control
 
 signal dice_rolled(result) # <-- Новый сигнал
 
-const MIN_IMPULSE = 100
-const MAX_IMPULSE = 300
+const MIN_IMPULSE = 1000
+const MAX_IMPULSE = 1500
 const MIN_SPIN = -100
 const MAX_SPIN = 100
 const SIMULATION_TIME = 2.0
