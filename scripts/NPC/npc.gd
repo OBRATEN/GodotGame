@@ -43,10 +43,9 @@ func calculate_tile_distance(pos1: Vector2, pos2: Vector2) -> float:
 	return ceil(tiles_x + tiles_y)
 
 func show_dialog():
-	# Проверяем, не открыто ли уже диалоговое окно
 	if get_parent().get_node_or_null("DialogWindow"):
 		return
-	
+
 	var dialog_instance = dialog_scene.instantiate()
 	dialog_instance.name = "DialogWindow"
 	get_parent().add_child(dialog_instance)

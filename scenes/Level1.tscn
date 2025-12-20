@@ -2223,7 +2223,7 @@ script = ExtResource("6_jxjwb")
 [node name="Player" parent="." instance=ExtResource("7_2meft")]
 top_level = true
 visibility_layer = 15
-position = Vector2(264, 136)
+position = Vector2(460, 163)
 
 [node name="Npc" parent="." instance=ExtResource("13_2meft")]
-position = Vector2(470, 117)
+position = Vector2(252, 124)
