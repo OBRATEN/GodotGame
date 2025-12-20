@@ -12,15 +12,31 @@ signal battle_finished
 signal initiative_roll_completed
 signal battle_started
 signal battle_ended_signal
+signal actor_health_changed
 
 func _ready():
 	add_to_group("battle_manager")
+	
+func _subscribe_to_unit_health_change(unit: Unit):
+	if unit.actor and unit.actor.is_connected("health_changed", Callable(self, "_on_actor_health_changed")) == false:
+		unit.actor.connect("health_changed", Callable(self, "_on_actor_health_changed").bind(unit))
+
+# НОВАЯ ФУНКЦИЯ: Обработчик сигнала здоровья
+func _on_actor_health_changed(current_health: int, max_health: int, unit: Unit):
+	print("BattleManager: Received health change signal for %s: %d/%d" % [unit.name, current_health, max_health])
+	# Обновляем UI инициативы, где отображается здоровье
+	update_initiative_ui()
+	# Опционально: можно также проверить, не закончился ли бой
+	check_battle_end()
 
 # --- ИЗМЕНЕНО: start_battle теперь асинхронная ---
 func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
 	units.clear()
 	units.append_array(player_units)
 	units.append_array(enemy_units)
+	
+	for unit in units:
+		_subscribe_to_unit_health_change(unit)
 
 	# --- ИЗМЕНЕНО: Используем асинхронные броски для всех юнитов ---
 	await _roll_initiative_for_all_units()
@@ -82,14 +98,16 @@ func update_initiative_ui():
 		instance.name = "InitiativeEntry_%s" % unit.name
 		# Передаём данные в инстанс
 		if instance.has_method("set_unit_data"):
-			instance.set_unit_data(unit.name, unit.initiative)
+			instance.set_unit_data(unit.name, unit.initiative, unit.actor.health, unit.actor.max_health)
 		else:
-			# Если метода нет, пытаемся установить через свойства
 			if instance.has_property("unit_name"):
 				instance.unit_name = unit.name
 			if instance.has_property("initiative_value"):
 				instance.initiative_value = unit.initiative
-
+			if instance.has_property("health"):
+				instance.health = unit.actor.health
+			if instance.has_property("max_health"):
+				instance.max_health = unit.actor.max_health
 		initiative_order.add_child(instance)
 
 # ...

@@ -16,6 +16,8 @@ var remaining_move: int = 6
 
 var sheet: CharacterSheet = CharacterSheet.new()
 
+signal health_changed(current_health: int, max_health: int)
+
 func _ready():
 	set_grid_position(Vector2i(2, 2))
 	
@@ -110,8 +112,9 @@ func take_turn():
 
 func take_damage(dmg: int):
 	sheet.take_damage(dmg)
-	print("Player takes %d damage! HP: %d" % [dmg, sheet.current_hit_points])
 	health = sheet.current_hit_points
+	emit_signal("health_changed", health, max_health)  # <-- НОВАЯ СТРОКА
+	print("Player takes %d damage! HP: %d" % [dmg, health])
 	if health <= 0:
 		_die()
 

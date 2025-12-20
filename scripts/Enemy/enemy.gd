@@ -19,6 +19,8 @@ var target_world_position: Vector2 = Vector2.ZERO
 var is_moving: bool = false
 var move_speed: float = 200.0  # пикселей в секунду
 
+signal health_changed(current_health: int, max_health: int)
+
 # --- Инициализация ---
 func _ready():
 	health = max_health
@@ -43,6 +45,7 @@ func get_grid_position() -> Vector2i:
 func take_damage(dmg: int):
 	print("Enemy %s takes %d damage! Current HP: %d" % [name, dmg, health])
 	health = max(0, health - dmg)
+	emit_signal("health_changed", health, max_health)  # <-- НОВАЯ СТРОКА
 	print(" → New HP: %d" % health)
 	if health <= 0:
 		_die()

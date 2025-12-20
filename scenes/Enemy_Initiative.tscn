@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dek4y7po4co75"]
+[gd_scene load_steps=5 format=3 uid="uid://dek4y7po4co75"]
 
 [ext_resource type="Texture2D" uid="uid://duxgl1wnxgqpt" path="res://assets/SkeletonTemplate.png" id="1_m4ms8"]
 [ext_resource type="Script" uid="uid://ch17uaia86j6i" path="res://scripts/UI/EnemyInitiative.gd" id="1_ywyhg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3uqdt"]
+bg_color = Color(0.86225784, 0, 0.07392719, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywyhg"]
+bg_color = Color(0, 0.7257029, 0.19174007, 1)
 
 [node name="EnemyInitiative" type="Control"]
 custom_minimum_size = Vector2(71, 122)
@@ -30,11 +36,13 @@ texture = ExtResource("1_m4ms8")
 [node name="Enemy1Health" type="ProgressBar" parent="InitiativeHoarder2"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_3uqdt")
 show_percentage = false
 
 [node name="Enemy1Initiative" type="ProgressBar" parent="InitiativeHoarder2"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_ywyhg")
 max_value = 20.0
 step = 1.0
 rounded = true

@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cuw7bg6kdrp1j"]
+[gd_scene load_steps=5 format=3 uid="uid://cuw7bg6kdrp1j"]
 
 [ext_resource type="Texture2D" uid="uid://ck5dsgmkm8vl6" path="res://assets/WarriorTemplate.png" id="1_c68ro"]
 [ext_resource type="Script" uid="uid://cmreqhod6kt83" path="res://scripts/UI/HeroInitiative.gd" id="1_kciqu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kciqu"]
+bg_color = Color(0.8936936, 0, 0.073139496, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2ofp"]
+bg_color = Color(0.152453, 0.7231325, 0, 1)
 
 [node name="HeroInitiative" type="Control"]
 custom_minimum_size = Vector2(71, 122)
@@ -30,9 +36,11 @@ texture = ExtResource("1_c68ro")
 [node name="MainCharacterHealth" type="ProgressBar" parent="InitiativeHoarder"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_kciqu")
 show_percentage = false
 
 [node name="MainCharacterInitiative" type="ProgressBar" parent="InitiativeHoarder"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_t2ofp")
 show_percentage = false
