@@ -20,7 +20,7 @@ layout_mode = 0
 
 [node name="MainCharacterName" type="Label" parent="InitiativeHoarder"]
 layout_mode = 2
-text = "Главнюк"
+text = "Герой"
 horizontal_alignment = 1
 
 [node name="MainCharacterIcon" type="TextureRect" parent="InitiativeHoarder"]

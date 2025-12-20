@@ -596,13 +596,7 @@ theme_override_constants/margin_bottom = 8
 [node name="History" type="RichTextLabel" parent="HUD/HistoryFolder/HistoryBorder"]
 custom_minimum_size = Vector2(400, 256)
 layout_mode = 2
-text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+text = "Герой спустился в подземелье чтобы отыскать злощастный артефакт. Вход завалило камнями, оставив его нового напарника не у дел. Придётся искать другой выход."
 scroll_following = true
 
 [node name="Inventory" type="PanelContainer" parent="HUD" node_paths=PackedStringArray("inventory")]

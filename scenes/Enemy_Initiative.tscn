@@ -20,7 +20,7 @@ layout_mode = 0
 
 [node name="Enemy1Name" type="Label" parent="InitiativeHoarder2"]
 layout_mode = 2
-text = "Злюк1"
+text = "Скелет"
 horizontal_alignment = 1
 
 [node name="Enemy1Icon" type="TextureRect" parent="InitiativeHoarder2"]

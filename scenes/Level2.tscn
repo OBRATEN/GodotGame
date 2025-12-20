@@ -2186,7 +2186,6 @@ sources/5 = SubResource("TileSetAtlasSource_u4kti")
 script = ExtResource("1_khw7m")
 
 [node name="UiHud" parent="." instance=ExtResource("2_wd6ad")]
-visible = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(240, 135)

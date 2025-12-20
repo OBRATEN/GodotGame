@@ -101,22 +101,64 @@ func take_turn():
 		print("Distance: ", dist, attack_range)
 		_move_toward_target(target_pos, dist) # <-- Иначе, идём к цели
 
-# --- Вспомогательные методы ИИ ---
 func _find_target() -> Node2D:
-	# Ищем узел в группе "player"
 	var player_nodes = get_tree().get_nodes_in_group("player")
 	if player_nodes.is_empty():
-		print("No nodes found in 'player' group.")
+		print_debug("No nodes found in 'player' group.")
 		return null
 
-	# Возвращаем первого попавшегося игрока (или можно реализовать более сложную логику выбора)
-	var found_player = player_nodes[0]
-	if found_player.has_method("get_grid_position"):
-		return found_player
+	# Проходим по всем игрокам, чтобы найти ближайшего в зоне видимости
+	var closest_player: Node2D = null
+	var closest_distance = 999999.0 # <-- Инициализация
+	print_debug("  -> DEBUG: Initial closest_distance: %s" % closest_distance) # <-- НОВАЯ СТРОКА
+	# var closest_distance = 0.0 # <-- Проверим, что инициализация не сбрасывается случайно
+
+	for player_node in player_nodes:
+		if not player_node.has_method("get_grid_position"):
+			print_debug("Player node %s has no get_grid_position method." % player_node.name)
+			continue
+
+		var player_grid_pos = player_node.get_grid_position()
+		var my_grid_pos = self.get_grid_position()
+
+		print_debug("Checking player %s at %s vs enemy %s at %s" % [player_node.name, player_grid_pos, name, my_grid_pos])
+
+		# 1. Проверяем расстояние (евклидово)
+		var distance = my_grid_pos.distance_to(player_grid_pos)
+		print_debug("  -> Distance: %.2f (limit 6)" % distance)
+
+		if distance > 6: # Радиус видимости
+			print_debug("  -> OUT OF RANGE.")
+			continue
+
+		# 2. Проверяем прямую видимость
+		var has_loS = _has_line_of_sight(my_grid_pos, player_grid_pos)
+		print_debug("  -> Has Line of Sight: %s" % has_loS)
+
+		if not has_loS:
+			print_debug("  -> NO LINE OF SIGHT, skipping player %s." % player_node.name)
+			continue
+
+		# 3. Если видим и ближе, чем предыдущий, запоминаем
+		# --- ДОБАВЛЕНА ОТЛАДКА ---
+		print_debug("  -> DEBUG: Before comparison - distance: %.2f, closest_distance: %.2f" % [distance, closest_distance]) # <-- НОВАЯ СТРОКА
+		if distance < closest_distance:
+			print_debug("  -> Distance %.2f is less than closest_distance %.2f. Updating target." % [distance, closest_distance])
+			closest_player = player_node
+			closest_distance = distance
+			print_debug("  -> NEW closest visible player: %s at distance %.2f" % [closest_player.name, closest_distance])
+		else:
+			# <-- Вот ЭТА строка появляется в логе!
+			print_debug("  -> Distance %.2f is NOT less than closest_distance %.2f. Not updating target." % [distance, closest_distance])
+		# ---
+
+	if closest_player:
+		print_debug("Enemy %s spotted player %s!" % [name, closest_player.name])
 	else:
-		print("Found node in 'player' group but it doesn't have get_grid_position method: %s" % found_player.name)
-		return null
+		print_debug("Enemy %s sees no players." % name)
 
+	return closest_player
+	
 func _get_target_grid(target_node: Node2D) -> Vector2i:
 	if target_node == null:
 		return Vector2i.ZERO
@@ -380,3 +422,54 @@ func _call_standard_initiative_roll_async(callback: Callable, dex_mod: int):
 func _deferred_callback_call(callback: Callable, value: int):
 	callback.call(value)
 # ---
+
+# --- В файл Enemy.gd ---
+
+# Добавьте этот метод в класс Enemy
+# --- В файл Enemy.gd ---
+# ЗАМЕНИТЕ метод _has_line_of_sight на этот (с отладкой):
+
+func _has_line_of_sight(start_pos: Vector2i, end_pos: Vector2i) -> bool:
+	print_debug("LoS check from %s to %s" % [start_pos, end_pos])
+	
+	var dx = abs(end_pos.x - start_pos.x)
+	var dy = abs(end_pos.y - start_pos.y)
+	var sx = 1 if start_pos.x < end_pos.x else -1
+	var sy = 1 if start_pos.y < end_pos.y else -1
+	var err = dx - dy
+
+	var x = start_pos.x
+	var y = start_pos.y
+
+	while true:
+		var current_pos = Vector2i(x, y)
+		print_debug("  -> Checking tile at %s" % current_pos)
+
+		# Не проверяем начальную клетку (где стоит сам враг)
+		if current_pos != start_pos:
+			var world_ref = get_parent()
+			if not world_ref or not world_ref.has_method("_is_tile_blocking_vision"):
+				print_debug("  -> ERROR: Cannot access World.gd or _is_tile_blocking_vision method!")
+				return false # <-- Если метод недоступен, путь точно не свободен
+
+			if world_ref._is_tile_blocking_vision(current_pos):
+				print_debug("  -> LoS BLOCKED at %s by tile" % current_pos)
+				return false  # Путь заблокирован препятствием
+			else:
+				print_debug("  -> Tile at %s is clear" % current_pos)
+		else:
+			print_debug("  -> Skipping start tile %s" % current_pos)
+
+		if x == end_pos.x and y == end_pos.y:
+			print_debug("  -> Reached target %s, LoS CLEAR!" % end_pos)
+			break # Добрались до цели
+
+		var e2 = 2 * err
+		if e2 > -dy:
+			err -= dy
+			x += sx
+		if e2 < dx:
+			err += dx
+			y += sy
+
+	return true # Путь свободен

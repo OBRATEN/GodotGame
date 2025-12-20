@@ -76,8 +76,14 @@ func _on_start_battle_pressed():
 	# 2. Находим врагов на сцене и создаём из них юниты
 	var enemy_nodes = get_tree().get_nodes_in_group("enemies")
 	var enemy_units: Array[Unit] = []
+
 	for enemy_node in enemy_nodes:
-		if enemy_node is Node2D and enemy_node != player: # Убедимся, что это Node2D и не игрок
+		if enemy_node is Node2D and enemy_node != player:
+			var current_world_pos = enemy_node.position
+			var calculated_grid_pos = _world_to_grid(current_world_pos)
+			enemy_node.set_grid_position(calculated_grid_pos)
+			print("DEBUG: Set grid position (%s) for enemy %s based on world pos (%s)" % [calculated_grid_pos, enemy_node.name, current_world_pos])
+
 			enemy_units.append(Unit.create(enemy_node.name, enemy_node, false))
 			print("Added enemy to battle: %s" % enemy_node.name)
 
@@ -162,6 +168,9 @@ func _clear_children(node: Node):
 	for child in node.get_children():
 		child.queue_free()
 
+# --- В файл World.gd ---
+# ЗАМЕНИТЕ существующий метод _input на этот:
+
 func _input(event):
 	# --- НОВОЕ: Обработка WASD вне боя ---
 	if not is_in_battle and event is InputEventKey and event.pressed:
@@ -189,14 +198,19 @@ func _input(event):
 				print("Cannot move to ", new_pos, " - not walkable.")
 	# --- КОНЕЦ НОВОГО БЛОКА ---
 
-	# --- СУЩЕСТВУЮЩИЙ КОД ---
+	# --- СУЩЕСТВУЮЩИЙ КОД (обработка кликов мыши) ---
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		# НОВАЯ СТРОКА: Выводим grid_pos для текущего клика
+		var world_pos = get_global_mouse_position()
+		var clicked_grid_pos = _world_to_grid(world_pos)
+		print("Clicked at world position: ", world_pos, " -> grid position: ", clicked_grid_pos)
+
 		if move_mode:
 			_handle_move_input(event)
 		elif attack_mode:
 			_handle_attack_input(event)
 	# --- КОНЕЦ СУЩЕСТВУЮЩЕГО КОДА ---
-
+	
 func _handle_move_input(event):
 	var world_pos = get_global_mouse_position()
 	var target_grid = _world_to_grid(world_pos)
@@ -335,3 +349,25 @@ func _is_walkable(grid_pos: Vector2i) -> bool:
 		return false
 
 	return true
+
+# --- В файл World.gd ---
+
+# --- В файл World.gd ---
+# ЗАМЕНИТЕ существующий метод _is_tile_blocking_vision на этот:
+
+# --- В файл World.gd ---
+# ЗАМЕНИТЕ метод _is_tile_blocking_vision на этот (с отладкой):
+
+func _is_tile_blocking_vision(grid_pos: Vector2i) -> bool:
+	# Получаем узлы слоёв, которые блокируют видимость
+	var walls_layer = tilemap.get_node("Walls") as TileMapLayer
+	var arch_layer = tilemap.get_node("Arch") as TileMapLayer
+
+	var wall_blocked = walls_layer and walls_layer.get_cell_source_id(grid_pos) != -1
+	var arch_blocked = arch_layer and arch_layer.get_cell_source_id(grid_pos) != -1
+
+	var is_blocked = wall_blocked or arch_blocked
+
+	print_debug("  -> _is_tile_blocking_vision(%s): Wall=%s, Arch=%s => Blocked=%s" % [grid_pos, wall_blocked, arch_blocked, is_blocked])
+
+	return is_blocked
