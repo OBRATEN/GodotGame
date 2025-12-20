@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdvt7dhfhbgsg"]
+
+[ext_resource type="Script" uid="uid://b7mye6bjr2x6j" path="res://scripts/Enemy/enemy.gd" id="1_0kppa"]
+[ext_resource type="Texture2D" uid="uid://bxfa5sjq2dvdy" path="res://assets/Game/mystic_woods_free_2/sprites/objects/chest_01.png" id="2_0kppa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55jtl"]
+size = Vector2(16, 14)
+
+[node name="Boss1" type="Node2D"]
+z_index = 2
+position = Vector2(3, 3)
+script = ExtResource("1_0kppa")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-3, -3)
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_55jtl")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-3, -3)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_0kppa")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)

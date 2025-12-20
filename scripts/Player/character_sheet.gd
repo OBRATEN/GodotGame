@@ -28,7 +28,7 @@ var armor_class: int = 10  # AC = 10 + модификатор Ловкости
 var proficiency_bonus: int = 2  # +2 на 1-4 уровне
 
 # --- Здоровье ---
-var max_hit_points: int = 10
+var max_hit_points: int = 20
 var current_hit_points: int = max_hit_points
 
 # --- Инвентарь ---

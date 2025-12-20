@@ -111,7 +111,8 @@ func take_turn():
 func take_damage(dmg: int):
 	sheet.take_damage(dmg)
 	print("Player takes %d damage! HP: %d" % [dmg, sheet.current_hit_points])
-	if sheet.current_hit_points <= 0:
+	health = sheet.current_hit_points
+	if health <= 0:
 		_die()
 
 func _die():

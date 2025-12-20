@@ -15,13 +15,11 @@ extends Node2D
 @onready var move_range_indicator = $MoveRangeIndicator
 
 
-var enemies: Array[Node2D] = [] # Теперь всегда будет пустым
+# var enemies: Array[Node2D] = [] # Больше не нужно, если враги уже на сцене
 var move_mode: bool = false
 var attack_mode: bool = false
 var is_player_turn: bool = false
 var is_in_battle: bool = false
-# Добавим переменную для хранения соединения
-var battle_started_connection: Callable
 
 
 func _ready():
@@ -62,12 +60,12 @@ func _create_move_indicator_tile(grid_pos: Vector2i):
 	move_range_indicator.add_child(indicator)
 
 func _on_start_battle_pressed():
-	# Очищаем список врагов (хотя он теперь всегда пуст)
-	for e in enemies:
-		e.queue_free()
-	enemies.clear()
+	# НЕ очищаем список врагов, так как они на сцене
+	# for e in enemies:
+	# 	e.queue_free()
+	# enemies.clear()
 
-	# Враги больше не создаются здесь
+	# Враги НЕ создаются здесь, они уже на сцене!
 
 	is_in_battle = true # <--- Добавьте эту строку
 
@@ -75,35 +73,26 @@ func _on_start_battle_pressed():
 	var player_units: Array[Unit] = []
 	player_units.append(Unit.create("Hero", player, true))
 
-	# 2. Массив врагов теперь всегда пуст
+	# 2. Находим врагов на сцене и создаём из них юниты
+	var enemy_nodes = get_tree().get_nodes_in_group("enemies")
 	var enemy_units: Array[Unit] = []
+	for enemy_node in enemy_nodes:
+		if enemy_node is Node2D and enemy_node != player: # Убедимся, что это Node2D и не игрок
+			enemy_units.append(Unit.create(enemy_node.name, enemy_node, false))
+			print("Added enemy to battle: %s" % enemy_node.name)
 
-	# 3. Отключаем предыдущее соединение, если оно было (на всякий случай)
-	if battle_started_connection and battle_started_connection.is_valid():
-		battle_manager.disconnect("battle_started", battle_started_connection)
+	# 3. Подключаемся к сигналу battle_started с однократным вызовом
+	# Теперь проверка будет актуальной, так как враги взяты из сцены
+	battle_manager.battle_started.connect(_on_battle_properly_started, CONNECT_ONE_SHOT)
 
-	# 4. Подключаемся к сигналу battle_started с однократным вызовом
-	battle_started_connection = _on_battle_properly_started
-	battle_manager.battle_started.connect(battle_started_connection, CONNECT_ONE_SHOT)
-
-	# 5. Передаём ТИПИЗИРОВАННЫЕ массивы
+	# 4. Передаём ТИПИЗИРОВАННЫЕ массивы
 	battle_manager.start_battle(player_units, enemy_units)
 	
 
 
 func _on_battle_properly_started():
 	# Проверяем, остались ли живые враги сразу после подготовки боя
-	# Мы знаем, что врагов не было, но проверим общий статус боя
-	# BattleManager сам должен был проверить это в check_battle_end, но если он этого не сделал,
-	# и текущий юнит - игрок, а других юнитов нет, то бой можно считать выигранным.
-	# Однако, если battle_manager правильно работает, и отправил сигнал battle_finished
-	# из-за отсутствия врагов, то эта функция не выполнится, или выполнится до окончания боя.
-	# Самый надёжный способ - это довериться check_battle_end в BattleManager.
-	# Но если по какой-то причине check_battle_end не срабатывает до первого хода игрока,
-	# и врагов изначально не было, то на момент этого сигнала юниты уже созданы.
-	# Мы можем проверить массив юнитов в battle_manager.
-	# Предположим, у battle_manager есть публичное поле units.
-	# Это не очень безопасно, но в данном случае возможно.
+	# Теперь враги берутся из сцены
 	var alive_players = 0
 	var alive_enemies = 0
 	for unit in battle_manager.units:
@@ -113,7 +102,7 @@ func _on_battle_properly_started():
 			alive_enemies += 1
 
 	if alive_enemies == 0 and alive_players > 0:
-		print("No enemies were present at the start of the battle! Battle won automatically.")
+		print("All enemies are dead or absent at the start of the battle! Battle won automatically.")
 		# BattleManager должен был вызвать end_battle и emit_signal("battle_finished"),
 		# если его check_battle_end работает правильно. Если нет - вызываем здесь.
 		# Проверим, закончен ли бой на случай, если check_battle_end не сработал.
@@ -290,16 +279,13 @@ func _on_battle_finished():
 	move_mode = false
 	attack_mode = false
 
-	# Удаляем всех врагов (теперь это всегда пустой цикл)
-	for e in enemies:
-		if e.is_inside_tree():
-			e.queue_free()
-	enemies.clear()
+	# Больше не удаляем врагов из списка, так как они на сцене
+	# for e in enemies:
+	# 	if e.is_inside_tree():
+	# 		e.queue_free()
+	# enemies.clear()
 
-	# ВАЖНО: Отключаем соединение battle_started при завершении боя
-	if battle_manager and battle_started_connection and battle_started_connection.is_valid():
-		battle_manager.disconnect("battle_started", battle_started_connection)
-		# battle_started_connection = null # Можно обнулить, хотя CONNECT_ONE_SHOT уже должен был удалить его
+	# CONNECT_ONE_SHOT уже отключил battle_started, делать это не нужно.
 
 
 func _is_grid_occupied(grid_pos: Vector2i) -> bool:
@@ -327,10 +313,24 @@ func _update_action_buttons_text():
 	attack_button_text.set_text("(%d)" % (player.max_attacks_per_turn-player.attacks_used))
 
 func _is_walkable(grid_pos: Vector2i) -> bool:
-	if tilemap.get_cell_source_id(Constants.WALLS_LAYER, grid_pos) != -1:
-		return false
+	# Получаем узлы слоёв
+	var ground_layer = tilemap.get_node("Ground") as TileMapLayer
+	var walls_layer = tilemap.get_node("Walls") as TileMapLayer
+	var arch_layer = tilemap.get_node("Arch") as TileMapLayer
 
-	# Проверка юнитов
+	# Проверяем, существует ли узел слоя и есть ли на нём тайл
+	# 1. Проверяем, есть ли тайл на слое Ground (z_index = 0). Если нет, клетка непроходима.
+	if ground_layer and ground_layer.get_cell_source_id(grid_pos) == -1:
+		return false # Нет основного тайла — нельзя ходить
+
+	# 2. Проверяем, есть ли тайл на слоях с z_index > 0 (Walls и Arch)
+	# Если у узла слоя z_index > 0 и на нём есть тайл, клетка непроходима.
+	if walls_layer and walls_layer.z_index > 0 and walls_layer.get_cell_source_id(grid_pos) != -1:
+		return false # Есть тайл на слое с z_index > 0 (Walls) — нельзя ходить
+	if arch_layer and arch_layer.z_index > 0 and arch_layer.get_cell_source_id(grid_pos) != -1:
+		return false # Есть тайл на слое с z_index > 0 (Arch) — нельзя ходить
+
+	# 3. Проверка юнитов (игроков, других врагов)
 	if _is_grid_occupied(grid_pos):
 		return false
 
