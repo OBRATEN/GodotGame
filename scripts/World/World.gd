@@ -15,11 +15,13 @@ extends Node2D
 @onready var move_range_indicator = $MoveRangeIndicator
 
 
-var enemies: Array[Node2D] = []
+var enemies: Array[Node2D] = [] # Теперь всегда будет пустым
 var move_mode: bool = false
 var attack_mode: bool = false
 var is_player_turn: bool = false
 var is_in_battle: bool = false
+# Добавим переменную для хранения соединения
+var battle_started_connection: Callable
 
 
 func _ready():
@@ -28,6 +30,7 @@ func _ready():
 	attack_button.pressed.connect(_on_AttackButton_pressed)  # ← подключение
 	end_turn_button.pressed.connect(_on_EndTurnButton_pressed)
 	battle_manager.player_turn_started.connect(_on_player_turn)
+	# Убрали подключение к enemy_turn_started, т.к. проверка теперь в другом месте
 	battle_manager.battle_finished.connect(_on_battle_finished)
 	_set_battle_ui_visible(false)
 
@@ -59,45 +62,64 @@ func _create_move_indicator_tile(grid_pos: Vector2i):
 	move_range_indicator.add_child(indicator)
 
 func _on_start_battle_pressed():
-	# Очистка старых врагов
+	# Очищаем список врагов (хотя он теперь всегда пуст)
 	for e in enemies:
 		e.queue_free()
 	enemies.clear()
 
-	# 1. Создаём и добавляем врагов НА СЦЕНУ (чтобы _ready() вызвался и health = 10)
-	var EnemyScene = preload("res://scenes/Enemy.tscn")
-	var enemy1 = EnemyScene.instantiate()
-	enemy1.name = "Goblin1"
-	add_child(enemy1)
-	enemy1.set_grid_position(Vector2i(5, 5))
-	enemy1.set_target(player)
-	enemy1.add_to_group("enemies")
-
-	var enemy2 = EnemyScene.instantiate()
-	enemy2.name = "Goblin2"
-	add_child(enemy2)
-	enemy2.set_grid_position(Vector2i(6, 4))
-	enemy2.set_target(player)
-	enemy2.add_to_group("enemies")
-	print("enemy1 = %s" % str(enemy1))
-	print("enemy2 = %s" % str(enemy2))
-	print("Same object? %s" % str(enemy1 == enemy2))
-
-	enemies = [enemy1, enemy2]
+	# Враги больше не создаются здесь
 
 	is_in_battle = true # <--- Добавьте эту строку
 
-	# 2. ЯВНО объявляем массивы как Array[Unit] — это ключ к решению ошибки!
+	# 1. ЯВНО объявляем массивы как Array[Unit] — это ключ к решению ошибки!
 	var player_units: Array[Unit] = []
 	player_units.append(Unit.create("Hero", player, true))
 
+	# 2. Массив врагов теперь всегда пуст
 	var enemy_units: Array[Unit] = []
-	for e in enemies:
-		enemy_units.append(Unit.create(e.name, e, false))
 
-	# 3. Передаём ТИПИЗИРОВАННЫЕ массивы
+	# 3. Отключаем предыдущее соединение, если оно было (на всякий случай)
+	if battle_started_connection and battle_started_connection.is_valid():
+		battle_manager.disconnect("battle_started", battle_started_connection)
+
+	# 4. Подключаемся к сигналу battle_started с однократным вызовом
+	battle_started_connection = _on_battle_properly_started
+	battle_manager.battle_started.connect(battle_started_connection, CONNECT_ONE_SHOT)
+
+	# 5. Передаём ТИПИЗИРОВАННЫЕ массивы
 	battle_manager.start_battle(player_units, enemy_units)
 	
+
+
+func _on_battle_properly_started():
+	# Проверяем, остались ли живые враги сразу после подготовки боя
+	# Мы знаем, что врагов не было, но проверим общий статус боя
+	# BattleManager сам должен был проверить это в check_battle_end, но если он этого не сделал,
+	# и текущий юнит - игрок, а других юнитов нет, то бой можно считать выигранным.
+	# Однако, если battle_manager правильно работает, и отправил сигнал battle_finished
+	# из-за отсутствия врагов, то эта функция не выполнится, или выполнится до окончания боя.
+	# Самый надёжный способ - это довериться check_battle_end в BattleManager.
+	# Но если по какой-то причине check_battle_end не срабатывает до первого хода игрока,
+	# и врагов изначально не было, то на момент этого сигнала юниты уже созданы.
+	# Мы можем проверить массив юнитов в battle_manager.
+	# Предположим, у battle_manager есть публичное поле units.
+	# Это не очень безопасно, но в данном случае возможно.
+	var alive_players = 0
+	var alive_enemies = 0
+	for unit in battle_manager.units:
+		if unit.is_player and battle_manager._is_unit_alive(unit):
+			alive_players += 1
+		elif not unit.is_player and battle_manager._is_unit_alive(unit):
+			alive_enemies += 1
+
+	if alive_enemies == 0 and alive_players > 0:
+		print("No enemies were present at the start of the battle! Battle won automatically.")
+		# BattleManager должен был вызвать end_battle и emit_signal("battle_finished"),
+		# если его check_battle_end работает правильно. Если нет - вызываем здесь.
+		# Проверим, закончен ли бой на случай, если check_battle_end не сработал.
+		if not battle_manager.battle_ended:
+			battle_manager.end_battle()
+
 
 func _on_player_turn(unit: Unit):
 	is_player_turn = true
@@ -108,6 +130,7 @@ func _on_player_turn(unit: Unit):
 		_update_action_buttons_text()  # ← обновляем UI
 	
 	print("Your turn!")
+
 
 func _on_MoveButton_pressed():
 	if !is_player_turn: return
@@ -267,11 +290,17 @@ func _on_battle_finished():
 	move_mode = false
 	attack_mode = false
 
-	# Удаляем всех врагов и, возможно, игрока (если мёртв)
+	# Удаляем всех врагов (теперь это всегда пустой цикл)
 	for e in enemies:
 		if e.is_inside_tree():
 			e.queue_free()
 	enemies.clear()
+
+	# ВАЖНО: Отключаем соединение battle_started при завершении боя
+	if battle_manager and battle_started_connection and battle_started_connection.is_valid():
+		battle_manager.disconnect("battle_started", battle_started_connection)
+		# battle_started_connection = null # Можно обнулить, хотя CONNECT_ONE_SHOT уже должен был удалить его
+
 
 func _is_grid_occupied(grid_pos: Vector2i) -> bool:
 	var bm = get_tree().get_first_node_in_group("battle_manager")
