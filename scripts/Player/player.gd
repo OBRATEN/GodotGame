@@ -28,6 +28,7 @@ func _ready():
 	sheet.weapon = Weapon.new("1d8")  # меч
 	sheet.max_hit_points = 12
 	sheet.current_hit_points = 12
+	add_to_group("player")
 	
 	reset_turn()
 
