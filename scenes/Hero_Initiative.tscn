@@ -27,10 +27,12 @@ horizontal_alignment = 1
 layout_mode = 2
 texture = ExtResource("1_c68ro")
 
-[node name="MainCharacterHealth" type="TextureProgressBar" parent="InitiativeHoarder"]
+[node name="MainCharacterHealth" type="ProgressBar" parent="InitiativeHoarder"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+show_percentage = false
 
-[node name="MainCharacterInitiative" type="TextureProgressBar" parent="InitiativeHoarder"]
+[node name="MainCharacterInitiative" type="ProgressBar" parent="InitiativeHoarder"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+show_percentage = false

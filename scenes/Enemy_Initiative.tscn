@@ -27,10 +27,16 @@ horizontal_alignment = 1
 layout_mode = 2
 texture = ExtResource("1_m4ms8")
 
-[node name="Enemy1Health" type="TextureProgressBar" parent="InitiativeHoarder2"]
+[node name="Enemy1Health" type="ProgressBar" parent="InitiativeHoarder2"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
+show_percentage = false
 
-[node name="Enemy1Initiative" type="TextureProgressBar" parent="InitiativeHoarder2"]
-custom_minimum_size = Vector2(0, 10)
+[node name="Enemy1Initiative" type="ProgressBar" parent="InitiativeHoarder2"]
+custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
+max_value = 20.0
+step = 1.0
+rounded = true
+allow_greater = true
+show_percentage = false
