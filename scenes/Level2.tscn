@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://cu30ffw1r3nwr"]
+[gd_scene load_steps=22 format=4 uid="uid://cu30ffw1r3nwr"]
 
 [ext_resource type="Script" uid="uid://dtpmnn0q7d4og" path="res://scripts/World/World.gd" id="1_khw7m"]
 [ext_resource type="PackedScene" uid="uid://ebmbf13wet8x" path="res://scenes/UiHud.tscn" id="2_wd6ad"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bfnhi17ocl71s" path="res://scripts/UI/grid_drawer.gd" id="11_h35wg"]
 [ext_resource type="PackedScene" uid="uid://b0xqrrtf1a585" path="res://scenes/Player.tscn" id="12_2hnyg"]
 [ext_resource type="PackedScene" uid="uid://ck7l86dk12uum" path="res://scenes/NPC.tscn" id="13_i5l08"]
+[ext_resource type="PackedScene" uid="uid://blygxo6d3aoub" path="res://scenes/Enemy.tscn" id="14_wd6ad"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2ouud"]
 texture = ExtResource("5_2jdof")
@@ -2227,3 +2228,21 @@ position = Vector2(460, 163)
 
 [node name="Npc" parent="." instance=ExtResource("13_i5l08")]
 position = Vector2(252, 124)
+
+[node name="Enemy" parent="." instance=ExtResource("14_wd6ad")]
+position = Vector2(288, -152)
+
+[node name="Enemy2" parent="." instance=ExtResource("14_wd6ad")]
+position = Vector2(352, -112)
+
+[node name="Enemy3" parent="." instance=ExtResource("14_wd6ad")]
+position = Vector2(163, 3)
+
+[node name="Enemy4" parent="." instance=ExtResource("14_wd6ad")]
+position = Vector2(-13, 3)
+
+[node name="Enemy5" parent="." instance=ExtResource("14_wd6ad")]
+position = Vector2(67, -45)
+
+[node name="Enemy6" parent="." instance=ExtResource("14_wd6ad")]
+position = Vector2(-213, -277)
