@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ebmbf13wet8x"]
+[gd_scene load_steps=9 format=3 uid="uid://ebmbf13wet8x"]
 
 [ext_resource type="Texture2D" uid="uid://ck5dsgmkm8vl6" path="res://assets/WarriorTemplate.png" id="1_r7ym7"]
 [ext_resource type="Script" uid="uid://41xo02tf43eg" path="res://scripts/UI/pause_menu.gd" id="3_mvrqn"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/inventory.gd" id="5_u2uko"]
 [ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="7_kb0kk"]
 [ext_resource type="PackedScene" uid="uid://d32ebi403sl04" path="res://scenes/DiceRoller.tscn" id="7_u2uko"]
+[ext_resource type="PackedScene" uid="uid://ch8gg125c4o5e" path="res://scenes/chest.tscn" id="8_kb0kk"]
 
 [node name="UiHud" type="CanvasLayer"]
 
@@ -17,6 +18,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Chest" parent="HUD" instance=ExtResource("8_kb0kk")]
+layout_mode = 1
 
 [node name="InitiativeFolder" type="FoldableContainer" parent="HUD"]
 layout_mode = 0
