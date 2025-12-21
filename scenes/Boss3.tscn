@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqojoj6eqw6gq"]
+
+[ext_resource type="Script" uid="uid://b7mye6bjr2x6j" path="res://scripts/Enemy/enemy.gd" id="1_blg0o"]
+[ext_resource type="Texture2D" uid="uid://c8f40s8j2utlj" path="res://assets/andromalius-57x88.png" id="2_blg0o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l1kvo"]
+
+[node name="Boss1" type="Node2D"]
+z_index = 2
+position = Vector2(3, 3)
+script = ExtResource("1_blg0o")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-3, -3)
+scale = Vector2(8, 8)
+shape = SubResource("CircleShape2D_l1kvo")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-3, -3)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_blg0o")
+flip_h = true
+region_enabled = true
+region_rect = Rect2(0, 0, 56, 88)
