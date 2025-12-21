@@ -11,8 +11,12 @@ extends Node2D
 @onready var move_button = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder11/AbilityButton11
 @onready var move_button_text = $UiHud/HUD/CharacterFolder/CharacterBorder/CharacterOrder/AbilitiesHoarder/AbilitiesOrder2/AbilityBorder11/AbilityText11
 
+@onready var history = $UiHud/HUD/HistoryFolder/HistoryBorder/HistoryTabs
+@onready var useful_history = $UiHud/HUD/HistoryFolder/HistoryBorder/HistoryTabs/UsefulHistory
+@onready var debug_history = $UiHud/HUD/HistoryFolder/HistoryBorder/HistoryTabs/DebugHistory
 
 @onready var move_range_indicator = $MoveRangeIndicator
+
 
 
 # var enemies: Array[Node2D] = [] # Больше не нужно, если враги уже на сцене
@@ -82,10 +86,10 @@ func _on_start_battle_pressed():
 			var current_world_pos = enemy_node.position
 			var calculated_grid_pos = _world_to_grid(current_world_pos)
 			enemy_node.set_grid_position(calculated_grid_pos)
-			print("DEBUG: Set grid position (%s) for enemy %s based on world pos (%s)" % [calculated_grid_pos, enemy_node.name, current_world_pos])
+			history.log(debug_history, str("DEBUG: Set grid position (%s) for enemy %s based on world pos (%s)" % [calculated_grid_pos, enemy_node.name, current_world_pos]))
 
 			enemy_units.append(Unit.create(enemy_node.name, enemy_node, false))
-			print("Added enemy to battle: %s" % enemy_node.name)
+			history.log(debug_history, str("Added enemy to battle: %s" % enemy_node.name))
 
 	# 3. Подключаемся к сигналу battle_started с однократным вызовом
 	# Теперь проверка будет актуальной, так как враги взяты из сцены
@@ -108,7 +112,7 @@ func _on_battle_properly_started():
 			alive_enemies += 1
 
 	if alive_enemies == 0 and alive_players > 0:
-		print("All enemies are dead or absent at the start of the battle! Battle won automatically.")
+		history.log(useful_history, "All enemies are dead or absent at the start of the battle! Battle won automatically.")
 		# BattleManager должен был вызвать end_battle и emit_signal("battle_finished"),
 		# если его check_battle_end работает правильно. Если нет - вызываем здесь.
 		# Проверим, закончен ли бой на случай, если check_battle_end не сработал.
@@ -124,35 +128,35 @@ func _on_player_turn(unit: Unit):
 		player.reset_turn()
 		_update_action_buttons_text()  # ← обновляем UI
 	
-	print("Your turn!")
+	history.log(useful_history, "Your turn!")
 
 
 func _on_MoveButton_pressed():
 	if !is_player_turn: return
 	if player.remaining_move <= 0:
-		print("No movement left!")
+		history.log(debug_history, "No movement left!")
 		return
 	move_mode = true
 	move_button.disabled = true
 	_show_move_range()  # ← показываем зону
-	print("Move mode: click on map.")
+	history.log(debug_history, "Move mode: click on map.")
 
 func _on_AttackButton_pressed():
 	if !is_player_turn:
 		return
 	if !player.can_attack():
-		print("No attacks remaining!")
+		history.log(debug_history, "No attacks remaining!")
 		return
 	attack_mode = true
 	attack_button.disabled = true
-	print("Attack mode: click on an enemy.")
+	history.log(debug_history, "Attack mode: click on an enemy.")
 
 func _on_EndTurnButton_pressed():
 	if !is_player_turn: return
 	if player.is_moving:
-		print("Wait until movement finishes!")
+		history.log(debug_history, "Wait until movement finishes!")
 		return
-	print("Player ends turn.")
+	history.log(useful_history, "Player ends turn.")
 	_end_player_turn()
 
 func _end_player_turn():
@@ -195,7 +199,7 @@ func _input(event):
 				# Предположим, у вашего Player.gd есть метод start_move_to
 				player.start_move_to(new_pos) 
 			else:
-				print("Cannot move to ", new_pos, " - not walkable.")
+				history.log(debug_history, str("Cannot move to ", new_pos, " - not walkable."))
 	# --- КОНЕЦ НОВОГО БЛОКА ---
 
 	# --- СУЩЕСТВУЮЩИЙ КОД (обработка кликов мыши) ---
@@ -203,7 +207,7 @@ func _input(event):
 		# НОВАЯ СТРОКА: Выводим grid_pos для текущего клика
 		var world_pos = get_global_mouse_position()
 		var clicked_grid_pos = _world_to_grid(world_pos)
-		print("Clicked at world position: ", world_pos, " -> grid position: ", clicked_grid_pos)
+		history.log(debug_history, str("Clicked at world position: ", world_pos, " -> grid position: ", clicked_grid_pos))
 
 		if move_mode:
 			_handle_move_input(event)
@@ -217,18 +221,18 @@ func _handle_move_input(event):
 	var player_grid = player.get_grid_position()
 
 	if target_grid == player_grid:
-		print("Already there!")
+		history.log(debug_history, "Already there!")
 	else:
 		var distance = player_grid.distance_to(target_grid)
 
 		if distance > player.remaining_move:
-			print("Not enough movement! Remaining: %d" % player.remaining_move)
+			history.log(debug_history, str("Not enough movement! Remaining: %d" % player.remaining_move))
 		elif !_is_walkable(target_grid):  # ← заменил _is_grid_occupied на _is_walkable
-			print("Cell %s is blocked by wall or occupied!" % target_grid)
+			history.log(debug_history, str("Cell %s is blocked by wall or occupied!" % target_grid))
 		else:
 			player.remaining_move -= distance
 			player.start_move_to(target_grid)
-			print("Moving to %s. Remaining move: %d" % [target_grid, player.remaining_move])
+			history.log(debug_history, str("Moving to %s. Remaining move: %d" % [target_grid, player.remaining_move]))
 
 	_update_action_buttons_text()
 	move_mode = false
@@ -237,7 +241,7 @@ func _handle_move_input(event):
 	
 func _handle_attack_input(event):
 	if !player.can_attack():
-		print("No attacks left!")
+		history.log(debug_history, "No attacks left!")
 		attack_mode = false
 		attack_button.disabled = false
 		return
@@ -254,9 +258,9 @@ func _handle_attack_input(event):
 			player.attack_target(clicked_enemy)
 			_update_action_buttons_text()
 		else:
-			print("Target is too far to attack! (Range: 1)")
+			history.log(debug_history, "Target is too far to attack! (Range: 1)")
 	else:
-		print("No enemy selected.")
+		history.log(debug_history, "No enemy selected.")
 
 	attack_mode = false
 	attack_button.disabled = false
@@ -284,7 +288,7 @@ func _set_battle_ui_visible(visible: bool):     # ← показываем/ск�
 	end_turn_button.visible = visible
 	
 func _on_battle_finished():
-	print("Battle finished! Returning to overworld.")
+	history.log(useful_history, "Battle finished! Returning to overworld.")
 	
 	is_in_battle = false # <--- Добавьте эту строку
 

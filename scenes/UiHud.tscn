@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ebmbf13wet8x"]
+[gd_scene load_steps=8 format=3 uid="uid://ebmbf13wet8x"]
 
 [ext_resource type="Texture2D" uid="uid://ck5dsgmkm8vl6" path="res://assets/WarriorTemplate.png" id="1_r7ym7"]
 [ext_resource type="Script" uid="uid://41xo02tf43eg" path="res://scripts/UI/pause_menu.gd" id="3_mvrqn"]
+[ext_resource type="Script" uid="uid://dck7g45he1kdx" path="res://scripts/UI/History.gd" id="4_u2uko"]
 [ext_resource type="Texture2D" uid="uid://cosbw631xa6ts" path="res://assets/Counterspell.webp" id="5_hb8s7"]
 [ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/inventory.gd" id="5_u2uko"]
 [ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="7_kb0kk"]
@@ -593,11 +594,24 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="History" type="RichTextLabel" parent="HUD/HistoryFolder/HistoryBorder"]
+[node name="HistoryTabs" type="TabContainer" parent="HUD/HistoryFolder/HistoryBorder"]
+layout_mode = 2
+current_tab = 0
+script = ExtResource("4_u2uko")
+
+[node name="UsefulHistory" type="RichTextLabel" parent="HUD/HistoryFolder/HistoryBorder/HistoryTabs"]
 custom_minimum_size = Vector2(400, 256)
 layout_mode = 2
 text = "Герой спустился в подземелье чтобы отыскать злощастный артефакт. Вход завалило камнями, оставив его нового напарника не у дел. Придётся искать другой выход."
 scroll_following = true
+metadata/_tab_index = 0
+
+[node name="DebugHistory" type="RichTextLabel" parent="HUD/HistoryFolder/HistoryBorder/HistoryTabs"]
+visible = false
+custom_minimum_size = Vector2(400, 256)
+layout_mode = 2
+scroll_following = true
+metadata/_tab_index = 1
 
 [node name="Inventory" type="PanelContainer" parent="HUD" node_paths=PackedStringArray("inventory")]
 visible = false
