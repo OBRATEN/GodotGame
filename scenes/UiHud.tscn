@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://ciatrwlft047e" path="res://scripts/UI/inventory.gd" id="5_u2uko"]
 [ext_resource type="Theme" uid="uid://symfwfpc80ko" path="res://Theme.tres" id="7_kb0kk"]
 [ext_resource type="PackedScene" uid="uid://d32ebi403sl04" path="res://scenes/DiceRoller.tscn" id="7_u2uko"]
-[ext_resource type="PackedScene" uid="uid://ch8gg125c4o5e" path="res://scenes/chest.tscn" id="8_kb0kk"]
+[ext_resource type="PackedScene" uid="uid://ch8gg125c4o5e" path="res://scenes/Chest_UI.tscn" id="8_kb0kk"]
 
 [node name="UiHud" type="CanvasLayer"]
 
@@ -20,6 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Chest" parent="HUD" instance=ExtResource("8_kb0kk")]
+visible = false
 layout_mode = 1
 
 [node name="InitiativeFolder" type="FoldableContainer" parent="HUD"]
