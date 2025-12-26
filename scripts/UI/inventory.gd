@@ -1,68 +1,12 @@
 extends PanelContainer
 
-# --- НОВОЕ: Добавлены переменные для инвентаря ---
-# Максимальное количество предметов в инвентаре (можно изменить)
-@export var max_slots: int = 10
-
-# Список предметов в инвентаре
-var items: Array[Item] = []
-
-# Сигнал, который испускается при изменении инвентаря
-signal inventory_changed
-
-# --- КОНЕЦ НОВОГО ---
-
 @export var inventory: PanelContainer
 
 # Ссылка на ItemList (поиск через get_node_or_null)
-@onready var item_list = $Border/Separator/Inventory/VBoxContainer/PanelContainer/ScrollContainer/ItemList
+@onready var item_list = get_node_or_null("Border/Separator/Items/SeparatorItemsLabel/ScrollItems/PanelItems/SeparatorItems/ItemList")
 
-# --- ОСНОВНЫЕ ФУНКЦИИ ИНВЕНТАРЯ ---
-
-# Добавляет предмет в инвентарь
-func add_item(item: Item) -> bool:
-	if items.size() >= max_slots:
-		print("Инвентарь полон!")
-		return false
-	
-	items.append(item)
-	inventory_changed.emit()
-	print("Добавлен предмет: %s" % item.name)
-	
-	# Обновляем отображение предметов в UI
-	_update_item_list()
-	
-	return true
-
-# Удаляет предмет из инвентаря по индексу
-func remove_item(index: int) -> bool:
-	if index < 0 or index >= items.size():
-		print("Неверный индекс предмета.")
-		return false
-	
-	items.remove_at(index)
-	inventory_changed.emit()
-	
-	# Обновляем отображение предметов в UI
-	_update_item_list()
-	
-	return true
-
-# Получает предмет по индексу
-func get_item(index: int) -> Item:
-	if index < 0 or index >= items.size():
-		return null
-	return items[index]
-
-# Возвращает количество предметов в инвентаре
-func get_item_count() -> int:
-	return items.size()
-
-# Проверяет, есть ли место в инвентаре
-func has_space() -> bool:
-	return items.size() < max_slots
-
-# --- ФУНКЦИИ УПРАВЛЕНИЯ ВИДИМОСТЬЮ ---
+# Ссылка на глобальный инвентарь
+@onready var global_inventory = get_node("/root/GlobalInventory")
 
 func close_inventory():
 	toggle_visibility(inventory)
@@ -90,8 +34,6 @@ func _on_main_character_pressed():
 
 func _process(delta):
 	e()
-
-# --- ФУНКЦИИ ОБНОВЛЕНИЯ СТАТОВ ---
 
 func update_stats_labels():
 	var player = get_tree().get_first_node_in_group("player")
@@ -132,23 +74,20 @@ func update_stats_labels():
 	for item in stats:
 		var path = item[0]
 		var value = item[1]
-		# Добавлена проверка на существование узла
 		var node = get_node_or_null(base + "/" + path)
 		if node:
 			node.text = str(value)
 		else:
 			print("Ошибка: Не найден узел для стата: " + base + "/" + path)
 
-# --- НОВОЕ: Функция для обновления списка предметов в ItemList ---
+# --- ФУНКЦИЯ ОБНОВЛЕНИЯ СПИСКА ПРЕДМЕТОВ ---
 func _update_item_list():
 	if not is_instance_valid(item_list):
 		print("Ошибка: ItemList не найден или недействителен. Попробуйте найти его вручную.")
-		# Попробуем найти первый ItemList в дочерних узлах
 		var found_list = find_item_list_recursive(self)
 		if found_list:
 			item_list = found_list
 			print("Успешно найден ItemList: ", item_list.get_path())
-			# Повторяем обновление
 			_update_item_list()
 		else:
 			print("Не удалось найти ItemList ни в одном месте.")
@@ -157,48 +96,42 @@ func _update_item_list():
 	# Очищаем старые элементы
 	item_list.clear()
 	
-	# Добавляем каждый предмет в список
-	for item in items:
+	# Добавляем каждый предмет из *глобального* инвентаря в список
+	for item in global_inventory.items:
 		var icon = load(item.icon_path) if item.icon_path else null
 		var text = item.name
-		# Добавляем предмет в список
 		item_list.add_item(text, icon)
 	
-	# --- НОВОЕ: Подключаем сигнал item_selected ---
-	item_list.item_selected.disconnect(_on_item_selected) # Отключаем, чтобы не дублировать
+	# Подключаем сигнал item_selected
+	item_list.item_selected.disconnect(_on_item_selected)
 	item_list.item_selected.connect(_on_item_selected)
-	# ---
 
-# --- НОВАЯ ФУНКЦИЯ: Обработка клика по предмету ---
+# --- ФУНКЦИЯ ОБРАБОТКИ КЛИКА ПО ПРЕДМЕТУ ---
 func _on_item_selected(index: int):
-	if index < 0 or index >= items.size():
+	if index < 0 or index >= global_inventory.items.size():
 		return
 	
-	var selected_item = items[index]
+	var selected_item = global_inventory.items[index]
 	
-	# Проверяем имя предмета и выполняем действие
 	if selected_item.name == "Зелье лечения":
 		use_healing_potion()
-		# Удаляем использованный предмет
-		remove_item(index)
+		# Удаляем использованный предмет из *глобального* инвентаря
+		global_inventory.remove_item(index)
 		print("Использовано зелье лечения.")
 	else:
 		print("Предмет '%s' не может быть использован." % selected_item.name)
 
-# --- НОВАЯ ФУНКЦИЯ: Использование зелья лечения ---
+# --- ФУНКЦИЯ ИСПОЛЬЗОВАНИЯ ЗЕЛЬЯ ---
 func use_healing_potion():
 	var player = get_tree().get_first_node_in_group("player")
 	if not player:
 		print("Ошибка: Не найден игрок в группе 'player'.")
 		return
 
-	# Восстанавливаем 8 здоровья (или можно сделать бросок костей)
 	var heal_amount = 8
-	# player.health += heal_amount # Прямое изменение health
-	player.sheet.current_hit_points = min(player.sheet.max_hit_points, player.sheet.current_hit_points + heal_amount) # Обновляем через CharacterSheet
-	player.health = player.sheet.current_hit_points # Синхронизируем старую переменную health
+	player.sheet.current_hit_points = min(player.sheet.max_hit_points, player.sheet.current_hit_points + heal_amount)
+	player.health = player.sheet.current_hit_points
 	
-	# Опционально: отправить сигнал о смене здоровья
 	if player.has_signal("health_changed"):
 		player.emit_signal("health_changed", player.health, player.max_health)
 	
@@ -219,8 +152,12 @@ func find_item_list_recursive(node: Node):
 				return result
 	return null
 
-# --- НОВОЕ: Добавление в группу при готовности ---
-func _ready():
-	add_to_group("player_inventory")
-	# Обновляем список предметов при запуске
-	_update_item_list()
+# --- НЕТ НУЖДЫ В _ready() ДЛЯ ДОБАВЛЕНИЯ В ГРУППУ ---
+# func _ready():
+# 	# AutoLoad узел не нуждается в ручном добавлении в группы для поиска через /root/
+# 	# global_inventory уже доступен как /root/GlobalInventory
+# 	_update_item_list() # Вызовем здесь, чтобы обновить при открытии UI
+# 	# Подписка на сигнал изменений инвентаря (опционально, если UI должен реагировать на внешние изменения)
+# 	# global_inventory.inventory_changed.connect(_update_item_list)
+# ```
+# ---

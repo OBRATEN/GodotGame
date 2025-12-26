@@ -22,6 +22,7 @@ boot_splash/minimum_display_time=3000
 [autoload]
 
 UiManager="*res://UIManager.gd"
+GlobalInventory="*res://scripts/Player/GlobalInventory.gd"
 
 [display]
 

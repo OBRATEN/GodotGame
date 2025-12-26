@@ -1,8 +1,12 @@
+
 extends Control
 
 # Ссылки на узлы UI
 @onready var item_list = $ChestBackground/ChestBorder/ChestOrder/ItemList
 @onready var close_button = $ChestBackground/ChestBorder/ChestOrder/Label/CloseButton
+
+# Ссылка на глобальный инвентарь
+@onready var global_inventory = get_node("/root/GlobalInventory")
 
 # Список предметов в сундуке
 var chest_items: Array[Item] = []
@@ -44,7 +48,6 @@ func _update_item_list():
 	for item in chest_items:
 		var icon = load(item.icon_path) if item.icon_path else null
 		var text = item.name
-		# Можно добавить описание в tooltip, если нужно
 		item_list.add_item(text, icon)
 
 # Обработчик выбора предмета в ItemList
@@ -54,19 +57,13 @@ func _on_item_selected(index: int):
 	
 	var selected_item = chest_items[index]
 	
-	# Находим UI инвентаря игрока через группу
-	var player_inventory_ui = get_tree().get_first_node_in_group("player_inventory")
-	if not player_inventory_ui:
-		print("UI инвентаря игрока не найден в группе 'player_inventory'!")
-		return
-	
-	# Проверяем, есть ли место, вызывая метод у UI инвентаря
-	if not player_inventory_ui.has_space():
+	# Проверяем, есть ли у игрока место в инвентаре через *глобальный* инвентарь
+	if not global_inventory.has_space():
 		print("Инвентарь игрока полон!")
 		return
 	
-	# Перемещаем предмет из сундука в инвентарь, вызывая метод у UI инвентаря
-	if player_inventory_ui.add_item(selected_item):
+	# Перемещаем предмет из сундука в *глобальный* инвентарь
+	if global_inventory.add_item(selected_item):
 		# Удаляем предмет из сундука
 		chest_items.remove_at(index)
 		# Обновляем отображение
@@ -75,12 +72,4 @@ func _on_item_selected(index: int):
 
 # Обработчик нажатия кнопки закрытия
 func _on_close_button_pressed():
-	# Просто скрываем сундук (или уничтожаем его, если нужно)
 	hide()
-	# Можно вызвать сигнал или функцию, чтобы сообщить другим частям игры, что сундук закрыт
-	# emit_signal("chest_closed")
-
-# --- ПРИМЕР: Открытие сундука из другого места ---
-# func open_chest():
-# 	show()
-# 	_update_item_list()
