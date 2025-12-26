@@ -1,6 +1,10 @@
 # Player.gd
 extends CharacterBody2D
 
+# --- НОВОЕ: Сигнал об изменении здоровья ---
+signal health_changed(current_health: int, max_health: int)
+# ---
+
 var grid_position: Vector2i = Vector2i.ZERO
 var target_grid_position: Vector2i = Vector2i.ZERO
 
@@ -25,8 +29,6 @@ func _ready():
 	target_grid_position = grid_position
 	set_grid_position(grid_position)
 
-	# Настройка листа п
-	
 	# Настройка листа персонажа
 	sheet.strength = 16      # +3
 	sheet.dexterity = 14     # +2
@@ -36,6 +38,9 @@ func _ready():
 	sheet.weapon = Weapon.new("1d8")  # меч
 	sheet.max_hit_points = 12
 	sheet.current_hit_points = 12
+	# Синхронизируем max_health с CharacterSheet
+	max_health = sheet.max_hit_points
+	health = sheet.current_hit_points
 	add_to_group("player")
 	
 	reset_turn()
@@ -120,6 +125,9 @@ func take_damage(dmg: int):
 	sheet.take_damage(dmg)
 	print("Player takes %d damage! HP: %d" % [dmg, sheet.current_hit_points])
 	health = sheet.current_hit_points
+	# --- НОВОЕ: Испускаем сигнал об изменении здоровья ---
+	emit_signal("health_changed", health, max_health)
+	# ---
 	if health <= 0:
 		_die()
 

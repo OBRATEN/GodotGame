@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://cj5bpu86v8mdm"]
+[gd_scene load_steps=24 format=4 uid="uid://cj5bpu86v8mdm"]
 
 [ext_resource type="Script" uid="uid://dtpmnn0q7d4og" path="res://scripts/World/World.gd" id="1_svatc"]
 [ext_resource type="PackedScene" uid="uid://ebmbf13wet8x" path="res://scenes/UiHud.tscn" id="2_ecr63"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://ck7l86dk12uum" path="res://scenes/NPC.tscn" id="13_2meft"]
 [ext_resource type="PackedScene" uid="uid://cgunaw243ktfh" path="res://scenes/SceneChanger.tscn" id="14_0xqs2"]
 [ext_resource type="PackedScene" uid="uid://cu30ffw1r3nwr" path="res://scenes/Level2.tscn" id="15_ipmer"]
+[ext_resource type="PackedScene" uid="uid://ccattf224s351" path="res://scenes/chest.tscn" id="16_av1gt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2ouud"]
 texture = ExtResource("5_2meft")
@@ -2234,3 +2235,6 @@ position = Vector2(252, 124)
 z_index = 1
 position = Vector2(352, 112)
 target_scene = ExtResource("15_ipmer")
+
+[node name="Chest" parent="." instance=ExtResource("16_av1gt")]
+position = Vector2(248, 80)

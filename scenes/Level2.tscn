@@ -2259,3 +2259,6 @@ position = Vector2(304, 112)
 [node name="SceneChanger" parent="." instance=ExtResource("17_rfxww")]
 position = Vector2(-287, -193)
 target_scene = ExtResource("18_2ax8h")
+
+[node name="Chest3" parent="." instance=ExtResource("16_k83s3")]
+position = Vector2(16, -48)

@@ -24,12 +24,38 @@ func _subscribe_to_unit_health_change(unit: Unit):
 # НОВАЯ ФУНКЦИЯ: Обработчик сигнала здоровья
 func _on_actor_health_changed(current_health: int, max_health: int, unit: Unit):
 	print("BattleManager: Received health change signal for %s: %d/%d" % [unit.name, current_health, max_health])
+	
+	# --- НОВОЕ: Обновляем ProgressBar здоровья игрока ---
+	if unit.is_player:
+		_update_player_health_bar(current_health, max_health)
+	# ---
+	
 	# Обновляем UI инициативы, где отображается здоровье
 	update_initiative_ui()
 	
 	# Проверяем, не умер ли юнит
 	if current_health <= 0:
 		_remove_dead_unit(unit)
+
+# --- НОВАЯ ФУНКЦИЯ: Обновление ProgressBar здоровья игрока ---
+func _update_player_health_bar(current_health: int, max_health: int):
+	var ui_hud = get_tree().root.find_child("UiHud", true, false)
+	if !ui_hud:
+		print("UiHud not found, skipping player health bar update.")
+		return
+
+	# Предполагаем, что ProgressBar находится по пути HUD/PlayerHealthBar
+	# Измените путь, если он у вас другой
+	var player_health_bar = ui_hud.get_node_or_null("HUD/PlayerHealthBar")
+	if !player_health_bar or not player_health_bar is ProgressBar:
+		print("PlayerHealthBar not found or is not a ProgressBar, skipping update.")
+		return
+
+	# Обновляем значения ProgressBar
+	player_health_bar.max_value = max_health
+	player_health_bar.value = current_health
+	print("BattleManager: Updated Player Health Bar to %d/%d" % [current_health, max_health])
+# ---
 
 # --- ИЗМЕНЕНО: start_battle теперь асинхронная ---
 func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
