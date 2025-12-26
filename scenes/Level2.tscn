@@ -2227,7 +2227,7 @@ script = ExtResource("11_h35wg")
 [node name="Player" parent="." instance=ExtResource("12_2hnyg")]
 top_level = true
 visibility_layer = 15
-position = Vector2(152, 176)
+position = Vector2(224, 176)
 
 [node name="Npc" parent="." instance=ExtResource("13_i5l08")]
 position = Vector2(72, 232)
@@ -2252,6 +2252,9 @@ position = Vector2(-304, -312)
 
 [node name="Chest" parent="." instance=ExtResource("16_k83s3")]
 position = Vector2(-121, -311)
+
+[node name="Chest2" parent="." instance=ExtResource("16_k83s3")]
+position = Vector2(304, 112)
 
 [node name="SceneChanger" parent="." instance=ExtResource("17_rfxww")]
 position = Vector2(-287, -193)

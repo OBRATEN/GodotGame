@@ -26,8 +26,10 @@ func _on_actor_health_changed(current_health: int, max_health: int, unit: Unit):
 	print("BattleManager: Received health change signal for %s: %d/%d" % [unit.name, current_health, max_health])
 	# Обновляем UI инициативы, где отображается здоровье
 	update_initiative_ui()
-	# Опционально: можно также проверить, не закончился ли бой
-	check_battle_end()
+	
+	# Проверяем, не умер ли юнит
+	if current_health <= 0:
+		_remove_dead_unit(unit)
 
 # --- ИЗМЕНЕНО: start_battle теперь асинхронная ---
 func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
@@ -55,8 +57,6 @@ func start_battle(player_units: Array[Unit], enemy_units: Array[Unit]):
 	emit_signal("battle_started") # <-- Добавить эту строку ПОСЛЕ update_initiative_ui()
 
 	start_next_turn()
-# BattleManager.gd
-# ... (все предыдущие переменные и функции) ...
 
 func update_initiative_ui():
 	var ui_hud = get_tree().root.find_child("UiHud", true, false)
@@ -110,8 +110,6 @@ func update_initiative_ui():
 				instance.max_health = unit.actor.max_health
 		initiative_order.add_child(instance)
 
-# ...
-
 func print_turn_order():
 	for i in units.size():
 		print("  %d. %s (Initiative: %d)" % [i + 1, units[i].name, units[i].initiative])
@@ -135,8 +133,29 @@ func next_turn():
 	if battle_ended:
 		return
 
-	current_turn_index += 1
+	# --- ИЗМЕНЕНО: Обновляем current_turn_index после проверки смерти ---
+	# Если юнит умер и был удалён, current_turn_index может указывать не на того юнита
+	# Поэтому сначала проверяем, жив ли текущий юнит
 	if current_turn_index >= units.size():
+		# Индекс вышел за пределы после удаления юнита, сбросим на 0
+		current_turn_index = 0
+	else:
+		var current_unit = units[current_turn_index]
+		if !_is_unit_alive(current_unit):
+			# Если текущий юнит мёртв, пропускаем его
+			print("  %s is dead, skipping turn." % current_unit.name)
+			# Удаляем мёртвого юнита из списка
+			_remove_dead_unit(current_unit)
+			# current_turn_index остаётся тем же, но указывает на следующего юнита в списке
+			# Если после удаления индекс стал >= units.size(), сбросим на 0
+			if current_turn_index >= units.size():
+				current_turn_index = 0
+		else:
+			# Если жив, переходим к следующему
+			current_turn_index += 1
+
+	# Проверяем, не нужно ли перейти к следующему раунду
+	if current_turn_index >= units.size() and !units.is_empty():
 		current_turn_index = 0
 		round += 1
 		print("\n=== Round %d ===" % round)
@@ -149,7 +168,7 @@ func next_turn():
 			update_initiative_ui()
 			# ---
 
-	if not battle_ended:
+	if not battle_ended and !units.is_empty():
 		await start_next_turn()
 
 func end_battle():
@@ -161,11 +180,11 @@ func end_battle():
 	emit_signal("battle_finished") # <-- Оставить эту строку
 	
 func check_battle_end():
+	# Эта функция теперь вызывается после удаления юнитов, так что units уже обновлён
 	print("🔍 Checking battle end...")
 	var alive_units = []
-	for u in units:
+	for u in units: # Проверяем только оставшихся в списке юнитов
 		var alive = _is_unit_alive(u)
-		# Просто читаем health — он есть у всех боевых актёров
 		var hp = "N/A"
 		if u.actor and !u.actor.is_queued_for_deletion():
 			hp = str(u.actor.health)
@@ -195,6 +214,27 @@ func _is_unit_alive(unit: Unit) -> bool:
 		return false
 	# Не проверяем is_queued_for_deletion — мы не удаляем сразу
 	return unit.actor.health > 0
+
+# --- НОВАЯ ФУНКЦИЯ: Удаляет мёртвого юнита из списка и сцены ---
+func _remove_dead_unit(unit: Unit):
+	if units.has(unit):
+		units.erase(unit)
+		# Опционально: удалить визуальный узел актёра с карты, если он есть
+		if unit.actor and !unit.actor.is_queued_for_deletion():
+			# Проверяем, есть ли у актёра родитель (например, на карте)
+			if unit.actor.get_parent():
+				unit.actor.get_parent().remove_child(unit.actor)
+			unit.actor.queue_free()
+		print("BattleManager: Removed dead unit %s from battle." % unit.name)
+		# Обновляем UI, так как юнит ушёл
+		update_initiative_ui()
+		# Обновляем индекс текущего хода, если он превышает новый размер списка
+		if current_turn_index >= units.size() and !units.is_empty():
+			current_turn_index = 0
+		# Проверяем конец боя, так как юнит ушёл
+		check_battle_end()
+	else:
+		print("BattleManager: Attempted to remove unit %s, but it was not in the battle list." % unit.name)
 
 # --- ИЗМЕНЕНАЯ ФУНКЦИЯ: Асинхронный бросок инициативы для всех юнитов ---
 func _roll_initiative_for_all_units():
