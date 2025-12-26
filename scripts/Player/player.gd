@@ -17,7 +17,15 @@ var remaining_move: int = 6
 var sheet: CharacterSheet = CharacterSheet.new()
 
 func _ready():
-	set_grid_position(Vector2i(2, 2))
+	var initial_world_pos = position
+	grid_position = Vector2i(
+		floor((initial_world_pos.x - Constants.CELL_SIZE / 2) / Constants.CELL_SIZE + 0.5),
+		floor((initial_world_pos.y - Constants.CELL_SIZE / 2) / Constants.CELL_SIZE + 0.5)
+	)
+	target_grid_position = grid_position
+	set_grid_position(grid_position)
+
+	# Настройка листа п
 	
 	# Настройка листа персонажа
 	sheet.strength = 16      # +3

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://cu30ffw1r3nwr"]
+[gd_scene load_steps=26 format=4 uid="uid://cu30ffw1r3nwr"]
 
 [ext_resource type="Script" uid="uid://dtpmnn0q7d4og" path="res://scripts/World/World.gd" id="1_khw7m"]
 [ext_resource type="PackedScene" uid="uid://ebmbf13wet8x" path="res://scenes/UiHud.tscn" id="2_wd6ad"]
@@ -15,7 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://ck7l86dk12uum" path="res://scenes/NPC.tscn" id="13_i5l08"]
 [ext_resource type="PackedScene" uid="uid://blygxo6d3aoub" path="res://scenes/Enemy.tscn" id="14_wd6ad"]
 [ext_resource type="PackedScene" uid="uid://bdvt7dhfhbgsg" path="res://scenes/Boss1.tscn" id="15_cd1f0"]
-[ext_resource type="PackedScene" uid="uid://ccattf224s351" path="res://scenes/Chest.tscn" id="16_k83s3"]
+[ext_resource type="PackedScene" uid="uid://ccattf224s351" path="res://scenes/chest.tscn" id="16_k83s3"]
+[ext_resource type="PackedScene" uid="uid://cgunaw243ktfh" path="res://scenes/SceneChanger.tscn" id="17_rfxww"]
+[ext_resource type="PackedScene" uid="uid://dak77bbv7b6wr" path="res://scenes/Level3.tscn" id="18_2ax8h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2ouud"]
 texture = ExtResource("5_2jdof")
@@ -2250,3 +2252,7 @@ position = Vector2(-304, -312)
 
 [node name="Chest" parent="." instance=ExtResource("16_k83s3")]
 position = Vector2(-121, -311)
+
+[node name="SceneChanger" parent="." instance=ExtResource("17_rfxww")]
+position = Vector2(-287, -193)
+target_scene = ExtResource("18_2ax8h")
