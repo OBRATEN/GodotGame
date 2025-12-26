@@ -2,7 +2,7 @@ extends Node2D
 
 @export var target_scene: PackedScene
 
-@onready var click_area = $Area2D # Имя дочернего узла Area2D
+@onready var click_area = $Area2D 
 
 func _ready():
 	set_process_input(true)
@@ -23,12 +23,9 @@ func is_point_in_area(point: Vector2) -> bool:
 	query.position = point
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
-	# Исключаем саму Area2D из проверки, если нужно (редко требуется для point query)
-	# query.exclude = [click_area]
 
 	var results = space_state.intersect_point(query)
 	for obj in results:
-		# Проверяем, совпадает ли объект, с которым произошло пересечение, с нашей Area2D
 		if obj.collider == click_area:
 			return true
 	return false

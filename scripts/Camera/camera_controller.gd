@@ -14,20 +14,16 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _input(event):
-	# === Зум колесом мыши ===
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			_apply_zoom(-zoom_speed)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			_apply_zoom(zoom_speed)
 
-	# === Зум жестом тачпада / сенсорного экрана ===
 	if event is InputEventMagnifyGesture:
-		# event.factor > 1 — увеличение, < 1 — уменьшение
-		var zoom_amount = (event.factor - 1.0) * 0.5  # регулируем чувствительность
+		var zoom_amount = (event.factor - 1.0) * 0.5 
 		_apply_zoom(zoom_amount)
 
-	# === Начало перетаскивания ===
 	if event is InputEventMouseButton and event.button_index == drag_button:
 		if event.pressed:
 			is_dragging = true
@@ -36,7 +32,6 @@ func _input(event):
 		else:
 			is_dragging = false
 
-	# === Перетаскивание камеры ===
 	if event is InputEventMouseMotion and is_dragging:
 		var mouse_pos = get_global_mouse_position()
 		var delta = mouse_pos - drag_start

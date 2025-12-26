@@ -2,10 +2,8 @@ extends PanelContainer
 
 @export var inventory: PanelContainer
 
-# Ссылка на ItemList (поиск через get_node_or_null)
 @onready var item_list = get_node_or_null("Border/Separator/Items/SeparatorItemsLabel/ScrollItems/PanelItems/SeparatorItems/ItemList")
 
-# Ссылка на глобальный инвентарь
 @onready var global_inventory = get_node("/root/GlobalInventory")
 
 func close_inventory():
@@ -13,7 +11,6 @@ func close_inventory():
 
 func open_inventory():
 	update_stats_labels()
-	# Обновляем список предметов при открытии
 	_update_item_list()
 	toggle_visibility(inventory)
 
@@ -80,7 +77,6 @@ func update_stats_labels():
 		else:
 			print("Ошибка: Не найден узел для стата: " + base + "/" + path)
 
-# --- ФУНКЦИЯ ОБНОВЛЕНИЯ СПИСКА ПРЕДМЕТОВ ---
 func _update_item_list():
 	if not is_instance_valid(item_list):
 		print("Ошибка: ItemList не найден или недействителен. Попробуйте найти его вручную.")
@@ -93,20 +89,16 @@ func _update_item_list():
 			print("Не удалось найти ItemList ни в одном месте.")
 		return
 	
-	# Очищаем старые элементы
 	item_list.clear()
 	
-	# Добавляем каждый предмет из *глобального* инвентаря в список
 	for item in global_inventory.items:
 		var icon = load(item.icon_path) if item.icon_path else null
 		var text = item.name
 		item_list.add_item(text, icon)
 	
-	# Подключаем сигнал item_selected
 	item_list.item_selected.disconnect(_on_item_selected)
 	item_list.item_selected.connect(_on_item_selected)
 
-# --- ФУНКЦИЯ ОБРАБОТКИ КЛИКА ПО ПРЕДМЕТУ ---
 func _on_item_selected(index: int):
 	if index < 0 or index >= global_inventory.items.size():
 		return
@@ -115,13 +107,11 @@ func _on_item_selected(index: int):
 	
 	if selected_item.name == "Зелье лечения":
 		use_healing_potion()
-		# Удаляем использованный предмет из *глобального* инвентаря
 		global_inventory.remove_item(index)
 		print("Использовано зелье лечения.")
 	else:
 		print("Предмет '%s' не может быть использован." % selected_item.name)
 
-# --- ФУНКЦИЯ ИСПОЛЬЗОВАНИЯ ЗЕЛЬЯ ---
 func use_healing_potion():
 	var player = get_tree().get_first_node_in_group("player")
 	if not player:
@@ -141,7 +131,6 @@ func use_healing_potion():
 		player.sheet.max_hit_points
 	])
 
-# --- ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: Поиск ItemList рекурсивно ---
 func find_item_list_recursive(node: Node):
 	for child in node.get_children():
 		if child is ItemList:
@@ -151,13 +140,3 @@ func find_item_list_recursive(node: Node):
 			if result:
 				return result
 	return null
-
-# --- НЕТ НУЖДЫ В _ready() ДЛЯ ДОБАВЛЕНИЯ В ГРУППУ ---
-# func _ready():
-# 	# AutoLoad узел не нуждается в ручном добавлении в группы для поиска через /root/
-# 	# global_inventory уже доступен как /root/GlobalInventory
-# 	_update_item_list() # Вызовем здесь, чтобы обновить при открытии UI
-# 	# Подписка на сигнал изменений инвентаря (опционально, если UI должен реагировать на внешние изменения)
-# 	# global_inventory.inventory_changed.connect(_update_item_list)
-# ```
-# ---

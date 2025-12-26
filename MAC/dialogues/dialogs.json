@@ -1,0 +1,90 @@
+{
+  "start_conversation": {
+	"text": "Здравствуй, странник. Вижу, ты не боишься опасностей. Есть одно дело...",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [
+	  "Что за дело?",
+	  "Не сейчас, прощай.",
+      "Да, рассказывай."
+	],
+	"next_ids": [
+	  "explain_mission",
+	  "goodbye",
+      "explain_mission"
+	]
+  },
+  "explain_mission": {
+	"text": "Под городом есть забытое подземелье. Говорят, там спрятаны сокровища древней цивилизации. Но никто не возвращался оттуда живым...",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [
+	  "Я рискну.",
+	  "Это слишком опасно.",
+      "А что ты получишь за это?"
+	],
+	"next_ids": [
+	  "prepare_for_descent",
+	  "decline_quest",
+      "reward_info"
+	]
+  },
+  "prepare_for_descent": {
+	"text": "Отлично! Возьми это зелье — оно поможет тебе выжить. Спускайся через люк в старом квартале. Удачи!",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [
+	  "Спасибо. До встречи.",
+      "Есть советы?"
+	],
+	"next_ids": [
+	  "quest_accepted_end",
+      "give_tips"
+	]
+  },
+  "give_tips": {
+	"text": "Будь осторожен — там полно ловушек и теней. Лучше иди медленно и не спеши.",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [
+	  "Понял. Ухожу.",
+      "Еще вопросы."
+	],
+	"next_ids": [
+	  "quest_accepted_end",
+      "explain_mission"
+	]
+  },
+  "goodbye": {
+	"text": "Как хочешь. Но если передумаешь — я буду ждать здесь.",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [],
+	"next_ids": []
+  },
+  "decline_quest": {
+	"text": "Жаль. Ты не первый, кто отказывается. Но, может, однажды ты передумаешь.",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [
+	  "Передумал всё-таки.",
+      "Прощай."
+	],
+	"next_ids": [
+	  "explain_mission",
+      "goodbye"
+	]
+  },
+  "reward_info": {
+	"text": "Я не могу платить золотом, но если ты принесёшь артефакт из подземелья — я помогу тебе раскрыть его силу.",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [
+	  "Ладно, я согласен.",
+      "Это не то, что мне нужно."
+	],
+	"next_ids": [
+	  "prepare_for_descent",
+      "decline_quest"
+	]
+  },
+  "quest_accepted_end": {
+	"text": "Тогда иди. Люк находится прямо под этим камнем.",
+	"npc_portrait": "res://assets/WarriorTemplate.png",
+	"options": [],
+	"next_ids": []
+  }
+}

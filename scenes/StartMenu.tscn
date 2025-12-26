@@ -111,6 +111,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("3_0d5ky")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -145,7 +146,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_qtu10")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ee4bf")
 theme_override_styles/hover = SubResource("StyleBoxFlat_kbped")
 text = "Начать игру"
-script = ExtResource("3_0d5ky")
 
 [node name="LoadGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -155,7 +155,7 @@ theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_62e2m")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fj5cn")
 theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_iy58a")
-text = "Загрузить игру"
+text = "Генерация"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -177,4 +177,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_eh0v1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_am1vj")
 text = "Выход"
 
-[connection signal="button_down" from="VBoxContainer/NewGameButton" to="VBoxContainer/NewGameButton" method="_on_button_down"]
+[connection signal="button_down" from="VBoxContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
+[connection signal="button_down" from="VBoxContainer/LoadGameButton" to="." method="_on_LoadGameButton_pressed"]
+[connection signal="button_down" from="VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]

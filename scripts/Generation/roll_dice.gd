@@ -1,7 +1,7 @@
 # DiceRoller.gd
 extends Control
 
-signal dice_rolled(result) # <-- Новый сигнал
+signal dice_rolled(result)
 
 const MIN_IMPULSE = 1000
 const MAX_IMPULSE = 1500
@@ -14,7 +14,7 @@ const SIMULATION_TIME = 2.0
 @onready var visual_dice = $Panel/DiceArea/DiceRigidBody/VisualDice
 
 var is_simulating = false
-var pending_callback: Callable # Для хранения обратного вызова
+var pending_callback: Callable 
 
 func _ready():
 	if !dice_area or !dice_rigid_body or !visual_dice:
@@ -31,11 +31,9 @@ func init_dice():
 	dice_rigid_body.global_position = dice_area.global_position + dice_area.size / 2
 	dice_rigid_body.hide()
 
-# DiceRoller.gd
-# ... (остальной код как есть) ...
 
 func roll_dice_visual_async(dice_sides: int, callback: Callable):
-	print("DiceRoller: Received request to roll D%d" % dice_sides) # <-- Добавлено для отладки
+	print("DiceRoller: Received request to roll D%d" % dice_sides)
 	if is_simulating:
 		print("DiceRoller is already simulating. Skipping roll.")
 		callback.call(randi() % dice_sides + 1)
@@ -43,8 +41,7 @@ func roll_dice_visual_async(dice_sides: int, callback: Callable):
 
 	pending_callback = callback
 
-	# Устанавливаем тип кости ДО показа
-	print("DiceRoller: Setting visual dice type to D%d" % dice_sides) # <-- Добавлено для отладки
+	print("DiceRoller: Setting visual dice type to D%d" % dice_sides) 
 	visual_dice.dice_type_sides = dice_sides
 	visual_dice.queue_redraw()
 
@@ -67,7 +64,7 @@ func roll_dice_visual_async(dice_sides: int, callback: Callable):
 	await get_tree().create_timer(SIMULATION_TIME).timeout
 
 	var result = randi() % dice_sides + 1
-	print("DiceRoller: Simulation finished. Result: %d" % result) # <-- Добавлено для отладки
+	print("DiceRoller: Simulation finished. Result: %d" % result)
 	visual_dice.update_visual(result, dice_sides)
 
 	is_simulating = false

@@ -1,6 +1,11 @@
+# dungeon_generator.gd
 extends Node2D
 
 @onready var tilemap = $TileMap
+
+# Предположим, что у вас есть пути к сценам Enemy и Player
+@export var enemy_scene: PackedScene
+@export var player_scene: PackedScene
 
 const FLOOR_TILE_SOURCE_ID = 0
 const FLOOR_TILE_ATLAS_COORDS = Vector2i(1, 6)
@@ -58,6 +63,12 @@ func generate_dungeon(seed = randi()):
 	entrance_room = null
 	tilemap.clear()
 
+	# Удаляем старых врагов/игрока, если они есть
+	for child in get_children():
+		if child.name.begins_with("Enemy") or child.name.begins_with("Player"):
+			remove_child(child)
+			child.queue_free()
+
 	for i in range(MAX_ROOMS):
 		var room = _make_room()
 		if i == 0 or not _has_overlap_with_gap(room, MIN_ROOM_GAP):
@@ -78,16 +89,206 @@ func generate_dungeon(seed = randi()):
 
 	var virtual_map = _create_virtual_map()
 	_print_virtual_map(virtual_map)
-	_apply_virtual_map_to_tilemap(virtual_map)
 
+	# --- Вычисляем смещения для виртуальной карты ---
+	var min_x = 9999; var max_x = -9999
+	var min_y = 9999; var max_y = -9999
+	for room in rooms:
+		var r_min_x = room.position.x - 1
+		var r_max_x = room.position.x + room.size.x
+		var r_min_y = room.position.y - 3
+		var r_max_y = room.position.y + room.size.y
+		min_x = min(min_x, r_min_x)
+		max_x = max(max_x, r_max_x)
+		min_y = min(min_y, r_min_y)
+		max_y = max(max_y, r_max_y)
+
+	# --- Применяем виртуальную карту к TileMap ---
+	_apply_virtual_map_to_tilemap(virtual_map, min_x, min_y)
+
+	# --- Устанавливаем позицию TileMap ---
 	if rooms.size() > 0:
 		tilemap.position = -Vector2(rooms[0].position.x * 16, rooms[0].position.y * 16)
+
+	# --- НОВОЕ: Размещение игрока и врагов ---
+	_spawn_player(min_x, min_y, virtual_map)
+	_spawn_enemies(min_x, min_y, virtual_map)
 
 	print("Dungeon generated with ", rooms.size(), " rooms.")
 	if entrance_room:
 		print("Entrance at: ", entrance_room.position)
 	if boss_room:
 		print("Boss room at: ", boss_room.position)
+
+# --- Вставьте этот код вместо старых _spawn_player и _spawn_enemies ---
+
+func _spawn_player(min_x, min_y, virtual_map):
+	if player_scene and entrance_room:
+		var player_instance = player_scene.instantiate()
+		player_instance.name = "Player"
+
+		# Найдем центр входной комнаты в логических координатах
+		var center_pos = entrance_room.position + entrance_room.size / 2
+		var world_center = Vector2i(center_pos.x, center_pos.y)
+
+		# Начинаем с центра комнаты и ищем ближайшую позицию пола в виртуальной карте
+		var spawn_pos = _find_closest_floor_position(world_center, min_x, min_y, virtual_map)
+
+		if spawn_pos != Vector2i(-1, -1):
+			# Позиция spawn_pos - это позиция в системе координат TileMap
+			# Но нам нужно учесть смещение TileMap
+			var tilemap_offset = -Vector2(rooms[0].position.x * 16, rooms[0].position.y * 16)
+			var final_position = Vector2(spawn_pos.x * 16, spawn_pos.y * 16) + tilemap_offset
+			player_instance.position = final_position
+			add_child(player_instance)
+			print("Player spawned at: ", player_instance.position)
+		else:
+			print("Warning: Could not find a valid floor position for Player in entrance room.")
+			# На всякий случай, добавляем в центр, даже если там не пол
+			var tilemap_offset = -Vector2(rooms[0].position.x * 16, rooms[0].position.y * 16)
+			var final_position = Vector2(world_center.x * 16, world_center.y * 16) + tilemap_offset
+			player_instance.position = final_position
+			add_child(player_instance)
+
+func _spawn_enemies(min_x, min_y, virtual_map):
+	if not enemy_scene:
+		print("No enemy scene assigned, skipping enemy spawning.")
+		return
+
+	for i in range(rooms.size()):
+		var room = rooms[i]
+		# Не спавним врагов в комнате с игроком
+		if room == entrance_room:
+			continue
+
+		# Спавним случайное количество врагов (например, 1-3)
+		var num_enemies = randi_range(1, 3)
+		for j in range(num_enemies):
+			var enemy_instance = enemy_scene.instantiate()
+			enemy_instance.name = "Enemy_" + str(i) + "_" + str(j)
+
+			# Выбираем случайную позицию внутри комнаты в логических координатах
+			var room_min_x = room.position.x
+			var room_max_x = room.position.x + room.size.x - 1
+			var room_min_y = room.position.y
+			var room_max_y = room.position.y + room.size.y - 1
+
+			var attempts = 0
+			var spawn_pos = Vector2i(-1, -1)
+			var local_pos = Vector2i(-1, -1)
+
+			# Пытаемся найти случайную позицию пола внутри комнаты
+			# используя виртуальную карту
+			while attempts < 50: # Ограничение попыток, чтобы не застрять
+				local_pos = Vector2i(
+					randi_range(room_min_x, room_max_x),
+					randi_range(room_min_y, room_max_y)
+				)
+				var map_x = local_pos.x - min_x
+				var map_y = local_pos.y - min_y
+
+				if map_x >= 0 and map_x < virtual_map[0].size() and map_y >= 0 and map_y < virtual_map.size():
+					if virtual_map[map_y][map_x]["type"] == CellType.FLOOR:
+						spawn_pos = local_pos
+						break
+				attempts += 1
+
+			if spawn_pos != Vector2i(-1, -1):
+				# Позиция spawn_pos - это позиция в системе координат TileMap
+				# Учитываем смещение TileMap
+				var tilemap_offset = -Vector2(rooms[0].position.x * 16, rooms[0].position.y * 16)
+				var final_position = Vector2(spawn_pos.x * 16, spawn_pos.y * 16) + tilemap_offset
+				enemy_instance.position = final_position
+				add_child(enemy_instance)
+				print("Enemy spawned at: ", enemy_instance.position)
+			else:
+				print("Warning: Could not find a valid floor position for Enemy in room %d, using fallback." % i)
+				# На всякий случай, добавляем в центр комнаты, даже если там не пол
+				var center_pos = room.position + room.size / 2
+				var tilemap_offset = -Vector2(rooms[0].position.x * 16, rooms[0].position.y * 16)
+				var final_position = Vector2(center_pos.x * 16, center_pos.y * 16) + tilemap_offset
+				enemy_instance.position = final_position
+				add_child(enemy_instance)
+
+# --- Вспомогательная функция для поиска ближайшей позиции пола ---
+func _find_closest_floor_position(start_world_pos, min_x, min_y, virtual_map):
+	var start_map_x = start_world_pos.x - min_x
+	var start_map_y = start_world_pos.y - min_y
+
+	# Проверяем, вдруг стартовая позиция уже на полу
+	if start_map_x >= 0 and start_map_x < virtual_map[0].size() and \
+	   start_map_y >= 0 and start_map_y < virtual_map.size() and \
+	   virtual_map[start_map_y][start_map_x]["type"] == CellType.FLOOR:
+		return start_world_pos
+
+	# Поиск в ширину (BFS) от стартовой позиции
+	var queue = [start_world_pos]
+	var visited = {}
+	visited[str(start_world_pos)] = true
+
+	var directions = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]
+
+	while queue.size() > 0:
+		var current_pos = queue.pop_front()
+		var current_map_x = current_pos.x - min_x
+		var current_map_y = current_pos.y - min_y
+
+		if current_map_x >= 0 and current_map_x < virtual_map[0].size() and \
+		   current_map_y >= 0 and current_map_y < virtual_map.size():
+			if virtual_map[current_map_y][current_map_x]["type"] == CellType.FLOOR:
+				return current_pos
+		else:
+			# Позиция за пределами виртуальной карты, пропускаем
+			continue
+
+		for dir in directions:
+			var neighbor_pos = current_pos + dir
+			var neighbor_key = str(neighbor_pos)
+			if not visited.has(neighbor_key):
+				visited[neighbor_key] = true
+				queue.push_back(neighbor_pos)
+	return Vector2i(-1, -1) # Не найдено
+
+
+# --- Обновляем _apply_virtual_map_to_tilemap, чтобы принимать смещения ---
+func _apply_virtual_map_to_tilemap(map_data, min_x, min_y):
+	for y in range(map_data.size()):
+		for x in range(map_data[y].size()):
+			var world_x = x + min_x
+			var world_y = y + min_y
+			var cell_type = map_data[y][x]["type"]
+			var wall_role = map_data[y][x]["wall_role"]
+
+			if cell_type == CellType.FLOOR:
+				tilemap.set_cell(GROUND_LAYER_ID, Vector2i(world_x, world_y), FLOOR_TILE_SOURCE_ID, FLOOR_TILE_ATLAS_COORDS, FLOOR_TILE_ALT_ID)
+			else:
+				tilemap.set_cell(GROUND_LAYER_ID, Vector2i(world_x, world_y), -1, Vector2i(0, 0), 0)
+				
+				var wall_atlas_coords = Vector2i(1, 1)
+				match wall_role:
+					WallRole.LEFT:
+						wall_atlas_coords = LEFT_WALL
+					WallRole.RIGHT:
+						wall_atlas_coords = RIGHT_WALL
+					WallRole.BOTTOM:
+						wall_atlas_coords = BOTTOM_WALL
+					WallRole.TOP_BOTTOM:
+						wall_atlas_coords = TOP_WALL_BOTTOM
+					WallRole.TOP_MID:
+						wall_atlas_coords = TOP_WALL_MID
+					WallRole.TOP_TOP:
+						wall_atlas_coords = TOP_WALL_TOP
+					WallRole.CORNER_TOP_LEFT:
+						wall_atlas_coords = TOP_TO_LEFT_TOP
+					WallRole.CORNER_TOP_RIGHT:
+						wall_atlas_coords = TOP_TO_RIGHT_TOP
+					WallRole.CORNER_BOTTOM_LEFT:
+						wall_atlas_coords = BOTTOM_TO_LEFT
+					WallRole.CORNER_BOTTOM_RIGHT:
+						wall_atlas_coords = BOTTOM_TO_RIGHT
+
+				tilemap.set_cell(WALLS_LAYER_ID, Vector2i(world_x, world_y), 0, wall_atlas_coords, 0)
+
 
 func global_to_local(gx, gy, offset_x, offset_y):
 	return Vector2i(gx - offset_x, gy - offset_y)
@@ -235,58 +436,6 @@ func _print_virtual_map(map_data):
 					line += "? "
 		output += line + "\n"
 	print(output)
-
-func _apply_virtual_map_to_tilemap(map_data):
-	var min_x = 9999; var max_x = -9999
-	var min_y = 9999; var max_y = -9999
-
-	for room in rooms:
-		var r_min_x = room.position.x - 1
-		var r_max_x = room.position.x + room.size.x
-		var r_min_y = room.position.y - 3
-		var r_max_y = room.position.y + room.size.y
-
-		min_x = min(min_x, r_min_x)
-		max_x = max(max_x, r_max_x)
-		min_y = min(min_y, r_min_y)
-		max_y = max(max_y, r_max_y)
-
-	for y in range(map_data.size()):
-		for x in range(map_data[y].size()):
-			var world_x = x + min_x
-			var world_y = y + min_y
-			var cell_type = map_data[y][x]["type"]
-			var wall_role = map_data[y][x]["wall_role"]
-
-			if cell_type == CellType.FLOOR:
-				tilemap.set_cell(GROUND_LAYER_ID, Vector2i(world_x, world_y), FLOOR_TILE_SOURCE_ID, FLOOR_TILE_ATLAS_COORDS, FLOOR_TILE_ALT_ID)
-			else:
-				tilemap.set_cell(GROUND_LAYER_ID, Vector2i(world_x, world_y), -1, Vector2i(0, 0), 0)
-				
-				var wall_atlas_coords = Vector2i(1, 1)
-				match wall_role:
-					WallRole.LEFT:
-						wall_atlas_coords = LEFT_WALL
-					WallRole.RIGHT:
-						wall_atlas_coords = RIGHT_WALL
-					WallRole.BOTTOM:
-						wall_atlas_coords = BOTTOM_WALL
-					WallRole.TOP_BOTTOM:
-						wall_atlas_coords = TOP_WALL_BOTTOM
-					WallRole.TOP_MID:
-						wall_atlas_coords = TOP_WALL_MID
-					WallRole.TOP_TOP:
-						wall_atlas_coords = TOP_WALL_TOP
-					WallRole.CORNER_TOP_LEFT:
-						wall_atlas_coords = TOP_TO_LEFT_TOP
-					WallRole.CORNER_TOP_RIGHT:
-						wall_atlas_coords = TOP_TO_RIGHT_TOP
-					WallRole.CORNER_BOTTOM_LEFT:
-						wall_atlas_coords = BOTTOM_TO_LEFT
-					WallRole.CORNER_BOTTOM_RIGHT:
-						wall_atlas_coords = BOTTOM_TO_RIGHT
-
-				tilemap.set_cell(WALLS_LAYER_ID, Vector2i(world_x, world_y), 0, wall_atlas_coords, 0)
 
 
 func _make_room():

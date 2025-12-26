@@ -1,4 +1,3 @@
-# World.gd
 extends Node2D
 
 @onready var tilemap = $TileMap
@@ -19,7 +18,6 @@ extends Node2D
 
 
 
-# var enemies: Array[Node2D] = [] # Больше не нужно, если враги уже на сцене
 var move_mode: bool = false
 var attack_mode: bool = false
 var is_player_turn: bool = false
@@ -29,22 +27,20 @@ var is_in_battle: bool = false
 func _ready():
 	start_button.pressed.connect(_on_start_battle_pressed)
 	move_button.pressed.connect(_on_MoveButton_pressed)
-	attack_button.pressed.connect(_on_AttackButton_pressed)  # ← подключение
+	attack_button.pressed.connect(_on_AttackButton_pressed)
 	end_turn_button.pressed.connect(_on_EndTurnButton_pressed)
 	battle_manager.player_turn_started.connect(_on_player_turn)
-	# Убрали подключение к enemy_turn_started, т.к. проверка теперь в другом месте
 	battle_manager.battle_finished.connect(_on_battle_finished)
 	_set_battle_ui_visible(false)
 
 func _show_move_range():
 	_clear_children(move_range_indicator)
 	var start = player.get_grid_position()
-	var max_dist = player.move_range  # = 6
+	var max_dist = player.move_range
 
 	for dx in range(-max_dist, max_dist + 1):
 		for dy in range(-max_dist, max_dist + 1):
 			var pos = Vector2i(start.x + dx, start.y + dy)
-			# Круг: евклидово расстояние
 			if start.distance_to(pos) <= max_dist and _is_walkable(pos):
 				_create_move_indicator_tile(pos)
 
@@ -54,7 +50,7 @@ func _hide_move_range():
 func _create_move_indicator_tile(grid_pos: Vector2i):
 	var indicator = ColorRect.new()
 	indicator.name = "MoveTile_%d_%d" % [grid_pos.x, grid_pos.y]
-	indicator.color = Color(0.841, 0.948, 1.0, 0.4)  # голубоватая прозрачная заливка
+	indicator.color = Color(0.841, 0.948, 1.0, 0.4)
 	indicator.custom_minimum_size = Vector2(Constants.CELL_SIZE, Constants.CELL_SIZE)
 	indicator.position = Vector2(
 		grid_pos.x * Constants.CELL_SIZE,
@@ -64,20 +60,11 @@ func _create_move_indicator_tile(grid_pos: Vector2i):
 	move_range_indicator.add_child(indicator)
 
 func _on_start_battle_pressed():
-	# НЕ очищаем список врагов, так как они на сцене
-	# for e in enemies:
-	# 	e.queue_free()
-	# enemies.clear()
+	is_in_battle = true
 
-	# Враги НЕ создаются здесь, они уже на сцене!
-
-	is_in_battle = true # <--- Добавьте эту строку
-
-	# 1. ЯВНО объявляем массивы как Array[Unit] — это ключ к решению ошибки!
 	var player_units: Array[Unit] = []
 	player_units.append(Unit.create("Hero", player, true))
 
-	# 2. Находим врагов на сцене и создаём из них юниты
 	var enemy_nodes = get_tree().get_nodes_in_group("enemies")
 	var enemy_units: Array[Unit] = []
 
@@ -91,18 +78,13 @@ func _on_start_battle_pressed():
 			enemy_units.append(Unit.create(enemy_node.name, enemy_node, false))
 			history.log(debug_history, str("Added enemy to battle: %s" % enemy_node.name))
 
-	# 3. Подключаемся к сигналу battle_started с однократным вызовом
-	# Теперь проверка будет актуальной, так как враги взяты из сцены
 	battle_manager.battle_started.connect(_on_battle_properly_started, CONNECT_ONE_SHOT)
 
-	# 4. Передаём ТИПИЗИРОВАННЫЕ массивы
 	battle_manager.start_battle(player_units, enemy_units)
 	
 
 
 func _on_battle_properly_started():
-	# Проверяем, остались ли живые враги сразу после подготовки боя
-	# Теперь враги берутся из сцены
 	var alive_players = 0
 	var alive_enemies = 0
 	for unit in battle_manager.units:
@@ -113,9 +95,6 @@ func _on_battle_properly_started():
 
 	if alive_enemies == 0 and alive_players > 0:
 		history.log(useful_history, "All enemies are dead or absent at the start of the battle! Battle won automatically.")
-		# BattleManager должен был вызвать end_battle и emit_signal("battle_finished"),
-		# если его check_battle_end работает правильно. Если нет - вызываем здесь.
-		# Проверим, закончен ли бой на случай, если check_battle_end не сработал.
 		if not battle_manager.battle_ended:
 			battle_manager.end_battle()
 
@@ -126,7 +105,7 @@ func _on_player_turn(unit: Unit):
 	
 	if unit.actor == player:
 		player.reset_turn()
-		_update_action_buttons_text()  # ← обновляем UI
+		_update_action_buttons_text()
 	
 	history.log(useful_history, "Your turn!")
 
@@ -138,7 +117,7 @@ func _on_MoveButton_pressed():
 		return
 	move_mode = true
 	move_button.disabled = true
-	_show_move_range()  # ← показываем зону
+	_show_move_range()
 	history.log(debug_history, "Move mode: click on map.")
 
 func _on_AttackButton_pressed():
@@ -165,18 +144,14 @@ func _end_player_turn():
 	attack_mode = false
 	move_button.disabled = false
 	attack_button.disabled = false
-	_hide_move_range()  # ← добавь это
+	_hide_move_range()
 	battle_manager.next_turn()
 
 func _clear_children(node: Node):
 	for child in node.get_children():
 		child.queue_free()
 
-# --- В файл World.gd ---
-# ЗАМЕНИТЕ существующий метод _input на этот:
-
 func _input(event):
-	# --- НОВОЕ: Обработка WASD вне боя ---
 	if not is_in_battle and event is InputEventKey and event.pressed:
 		var direction := Vector2.ZERO
 		match event.keycode:
@@ -190,21 +165,16 @@ func _input(event):
 				direction.x += 1
 		
 		if direction != Vector2.ZERO:
-			direction = direction.normalized() # Нормализуем диагональные движения
+			direction = direction.normalized()
 			var current_pos = player.get_grid_position()
 			var new_pos = current_pos + Vector2i(direction.x, direction.y)
 			
-			# Проверяем, можно ли пройти в новую клетку
 			if _is_walkable(new_pos):
-				# Предположим, у вашего Player.gd есть метод start_move_to
 				player.start_move_to(new_pos) 
 			else:
 				history.log(debug_history, str("Cannot move to ", new_pos, " - not walkable."))
-	# --- КОНЕЦ НОВОГО БЛОКА ---
 
-	# --- СУЩЕСТВУЮЩИЙ КОД (обработка кликов мыши) ---
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		# НОВАЯ СТРОКА: Выводим grid_pos для текущего клика
 		var world_pos = get_global_mouse_position()
 		var clicked_grid_pos = _world_to_grid(world_pos)
 		history.log(debug_history, str("Clicked at world position: ", world_pos, " -> grid position: ", clicked_grid_pos))
@@ -213,7 +183,6 @@ func _input(event):
 			_handle_move_input(event)
 		elif attack_mode:
 			_handle_attack_input(event)
-	# --- КОНЕЦ СУЩЕСТВУЮЩЕГО КОДА ---
 	
 func _handle_move_input(event):
 	var world_pos = get_global_mouse_position()
@@ -227,7 +196,7 @@ func _handle_move_input(event):
 
 		if distance > player.remaining_move:
 			history.log(debug_history, str("Not enough movement! Remaining: %d" % player.remaining_move))
-		elif !_is_walkable(target_grid):  # ← заменил _is_grid_occupied на _is_walkable
+		elif !_is_walkable(target_grid):
 			history.log(debug_history, str("Cell %s is blocked by wall or occupied!" % target_grid))
 		else:
 			player.remaining_move -= distance
@@ -270,7 +239,6 @@ func _get_enemy_at_position(world_pos: Vector2) -> Node2D:
 	for e in enemies_in_group:
 		if e.is_queued_for_deletion():
 			continue
-		# Хитбокс = весь тайл (16x16), центрирован на e.position
 		var half = Constants.CELL_SIZE / 2.0
 		var rect = Rect2(e.position - Vector2(half, half), Vector2(Constants.CELL_SIZE, Constants.CELL_SIZE))
 		if rect.has_point(world_pos):
@@ -278,32 +246,23 @@ func _get_enemy_at_position(world_pos: Vector2) -> Node2D:
 	return null
 
 func _world_to_grid(world_pos: Vector2) -> Vector2i:
-	# Определяем клетку по мировой позиции — без смещения!
 	return Vector2i(
 		int(floor(world_pos.x / Constants.CELL_SIZE)),
 		int(floor(world_pos.y / Constants.CELL_SIZE))
 	)
 
-func _set_battle_ui_visible(visible: bool):     # ← показываем/скрываем
+func _set_battle_ui_visible(visible: bool):
 	end_turn_button.visible = visible
 	
 func _on_battle_finished():
 	history.log(useful_history, "Battle finished! Returning to overworld.")
 	
-	is_in_battle = false # <--- Добавьте эту строку
+	is_in_battle = false
 
 	_set_battle_ui_visible(false)
 	is_player_turn = false
 	move_mode = false
 	attack_mode = false
-
-	# Больше не удаляем врагов из списка, так как они на сцене
-	# for e in enemies:
-	# 	if e.is_inside_tree():
-	# 		e.queue_free()
-	# enemies.clear()
-
-	# CONNECT_ONE_SHOT уже отключил battle_started, делать это не нужно.
 
 
 func _is_grid_occupied(grid_pos: Vector2i) -> bool:
@@ -324,46 +283,29 @@ func _update_action_buttons_text():
 	if player == null:
 		return
 
-	# Обновляем текст кнопки перемещения
 	move_button_text.set_text("(%d)" % player.remaining_move)
 
-	# Обновляем текст кнопки атаки
 	attack_button_text.set_text("(%d)" % (player.max_attacks_per_turn-player.attacks_used))
 
 func _is_walkable(grid_pos: Vector2i) -> bool:
-	# Получаем узлы слоёв
 	var ground_layer = tilemap.get_node("Ground") as TileMapLayer
 	var walls_layer = tilemap.get_node("Walls") as TileMapLayer
 	var arch_layer = tilemap.get_node("Arch") as TileMapLayer
 
-	# Проверяем, существует ли узел слоя и есть ли на нём тайл
-	# 1. Проверяем, есть ли тайл на слое Ground (z_index = 0). Если нет, клетка непроходима.
 	if ground_layer and ground_layer.get_cell_source_id(grid_pos) == -1:
-		return false # Нет основного тайла — нельзя ходить
+		return false
 
-	# 2. Проверяем, есть ли тайл на слоях с z_index > 0 (Walls и Arch)
-	# Если у узла слоя z_index > 0 и на нём есть тайл, клетка непроходима.
 	if walls_layer and walls_layer.z_index > 0 and walls_layer.get_cell_source_id(grid_pos) != -1:
-		return false # Есть тайл на слое с z_index > 0 (Walls) — нельзя ходить
+		return false
 	if arch_layer and arch_layer.z_index > 0 and arch_layer.get_cell_source_id(grid_pos) != -1:
-		return false # Есть тайл на слое с z_index > 0 (Arch) — нельзя ходить
+		return false
 
-	# 3. Проверка юнитов (игроков, других врагов)
 	if _is_grid_occupied(grid_pos):
 		return false
 
 	return true
 
-# --- В файл World.gd ---
-
-# --- В файл World.gd ---
-# ЗАМЕНИТЕ существующий метод _is_tile_blocking_vision на этот:
-
-# --- В файл World.gd ---
-# ЗАМЕНИТЕ метод _is_tile_blocking_vision на этот (с отладкой):
-
 func _is_tile_blocking_vision(grid_pos: Vector2i) -> bool:
-	# Получаем узлы слоёв, которые блокируют видимость
 	var walls_layer = tilemap.get_node("Walls") as TileMapLayer
 	var arch_layer = tilemap.get_node("Arch") as TileMapLayer
 

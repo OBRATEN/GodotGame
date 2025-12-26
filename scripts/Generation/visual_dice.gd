@@ -15,14 +15,11 @@ var dice_type_sides : int = 6:
 	get:
 		return dice_type_sides
 
-# --- ДОБАВЛЕН @export ---
-@export var dice_color : Color = Color.GRAY # Или Color.DARK_GRAY, как вам больше нравится
-# ---
+@export var dice_color : Color = Color.GRAY
 @export var edge_color : Color = Color.LIGHT_GRAY
 @export var text_color : Color = Color.WHITE
 @export var font_size : int = 12
 
-# ... остальной код остается без изменений ...
 
 func _ready():
 	_displayed_value = 1

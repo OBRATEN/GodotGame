@@ -1,10 +1,8 @@
 extends CanvasLayer
 
-# Экспортируемые переменные
 @export_file("*.json") var dialogs_file: String = "res://dialogues/dialogs.json"
 @export var starting_dialog_id: String = "start_conversation"
 
-# Внутренние ссылки
 @onready var text_label = $DialogTextWindow/DialogBackground/DialogBorder/DialogSeparator/Text as RichTextLabel
 @onready var char_left_texture = $DialogTextWindow/DialogBackground/DialogBorder/DialogSeparator/CharLeft as TextureRect
 @onready var char_right_texture = $DialogTextWindow/DialogBackground/DialogBorder/DialogSeparator/CharRight as TextureRect
@@ -12,14 +10,11 @@ extends CanvasLayer
 @onready var option2_button = $DialogOptions/VBoxContainer/PanelContainer2/Option2 as Button
 @onready var option3_button = $DialogOptions/VBoxContainer/PanelContainer3/Option3 as Button
 
-# Внутренние переменные
 var dialogs_data: Dictionary = {}
 var current_dialog_id: String = ""
 
 func _ready():
-	# Загружаем все диалоги из JSON
 	load_dialogs_from_json()
-	# Начинаем с первого диалога
 	start_dialog_by_id(starting_dialog_id)
 
 func load_dialogs_from_json():
@@ -42,13 +37,11 @@ func start_dialog_by_id(dialog_id: String):
 		queue_free()
 		return
 
-	# Устанавливаем текст
 	if text_label:
 		text_label.text = dialog.get("text", "...").strip_edges()
 	else:
 		printerr("Text label node (RichTextLabel) not found!")
 
-	# Устанавливаем портрет
 	var portrait_path = dialog.get("npc_portrait", "")
 	if portrait_path != "":
 		var texture = load(portrait_path)
@@ -60,11 +53,9 @@ func start_dialog_by_id(dialog_id: String):
 		else:
 			printerr("Portrait texture not found: ", portrait_path)
 
-	# Получаем опции
 	var options = dialog.get("options", [])
 	var next_ids = dialog.get("next_ids", [])
 
-	# Если опций нет — закрываем окно
 	if options.size() == 0:
 		queue_free()
 		return
@@ -85,18 +76,16 @@ func start_dialog_by_id(dialog_id: String):
 			button.text = options[i]
 			button.visible = true
 
-			# Отключаем старые соединения
 			if button.is_connected("pressed", _on_option_selected):
 				button.disconnect("pressed", _on_option_selected)
 
-			# Подключаем с передачей индекса
 			var idx = i
 			button.connect("pressed", Callable(self, "_on_option_selected").bind(idx))
 		else:
 			button.visible = false
 			
 func _on_option_selected(option_index: int):
-	print("Option selected: ", option_index)  # Отладка
+	print("Option selected: ", option_index)
 	var dialog = dialogs_data.get(current_dialog_id)
 	if dialog == null:
 		print("Dialog is null, closing window.")
@@ -108,7 +97,7 @@ func _on_option_selected(option_index: int):
 	if option_index < next_ids.size():
 		next_id = next_ids[option_index]
 
-	print("Next dialog ID: ", next_id)  # Отладка
+	print("Next dialog ID: ", next_id)
 
 	if next_id != "":
 		start_dialog_by_id(next_id)

@@ -1,4 +1,3 @@
-# Enemy_Initiative.gd
 extends Control
 
 @export var unit_name: String = "Skeleton"
@@ -14,18 +13,15 @@ func set_unit_data(name: String, initiative: int, current_health: int, max_hp: i
 	update_display()
 
 func update_display():
-	# Обновляем имя
 	if has_node("InitiativeHoarder2/Enemy1Name"):
 		$InitiativeHoarder2/Enemy1Name.text = unit_name
 
-	# Обновляем инициативу
 	var initiative_bar = $InitiativeHoarder2/Enemy1Initiative
 	if initiative_bar:
 		initiative_bar.visible = true
 		initiative_bar.max_value = float(20)
 		initiative_bar.value = float(initiative_value)
 
-	# Обновляем здоровье
 	var health_bar = $InitiativeHoarder2/Enemy1Health
 	if health_bar:
 		health_bar.visible = true

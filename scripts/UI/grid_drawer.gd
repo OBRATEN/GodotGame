@@ -2,7 +2,7 @@
 extends Node2D
 
 @export var cell_size: int = 16
-@export var grid_size: Vector2i = Vector2i(20, 20)  # 20x20 клеток
+@export var grid_size: Vector2i = Vector2i(20, 20)
 @export var grid_color: Color = Color(1, 1, 1, 0.3)
 
 func _draw():

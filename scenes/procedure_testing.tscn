@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bfhxjkmbae78o"]
+[gd_scene load_steps=12 format=3 uid="uid://bfhxjkmbae78o"]
 
 [ext_resource type="PackedScene" uid="uid://ebmbf13wet8x" path="res://scenes/UiHud.tscn" id="1_hutrr"]
 [ext_resource type="Script" uid="uid://dhncfx02euely" path="res://scripts/World/WorldGen.gd" id="1_rqyqg"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://b32hogxwvyxk" path="res://scripts/Generation/dungeon_generator.gd" id="5_rqyqg"]
 [ext_resource type="Script" uid="uid://bfnhi17ocl71s" path="res://scripts/UI/grid_drawer.gd" id="5_sh0uj"]
 [ext_resource type="PackedScene" uid="uid://b0xqrrtf1a585" path="res://scenes/Player.tscn" id="6_udt4e"]
+[ext_resource type="PackedScene" uid="uid://blygxo6d3aoub" path="res://scenes/Enemy.tscn" id="8_7jcgy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tookc"]
 texture = ExtResource("4_7jcgy")
@@ -187,13 +188,10 @@ script = ExtResource("5_sh0uj")
 
 [node name="MoveRangeIndicator" type="Node2D" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("6_udt4e")]
-visibility_layer = 1023
-z_index = 2
-position = Vector2(264, 136)
-
 [node name="DungeonGenerator" type="Node2D" parent="."]
 script = ExtResource("5_rqyqg")
+enemy_scene = ExtResource("8_7jcgy")
+player_scene = ExtResource("6_udt4e")
 
 [node name="TileMap" type="TileMap" parent="DungeonGenerator"]
 tile_set = SubResource("TileSet_b5uu2")

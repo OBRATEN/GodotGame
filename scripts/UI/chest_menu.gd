@@ -3,7 +3,7 @@ extends CharacterBody2D
 var chest_menu: Control
 
 var player_node: Node2D
-var tile_size: Vector2 = Vector2(64, 64) # Размер тайла (измените под ваш проект)
+var tile_size: Vector2 = Vector2(64, 64)
 
 
 func open():
@@ -28,14 +28,11 @@ func _ready():
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		# Преобразуем экранные координаты клика в мировые
 		var click_position = get_global_mouse_position()
 		var self_position = global_position
 		
-		# Проверяем, кликнули ли мы по этому NPC (используя collision shape)
 		if is_position_in_chest(click_position):
 			if player_node:
-				# Вычисляем расстояние в тайлах
 				var distance_in_tiles = calculate_tile_distance(player_node.global_position, self_position)
 				
 				if distance_in_tiles <= 5:
@@ -52,7 +49,6 @@ func is_position_in_chest(click_position: Vector2) -> bool:
 	)
 
 func calculate_tile_distance(pos1: Vector2, pos2: Vector2) -> float:
-	# Вычисляем манхэттенское расстояние в тайлах
 	var delta = (pos1 - pos2).abs()
 	var tiles_x = delta.x / tile_size.x
 	var tiles_y = delta.y / tile_size.y
